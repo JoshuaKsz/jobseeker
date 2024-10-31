@@ -1,5 +1,6 @@
 const express = require("express");
 const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin');
 const dashboardRoutes = require('./routes/dashboard');
 const sequelize = require('./database');
 const session = require('express-session');
@@ -22,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/', authRoutes);
 app.use('/dashboard', dashboardRoutes);
-
+app.use('/admin', adminRoutes);
 
 
 sequelize.sync().then(() => {

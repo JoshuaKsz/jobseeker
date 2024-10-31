@@ -3,7 +3,7 @@ const { Sequelize } = require('sequelize');
 
 // Create a connection to the database
 const sequelize = new Sequelize(
-    'test00', 'root', '', {
+    'jobseeker', 'root', '', {
     host: '127.0.0.1',
     dialect: 'mysql',
 });

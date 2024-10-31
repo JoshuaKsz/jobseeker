@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 
-const User = require('../models/UserModel');
+// const User = require('../models/UserModel');
+const Account = require('../models/AccountModel');
 
 module.exports = {
   registerView: (req, res) => {
@@ -13,18 +14,21 @@ module.exports = {
   },
   
   registerUser: async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password, role } = req.body;
+
     console.log()
     try {
-      // Check if user already exists
-      const existingUser = await User.findOne({ where: { username } });
+      // Check user ada atau tidak
+      const existingUser = await Account.findOne({ where: { email } });
       if (existingUser) {
         return res.status(400).send('User already exists');
+      } else if (role == "admin") {
+        return res.status(400).send('illegal role');
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      await User.create({ username, password: hashedPassword });
+      await Account.create({ email, password: hashedPassword, role });
       res.redirect('/login');
     } catch (err) {
       console.error(err);
@@ -33,10 +37,10 @@ module.exports = {
   },
   
   loginUser: async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-      const user = await User.findOne({ where: { username } });
+      const user = await Account.findOne({ where: { email } });
       if (!user) {
         return res.status(400).send('User not found');
       }
@@ -46,9 +50,8 @@ module.exports = {
         return res.status(400).send('Invalid password');
       }
 
-      // Store user info in session (if using sessions)
-      req.session.userId = user.username;
-      res.redirect('/dashboard/somethingDisplay'); // Redirect to dashboard or another page
+      req.session.userId = user.userId;
+      res.redirect('/dashboard/somethingDisplay'); 
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');
@@ -64,6 +67,12 @@ module.exports = {
       }
       res.redirect('/login');
     });
+  },
+
+  test: async (req, res) => {
+    console.log("WAHJDHJDFAHJSDFHJASHJF")
+    const users = await Account.findAll();
+    res.render('test', { users });
   }
 };
   

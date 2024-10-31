@@ -1,0 +1,69 @@
+extends ../layout.pug
+
+block content
+  h2 Company List
+  table(style="border: 1px solid black; border-collapse: collapse;")
+    tr
+      th(style="border: 1px solid black;") companyId
+      th(style="border: 1px solid black;") userId
+      th(style="border: 1px solid black;") Company Name
+      th(style="border: 1px solid black;") Industry
+      th(style="border: 1px solid black;") Phone
+      th(style="border: 1px solid black;") City
+      th(style="border: 1px solid black;") Country
+      th(style="border: 1px solid black;") Email
+      th(style="border: 1px solid black;") Action
+    each company in companies
+      tr(id=`row-${company.companyId}`)
+        td(style="border: 1px solid black;")= company.companyId
+        td(style="border: 1px solid black;")= company.userId
+        td(style="border: 1px solid black;")= company.companyName
+        td(style="border: 1px solid black;")= company.industry
+        td(style="border: 1px solid black;")= company.phone
+        td(style="border: 1px solid black;")= company.city
+        td(style="border: 1px solid black;")= company.country
+        td(style="border: 1px solid black;")= company.email
+        td(style="border: 1px solid black;")
+          form(action=`/admin/company/delete/${company.companyId}`, method="POST")
+            button(type="submit") Delete
+          button(onclick=`handleClick(${company.companyId}, '${company.userId}', '${company.companyName}', '${company.industry}', '${company.phone}', '${company.city}', '${company.country}', '${company.email}')`) Edit
+
+  form.form-horizontal(method='post' action='/admin/company' id='create')
+    .mb-3
+      label.form-label.control-label(for='companyId') companyId (Leave blank to create a new entry)
+      input#companyId.form-control(type='text' name='companyId' value="")
+    .mb-3
+      label.form-label.control-label(for='userId') userId
+      input#userId.form-control(type='text' name='userId' value="")
+    .mb-3
+      label.form-label.control-label(for='companyName') Company Name
+      input#companyName.form-control(type='text' name='companyName' value="")
+    .mb-3
+      label.form-label.control-label(for='industry') Industry
+      input#industry.form-control(type='text' name='industry' value="")
+    .mb-3
+      label.form-label.control-label(for='phone') Phone
+      input#phone.form-control(type='text' name='phone' value="")
+    .mb-3
+      label.form-label.control-label(for='city') City
+      input#city.form-control(type='text' name='city' value="")
+    .mb-3
+      label.form-label.control-label(for='country') Country
+      input#country.form-control(type='text' name='country' value="")
+    .mb-3
+      label.form-label.control-label(for='email') Email
+      input#email.form-control(type='email' name='email' value="")
+    .mb-3.py-3
+      button.btn.btn-primary.login-button(type='submit') Create/Update Company
+    div#test
+  script.
+    function handleClick(companyId, userId, companyName, industry, phone, city, country, email) {
+      document.getElementById('companyId').value = companyId;
+      document.getElementById('userId').value = userId;
+      document.getElementById('companyName').value = companyName;
+      document.getElementById('industry').value = industry;
+      document.getElementById('phone').value = phone;
+      document.getElementById('city').value = city;
+      document.getElementById('country').value = country;
+      document.getElementById('email').value = email;
+    }

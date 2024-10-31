@@ -1,0 +1,23 @@
+extends layout.pug
+
+block content
+    h2 User List
+    table(style="border: 1px solid black; border-collapse: collapse;")
+      thead
+        tr
+          th(style="border: 1px solid black;") userId
+          th(style="border: 1px solid black;") email
+          th(style="border: 1px solid black;") password
+          th(style="border: 1px solid black;") role
+          th(style="border: 1px solid black;") Action
+      tbody
+        each user in users
+          tr
+            td(style="border: 1px solid black;")= user.userId
+            td(style="border: 1px solid black;")= user.email
+            td(style="border: 1px solid black;")= user.password
+            td(style="border: 1px solid black;")= user.role 
+            td(style="border: 1px solid black;")
+                button hapus
+                a hapus
+

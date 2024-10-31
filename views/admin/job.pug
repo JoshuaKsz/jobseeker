@@ -1,0 +1,75 @@
+extends ../layout.pug
+
+block content
+  h2 Job List
+  table(style="border: 1px solid black; border-collapse: collapse;")
+    tr
+      th(style="border: 1px solid black;") jobId
+      th(style="border: 1px solid black;") companyId
+      th(style="border: 1px solid black;") Job Title
+      th(style="border: 1px solid black;") Requirements
+      th(style="border: 1px solid black;") Benefits
+      th(style="border: 1px solid black;") Salary
+      th(style="border: 1px solid black;") Date Opened
+      th(style="border: 1px solid black;") Date Expired
+      th(style="border: 1px solid black;") Industry
+      th(style="border: 1px solid black;") Action
+    each job in jobs
+      tr(id=`row-${job.jobId}`)
+        td(style="border: 1px solid black;")= job.jobId
+        td(style="border: 1px solid black;")= job.companyId
+        td(style="border: 1px solid black;")= job.jobTitle
+        td(style="border: 1px solid black;")= job.requirements
+        td(style="border: 1px solid black;")= job.benefits
+        td(style="border: 1px solid black;")= job.salary
+        td(style="border: 1px solid black;")= job.dateOpened
+        td(style="border: 1px solid black;")= job.dateExpired
+        td(style="border: 1px solid black;")= job.industry
+        td(style="border: 1px solid black;")
+          form(action=`/admin/job/delete/${job.jobId}`, method="POST")
+            button(type="submit") Delete
+          button(onclick=`handleClick(${job.jobId}, '${job.companyId}', '${job.jobTitle}', '${job.requirements}', '${job.benefits}', ${job.salary}, '${job.dateOpened}', '${job.dateExpired}', '${job.industry}')`) Edit
+
+  form.form-horizontal(method='post' action='/admin/job' id='create')
+    .mb-3
+      label.form-label.control-label(for='jobId') jobId (Leave blank to create a new entry)
+      input#jobId.form-control(type='text' name='jobId' value="")
+    .mb-3
+      label.form-label.control-label(for='companyId') companyId
+      input#companyId.form-control(type='text' name='companyId' value="")
+    .mb-3
+      label.form-label.control-label(for='jobTitle') Job Title
+      input#jobTitle.form-control(type='text' name='jobTitle' value="")
+    .mb-3
+      label.form-label.control-label(for='requirements') Requirements
+      textarea#requirements.form-control(name='requirements') 
+    .mb-3
+      label.form-label.control-label(for='benefits') Benefits
+      textarea#benefits.form-control(name='benefits') 
+    .mb-3
+      label.form-label.control-label(for='salary') Salary
+      input#salary.form-control(type='number' name='salary' value="")
+    .mb-3
+      label.form-label.control-label(for='dateOpened') Date Opened
+      input#dateOpened.form-control(type='date' name='dateOpened' value="")
+    .mb-3
+      label.form-label.control-label(for='dateExpired') Date Expired
+      input#dateExpired.form-control(type='date' name='dateExpired' value="")
+    .mb-3
+      label.form-label.control-label(for='industry') Industry
+      input#industry.form-control(type='text' name='industry' value="")
+    .mb-3.py-3
+      button.btn.btn-primary.login-button(type='submit') Create/Update Job
+    div#test
+  script.
+    function handleClick(jobId, companyId, jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry) {
+      document.getElementById('jobId').value = jobId;
+      document.getElementById('companyId').value = companyId;
+      document.getElementById('jobTitle').value = jobTitle;
+      document.getElementById('requirements').value = requirements;
+      document.getElementById('benefits').value = benefits;
+      document.getElementById('salary').value = salary;
+      document.getElementById('dateOpened').value = dateOpened.split('T')[0]; // Format date for input
+      document.getElementById('dateExpired').value = dateExpired.split('T')[0]; // Format date for input
+      document.getElementById('industry').value = industry;
+    }

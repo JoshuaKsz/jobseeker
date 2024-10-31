@@ -1,0 +1,81 @@
+extends ../layout.pug
+
+block content
+  h2 Job Seeker List
+  table(style="border: 1px solid black; border-collapse: collapse;")
+    tr
+      th(style="border: 1px solid black;") jobSeekerId
+      th(style="border: 1px solid black;") userId
+      th(style="border: 1px solid black;") Name
+      th(style="border: 1px solid black;") Phone
+      th(style="border: 1px solid black;") City
+      th(style="border: 1px solid black;") Country
+      th(style="border: 1px solid black;") About/Skills
+      th(style="border: 1px solid black;") Education
+      th(style="border: 1px solid black;") Experience
+      th(style="border: 1px solid black;") Social Media
+      th(style="border: 1px solid black;") Action
+    each jobSeeker in jobSeekers
+      tr(id=`row-${jobSeeker.jobSeekerId}`)
+        td(style="border: 1px solid black;")= jobSeeker.jobSeekerId
+        td(style="border: 1px solid black;")= jobSeeker.userId
+        td(style="border: 1px solid black;")= jobSeeker.jobSeekerName
+        td(style="border: 1px solid black;")= jobSeeker.phone
+        td(style="border: 1px solid black;")= jobSeeker.city
+        td(style="border: 1px solid black;")= jobSeeker.country
+        td(style="border: 1px solid black;")= jobSeeker.about_skill
+        td(style="border: 1px solid black;")= jobSeeker.education
+        td(style="border: 1px solid black;")= jobSeeker.experience
+        td(style="border: 1px solid black;")= jobSeeker.socialMedia
+        td(style="border: 1px solid black;")
+          form(action=`/admin/jobseeker/delete/${jobSeeker.jobSeekerId}`, method="POST")
+            button(type="submit") Delete
+          button(onclick=`handleClick(${jobSeeker.jobSeekerId}, '${jobSeeker.userId}', '${jobSeeker.jobSeekerName}', '${jobSeeker.phone}', '${jobSeeker.city}', '${jobSeeker.country}', '${jobSeeker.about_skill}', '${jobSeeker.education}', '${jobSeeker.experience}', '${jobSeeker.socialMedia}')`) Edit
+
+  form.form-horizontal(method='post' action='/admin/jobseeker' id='create')
+    .mb-3
+      label.form-label.control-label(for='jobSeekerId') jobSeekerId (Leave blank to create a new entry)
+      input#jobSeekerId.form-control(type='text' name='jobSeekerId' value="")
+    .mb-3
+      label.form-label.control-label(for='userId') userId
+      input#userId.form-control(type='text' name='userId' value="")
+    .mb-3
+      label.form-label.control-label(for='jobSeekerName') Name
+      input#jobSeekerName.form-control(type='text' name='jobSeekerName' value="")
+    .mb-3
+      label.form-label.control-label(for='phone') Phone
+      input#phone.form-control(type='text' name='phone' value="")
+    .mb-3
+      label.form-label.control-label(for='city') City
+      input#city.form-control(type='text' name='city' value="")
+    .mb-3
+      label.form-label.control-label(for='country') Country
+      input#country.form-control(type='text' name='country' value="")
+    .mb-3
+      label.form-label.control-label(for='about_skill') About/Skills
+      textarea#about_skill.form-control(name='about_skill') 
+    .mb-3
+      label.form-label.control-label(for='education') Education
+      textarea#education.form-control(name='education') 
+    .mb-3
+      label.form-label.control-label(for='experience') Experience
+      textarea#experience.form-control(name='experience') 
+    .mb-3
+      label.form-label.control-label(for='socialMedia') Social Media
+      input#socialMedia.form-control(type='text' name='socialMedia' value="")
+    .mb-3.py-3
+      button.btn.btn-primary.login-button(type='submit') Create/Update Job Seeker
+    div#test
+  script.
+    function handleClick(jobSeekerId, userId, jobSeekerName, phone, city, country, about_skill, education, experience, socialMedia) {
+      document.getElementById('jobSeekerId').value = jobSeekerId;
+      document.getElementById('userId').value = userId;
+      document.getElementById('jobSeekerName').value = jobSeekerName;
+      document.getElementById('phone').value = phone;
+      document.getElementById('city').value = city;
+      document.getElementById('country').value = country;
+      document.getElementById('about_skill').value = about_skill;
+      document.getElementById('education').value = education;
+      document.getElementById('experience').value = experience;
+      document.getElementById('socialMedia').value = socialMedia;
+    }

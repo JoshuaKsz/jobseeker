@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../database'); // Adjust the path as needed
+const sequelize = require('../database'); 
 
 const User = sequelize.define('User', {
     username: {
