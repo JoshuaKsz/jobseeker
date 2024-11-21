@@ -1,0 +1,144 @@
+*html,
+body {
+  margin: 0;
+}
+body {
+  background-color: #0d0d0d;
+}
+
+/* NAVBAR STYLE  */
+.custom-navbar {
+  padding: 1rem;
+}
+
+.custom-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0d0d0d;
+}
+
+.custom-logo-job {
+  color: #ffd700;
+}
+
+.custom-logo-seeker {
+  color: #fff;
+}
+
+.custom-nav-links {
+  background-color: #1a1a1a;
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border: 3px solid #222222;
+}
+
+.custom-nav-item {
+  margin: 0 1rem;
+}
+
+.custom-nav-link {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.custom-nav-link:hover {
+  color: #fff;
+}
+
+/* Tombol masuk */
+.custom-login-btn {
+  height: 3.5rem;
+  width: 6rem;
+  color: #fff;
+  border: 3px solid #222222;
+  background-color: #1a1a1a;
+  border-radius: 35px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.custom-login-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+button.custom-login-btn {
+  padding: 0;
+}
+
+.custom-login-btn:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+/* FORM LOGIN & REGISTER STYLE  */
+.con-fom {
+  margin-top: 4em;
+}
+
+.card {
+  background-color: #1e1e1e;
+  border: 1px solid #333330;
+}
+
+.card-header {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffff;
+  text-align: center;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.form-label {
+  color: #ffffff;
+  font-weight: 100;
+}
+
+.form-control {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  border: 1px solid #333330;
+}
+
+.form-control:focus {
+  background-color: #333;
+  color: #f0f0f0;
+  border-color: #777;
+  box-shadow: none;
+}
+
+.btn-primary {
+  background-color: #ddff00;
+  color: #0a0b0a;
+  font-weight: 600;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #ddff00;
+  color: #fff;
+}
+
+.btn-regis,
+.btn-login {
+  text-decoration: none;
+  color: #ffff;
+  margin-left: 0.5em;
+}

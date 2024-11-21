@@ -1,6 +1,6 @@
 extends layout.pug
 block content
-  .container
+  .container.con-fom
     .row.justify-content-center
       .col-md-8
         if error
@@ -22,4 +22,4 @@ block content
                   option(value='Company') Company
               .mb-3.py-3
                 button.btn.btn-primary.login-button(type='submit') Register
-                a(href='/login').ps-2 Login
+                //- a(href='/login').ps-2.btn-login Login
