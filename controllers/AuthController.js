@@ -51,6 +51,7 @@ module.exports = {
       }
 
       req.session.userId = user.userId;
+      req.session.email = user.email;
       req.session.role = user.role; // Store role as well
 
       // Redirect based on role

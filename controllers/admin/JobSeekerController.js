@@ -40,7 +40,7 @@ module.exports = {
   getAllJobSeekers: async (req, res) => {
     try {
       const jobSeekers = await JobSeeker.findAll();
-      res.render("admin/jobSeeker", { jobSeekers });
+      res.render("admin/jobSeeker", { jobSeekers, checkUser: req.session.email });
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');

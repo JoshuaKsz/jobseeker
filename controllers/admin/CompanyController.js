@@ -38,7 +38,7 @@ module.exports = {
   getAllCompanies: async (req, res) => {
     try {
       const companies = await Company.findAll();
-      res.render("admin/company", { companies });
+      res.render("admin/company", { companies, checkUser: req.session.email });
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');

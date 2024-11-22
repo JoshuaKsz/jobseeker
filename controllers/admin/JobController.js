@@ -39,7 +39,7 @@ module.exports = {
   getAllJobs: async (req, res) => {
     try {
       const jobs = await Job.findAll();
-      res.render("admin/job", { jobs });
+      res.render("admin/job", { jobs, checkUser: req.session.email });
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');
