@@ -41,7 +41,7 @@ module.exports = {
   getAllJobApplications: async (req, res) => {
     try {
       const applications = await JobApplication.findAll();
-      res.render("admin/jobApplication", { applications });
+      res.render("admin/jobApplication", { applications, checkUser: req.session.email });
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');

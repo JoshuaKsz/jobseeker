@@ -19,17 +19,24 @@ body
             a.nav-link.custom-nav-link(href='#') Tentang Kami
           li.nav-item.custom-nav-item
             a.nav-link.custom-nav-link(href='#') Cari Lowongan
-        ul.navbar-nav.custom-nav-actions
-          li.nav-item.custom-nav-item 
-            button.btn.btn-outline-light.custom-login-btn(type='button') 
-              a.custom-login-link(href='/login') Masuk
+        
 
-
-      if name
+      //- span() #{checkUser}
+      if checkUser
         #navbarSupportedContent.collapse.navbar-collapse.justify-content-end
           form.d-flex
-            span.navbar-text.text-light.pe-2 Hello #{name}
+            //- span.navbar-text.text-light.pe-2 Hello #{checkUser}
             a.btn.btn-outline-light(href='/logout') Logout
+          ul.navbar-nav.custom-nav-actions
+            li.nav-item.custom-nav-item 
+              button.btn.btn-outline-light.custom-login-btn(type='button') 
+                a.custom-login-link(href='/login') Profile
+      else 
+          ul.navbar-nav.custom-nav-actions
+            li.nav-item.custom-nav-item 
+              button.btn.btn-outline-light.custom-login-btn(type='button') 
+                a.custom-login-link(href='/login') Masuk
+          
   .py-2
       block content
 

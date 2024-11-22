@@ -39,7 +39,7 @@ module.exports = {
     try {
       const users = await Account.findAll();
     //   res.status(200).json(users);
-      res.render("admin/account", { users });
+      res.render("admin/account", { users, checkUser: req.session.email });
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');
