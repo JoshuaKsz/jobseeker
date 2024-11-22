@@ -51,7 +51,15 @@ module.exports = {
       }
 
       req.session.userId = user.userId;
-      res.redirect('/dashboard/somethingDisplay'); 
+      req.session.role = user.role; // Store role as well
+
+      // Redirect based on role
+      if (user.role === 'Admin') {
+        return res.redirect('/admin'); // Redirect to admin dashboard
+      } else {
+        return res.redirect('/dashboard/somethingDisplay'); // Redirect to user dashboard
+      }
+      
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');
