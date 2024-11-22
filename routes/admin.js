@@ -4,10 +4,12 @@ const jobSeekerController = require('../controllers/admin/JobSeekerController');
 const companyController = require('../controllers/admin/CompanyController');
 const jobController = require('../controllers/admin/JobController');
 const jobApplicationController = require('../controllers/admin/JobApplicationController');
+const authController = require('../controllers/AuthController');
+const authMiddleware = require('../middleware/auth'); 
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/',authMiddleware, (req, res) => {
     res.send(`
         <h1>Admin Dashboard</h1>
         <ul>
@@ -21,34 +23,34 @@ router.get('/', (req, res) => {
 });
 
 
-router.post('/account', accountController.createUpdateAccount);
-router.get('/account', accountController.getAllAccounts);
-router.get('/account/:id', accountController.getAccountById);
+router.post('/account',authMiddleware, accountController.createUpdateAccount);
+router.get('/account',authMiddleware, accountController.getAllAccounts);
+router.get('/account/:id',authMiddleware, accountController.getAccountById);
 // router.put('/account/:id', accountController.updateAccount);
-router.post('/account/delete/:id', accountController.deleteAccount);
+router.post('/account/delete/:id',authMiddleware, accountController.deleteAccount);
 
 
-router.post('/jobseeker', jobSeekerController.createUpdateJobSeeker);
-router.get('/jobseeker', jobSeekerController.getAllJobSeekers);
-router.get('/jobseeker/:id', jobSeekerController.getJobSeekerById);
-router.post('/jobseeker/delete/:id', jobSeekerController.deleteJobSeeker);
+router.post('/jobseeker',authMiddleware, jobSeekerController.createUpdateJobSeeker);
+router.get('/jobseeker',authMiddleware, jobSeekerController.getAllJobSeekers);
+router.get('/jobseeker/:id',authMiddleware, jobSeekerController.getJobSeekerById);
+router.post('/jobseeker/delete/:id',authMiddleware, jobSeekerController.deleteJobSeeker);
 
-router.post('/company', companyController.createUpdateCompany);
-router.get('/company', companyController.getAllCompanies);
-router.get('/company/:id', companyController.getCompanyById);
-router.post('/company/delete/:id', companyController.deleteCompany);
-
-
-router.post('/job', jobController.createUpdateJob);
-router.get('/job', jobController.getAllJobs);
-router.get('/job/:id', jobController.getJobById);
-router.post('/job/delete/:id', jobController.deleteJob);
+router.post('/company',authMiddleware, companyController.createUpdateCompany);
+router.get('/company',authMiddleware, companyController.getAllCompanies);
+router.get('/company/:id',authMiddleware, companyController.getCompanyById);
+router.post('/company/delete/:id',authMiddleware, companyController.deleteCompany);
 
 
-router.post('/jobapplication', jobApplicationController.createUpdateJobApplication);
-router.get('/jobapplication', jobApplicationController.getAllJobApplications);
-router.get('/jobapplication/:id', jobApplicationController.getJobApplicationById);
-router.post('/jobapplication/delete/:id', jobApplicationController.deleteJobApplication);
+router.post('/job',authMiddleware, jobController.createUpdateJob);
+router.get('/job',authMiddleware, jobController.getAllJobs);
+router.get('/job/:id', authMiddleware,jobController.getJobById);
+router.post('/job/delete/:id',authMiddleware, jobController.deleteJob);
+
+
+router.post('/jobapplication',authMiddleware, jobApplicationController.createUpdateJobApplication);
+router.get('/jobapplication',authMiddleware, jobApplicationController.getAllJobApplications);
+router.get('/jobapplication/:id',authMiddleware, jobApplicationController.getJobApplicationById);
+router.post('/jobapplication/delete/:id',authMiddleware, jobApplicationController.deleteJobApplication);
 
 
 module.exports = router;
