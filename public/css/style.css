@@ -126,24 +126,72 @@ button.custom-login-btn {
   box-shadow: none;
 }
 
-.btn-primary {
+.btn-login-form {
   background-color: #ddff00;
-  color: #0a0b0a;
-  font-weight: 600;
+  color: #000000;
   border: none;
-  transition: background-color 0.3s ease;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btn-primary:hover {
+.btn-login-form:hover {
+  background-color: #c5e500;
+  transform: scale(1.05);
+}
+
+.btn-login-form:active {
+  background-color: #aabb00;
+  transform: scale(0.95);
+}
+
+.btn-register-form {
   background-color: #ddff00;
-  color: #fff;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-register-form:hover {
+  background-color: #c5e500;
+  transform: scale(1.05);
+}
+
+.btn-register-form:active {
+  background-color: #aabb00;
+  transform: scale(0.95);
+}
+
+.btn-regis {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.btn-login {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-regis,
 .btn-login {
-  text-decoration: none;
-  color: #ffff;
-  margin-left: 0.5em;
+  color: #ffffff;
+  margin-left: 0.6em;
 }
 
 /* DASHBOARD */

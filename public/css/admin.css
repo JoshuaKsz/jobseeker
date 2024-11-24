@@ -1,0 +1,163 @@
+/* STYLE FILE INDEX.PUG  */
+.container-admin {
+  padding: 20px;
+  text-align: center;
+}
+.admin-title {
+  text-align: center;
+  color: #ffff;
+  margin: 20px 0;
+  font-size: 2.5rem;
+}
+
+/* Menu styles */
+.admin-menu {
+  list-style: none;
+  padding: 0;
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.admin-item {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.admin-link {
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #1a1a1a;
+  padding: 10px 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border: 3px solid #222222;
+  border-radius: 40px;
+  display: flex;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+}
+
+.admin-link:hover {
+  background-color: #444444;
+}
+
+/* STYLE FILE ACCOUNT.PUG  */
+.container-account {
+  padding: 100px;
+}
+
+.account-title {
+  color: #ffffff;
+  font-size: 2rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.account-table {
+  width: 100%;
+  border: 3px solid #222222;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.account-header {
+  background-color: #333333;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.account-cell {
+  color: #ffffff;
+  text-align: center;
+  padding: 8px 12px;
+}
+
+.account-row:nth-child(even) {
+  background-color: #1a1a1a;
+}
+
+.account-row:nth-child(odd) {
+  background-color: #2a2a2a;
+}
+
+.account-button-delete {
+  background-color: #ff0000;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.account-button-edit {
+  background-color: #ddff00;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Form Styles */
+.container-account-form {
+  padding: 100px;
+}
+
+.form-horizontal {
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  margin-top: 20px;
+  border: 3px solid #222222;
+  border-radius: 10px;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-label {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.form-control {
+  padding: 10px;
+  border: 3px solid #222222;
+  border-radius: 5px;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.form-control:focus {
+  border-color: #444444;
+  outline: none;
+}
+
+.role-select {
+  cursor: pointer;
+}
+
+.login-button {
+  padding: 10px 20px;
+  background-color: #ddff00;
+  color: #000000;
+  border: 3px solid #222222;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
