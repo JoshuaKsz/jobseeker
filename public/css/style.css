@@ -1,14 +1,15 @@
-*html,
 body {
   margin: 0;
-}
-body {
+  padding: 0;
+  font-family: "Work Sans", sans-serif;
   background-color: #0d0d0d;
 }
 
 /* NAVBAR STYLE  */
 .custom-navbar {
-  padding: 1rem;
+  position: sticky;
+  top: 0;
+  padding: 2rem;
 }
 
 .custom-container {
@@ -20,10 +21,12 @@ body {
 
 .custom-logo-job {
   color: #ffd700;
+  font-size: 2rem;
 }
 
 .custom-logo-seeker {
   color: #fff;
+  font-size: 2rem;
 }
 
 .custom-nav-links {
@@ -141,4 +144,102 @@ button.custom-login-btn {
   text-decoration: none;
   color: #ffff;
   margin-left: 0.5em;
+}
+
+/* DASHBOARD */
+.containerDas {
+  align-items: flex-start;
+  height: 100vh;
+  padding: 0 5%;
+}
+
+.hero-section {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wrap-left {
+  align-self: flex-end;
+  margin-top: 25rem;
+}
+
+.wrap-middle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: flex-start;
+  margin-top: 11rem;
+  text-align: center;
+  flex: 1;
+}
+
+.wrap-right {
+  align-self: flex-end;
+  margin-top: 25rem;
+}
+
+.wrap-left img,
+.wrap-right img {
+  max-width: 100%;
+  height: auto;
+}
+
+.wrap-middle h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: #cccccc;
+}
+
+.wrap-middle p {
+  font-size: 1.4rem;
+  margin: 1rem 0;
+  color: #7a7a7a;
+  line-height: 1.6;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  background-color: #0d0d0d;
+  width: 370px;
+  border-radius: 50px;
+  padding: 0.6em;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border: 3px solid #222222;
+  color: #ffff;
+}
+
+.cta-buttons .btn {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.container_btn {
+  color: #ffff;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 1.8rem;
+  margin-left: 0.6rem;
+}
+
+.cta-buttons .daftar {
+  background-color: #ddff00;
+  border-radius: 50px;
+}
+
+.regis-text {
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #000000;
 }
