@@ -6,6 +6,9 @@ const sequelize = require('./database');
 const session = require('express-session');
 
 const app = express();
+const path = require('path');
+
+app.use(express.static(path.join(__dirname,'public')))
 
 
 
@@ -27,10 +30,13 @@ app.use('/admin', adminRoutes);
 
 
 sequelize.sync().then(() => {
-    const port = 80;
+    const port = 3000;
     app.listen(port, () => {
         console.log("Server running on port http://localhost:" + port);
     });
 }).catch(err => {
     console.error('Error syncing the database:', err);
 });
+
+//cd "C:\Users\LENOVO\Downloads\SEMESTER 5\jobseeker-main" jangan dihapus biar aku bisa tinggal copas pake nodemon
+

@@ -3,6 +3,9 @@ const authController = require('../controllers/AuthController');
 const dashboardController = require('../controllers/DashboardController');
 
 const router = express.Router();
+
+
+
 router.get('/', authController.loginView);
 router.get('/register', authController.registerView);
 router.get('/login', authController.loginView);
