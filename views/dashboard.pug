@@ -1,6 +1,20 @@
 extends layout.pug
 
 block content
-  .container
-    h4 Dashboard
-    span Only authenticated users can view this dashboard view.
+    .containerDas
+      .hero-section
+        .wrap-left
+          img(src="/img/logo_left.svg", alt="Ilustrasi Kiri")
+        .wrap-middle
+          h1 Raih pekerjaan untuk
+            br
+            h1 karir yang bermakna bagimu
+          p Jelajahi peluang karir yang sesuai dengan passionmu, 
+            br
+            | berkembang, dan wujudkan masa depan yang lebih berarti.
+          .cta-buttons
+            .container_btn Mulai Perjalanan Karirmu
+            button.btn.daftar 
+              a(href='/register').regis-text Daftar
+        .wrap-right
+          img(src="/img/logo_right.svg", alt="Ilustrasi Kanan")
