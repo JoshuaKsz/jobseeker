@@ -10,13 +10,14 @@ body {
   position: sticky;
   top: 0;
   padding: 2rem;
+  margin: 0 1.8rem;
 }
 
 .custom-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0d0d0d;
+  background-color: none;
 }
 
 .custom-logo-job {
@@ -152,6 +153,7 @@ button.custom-login-btn {
   background-color: #ddff00;
   color: #000000;
   border: none;
+  padding: 10px 20px;
   border-radius: 5px;
   font-size: 1rem;
   font-weight: bold;
@@ -210,7 +212,7 @@ button.custom-login-btn {
 
 .wrap-left {
   align-self: flex-end;
-  margin-top: 25rem;
+  margin-top: 27rem;
 }
 
 .wrap-middle {
@@ -225,7 +227,7 @@ button.custom-login-btn {
 
 .wrap-right {
   align-self: flex-end;
-  margin-top: 25rem;
+  margin-top: 27rem;
 }
 
 .wrap-left img,
@@ -291,3 +293,66 @@ button.custom-login-btn {
   text-decoration: none;
   color: #000000;
 }
+
+/* ABOUT STYLE  */
+.container-about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 90px;
+}
+
+.about-card {
+  background-color: #1e1e1e;
+  padding: 3rem;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border: 3px solid #222222;
+  max-width: 50%;
+  text-align: center;
+}
+
+.about-card h2 {
+  font-size: 38px;
+  font-weight: bold;
+  color: #ddff00;
+  margin-bottom: 20px;
+}
+
+.about-card > .tentang {
+  font-size: 32px;
+  line-height: 1.6;
+  color: #7a7a7a;
+}
+
+.about-card > .tentang > .span-job {
+  color: #ddff00;
+  font-weight: bold;
+}
+
+.about-card > .tentang > .span-seeker {
+  color: #ffffff;
+  font-weight: bold;
+  margin-left: -8px;
+}
+
+.about-card > .temukan {
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 1.6;
+  color: #ffffff;
+}
+
+.about-card > .temukan > .span-job-bot {
+  color: #ddff00;
+  font-weight: bold;
+}
+
+.about-card > .temukan > .span-seeker-bot {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+
+/* STYLE FITUR & LAYANAN  */

@@ -7,7 +7,7 @@ module.exports = {
   registerView: (req, res) => {
     res.render('register');
   },
-    
+  
   
   loginView: (req, res) => {
     res.render('login');

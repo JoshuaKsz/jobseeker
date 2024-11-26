@@ -26,7 +26,7 @@ block content
                     //- form(action=`/users/delete/${user.userId}`, method="POST" style="display:inline;")
                     //-   button(type="submit" style="color: red;") Delete
   .container-account-form          
-    form.form-horizontal(method='post' action='/admin/account' id='create')
+    form.form-horizontal.form-account(method='post' action='/admin/account' id='create')
         .form-group.mb-3.userId-group
             label.form-label.control-label(for='userId') UserId (Kosongkan Jika ingin insert/create)
             input#userId.form-control.userId-input(type='text' name='userId' value="")
