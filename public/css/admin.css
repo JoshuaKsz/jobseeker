@@ -42,7 +42,8 @@
 
 /* STYLE FILE ACCOUNT.PUG  */
 .container-account {
-  padding: 100px;
+  /* padding: 15rem; */
+  margin: 15rem;
 }
 
 .account-title {
@@ -105,10 +106,10 @@
 
 /* Form Styles */
 .container-account-form {
-  padding: 100px;
+  padding: 15rem;
 }
 
-.form-horizontal {
+.form-account {
   display: flex;
   flex-direction: column;
   padding: 50px;
