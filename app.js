@@ -2,11 +2,13 @@ const express = require("express");
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const dashboardRoutes = require('./routes/dashboard');
+const jobseekerRoutes = require('./routes/jobseeker');
 const sequelize = require('./database');
 const session = require('express-session');
 
 const app = express();
 const path = require('path');
+const AuthController = require("./controllers/AuthController");
 
 app.use(express.static(path.join(__dirname,'public')))
 
@@ -24,10 +26,20 @@ app.set('view engine', 'pug');
 app.use(express.json()); // Middleware to parse JSON bodies
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', authRoutes);
+
+app.use('/login', authRoutes);
+app.use((req, res, next) => {
+    console.log('Session Role:', req.session.role); // Debug untuk mengecek role
+    res.locals.role = req.session.role || ''; // Simpan role di res.locals
+    res.locals.checkUser = req.session.email || ''; // Simpan email di res.locals
+    next();
+});
+
+// Routes after session middleware
+app.use('/', dashboardRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/admin', adminRoutes);
-
+app.use('/jobseeker', jobseekerRoutes);
 
 sequelize.sync().then(() => {
     const port = 3000;

@@ -1,8 +1,8 @@
 extends ../layout.pug
 
 block content
-  include ../admin/index.pug
-  h2 Job Seeker List
+  //- include ../admin/index.pug
+  h2 Profile Anda (Ntar ini jadiin div aja yaaa)
   table(style="border: 1px solid black; border-collapse: collapse;")
     tr
       th(style="border: 1px solid black;") jobSeekerId
@@ -33,13 +33,14 @@ block content
             button(type="submit") Delete
           button(onclick=`handleClick(${jobSeeker.jobSeekerId}, '${jobSeeker.userId}', '${jobSeeker.jobSeekerName}', '${jobSeeker.phone}', '${jobSeeker.city}', '${jobSeeker.country}', '${jobSeeker.about_skill}', '${jobSeeker.education}', '${jobSeeker.experience}', '${jobSeeker.socialMedia}')`) Edit
 
+  h1 Silahkan isi profile anda
   form.form-horizontal(method='post' action='/admin/jobseeker' id='create')
     .mb-3
-      label.form-label.control-label(for='jobSeekerId') jobSeekerId (Leave blank to create a new entry)
-      input#jobSeekerId.form-control(type='text' name='jobSeekerId' value="")
+      //- label.form-label.control-label(for='jobSeekerId') jobSeekerId (Leave blank to create a new entry)
+      input#jobSeekerId.form-control(type='text' name='jobSeekerId' value="" hidden)
     .mb-3
       label.form-label.control-label(for='userId') userId
-      input#userId.form-control(type='text' name='userId' value="")
+      input#userId.form-control(type='text' name='userId'  value= userId ? userId : '' readonly)
     .mb-3
       label.form-label.control-label(for='jobSeekerName') Name
       input#jobSeekerName.form-control(type='text' name='jobSeekerName' value="")
@@ -67,6 +68,8 @@ block content
     .mb-3.py-3
       button.btn.btn-primary.login-button(type='submit') Create/Update Job Seeker
     div#test
+  
+  
   script.
     function handleClick(jobSeekerId, userId, jobSeekerName, phone, city, country, about_skill, education, experience, socialMedia) {
       document.getElementById('jobSeekerId').value = jobSeekerId;

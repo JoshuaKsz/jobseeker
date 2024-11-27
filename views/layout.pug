@@ -7,30 +7,59 @@ head
   link(rel='stylesheet', href='/css/style.css') 
 body 
   nav.navbar.navbar-expand-lg.custom-navbar
+    span.debug-role Debug Role: #{role}
+    span.debug-user Debug User: #{checkUser}
     div.container-fluid.custom-container
       a.navbar-brand.custom-logo(href='#') 
         span.custom-logo-job(style='color: yellow; font-weight: bold') Job
         span.custom-logo-seeker(style='color: white; font-weight: bold') Seeker
       div.collapse.navbar-collapse#navbarNav
         ul.navbar-nav.mx-auto.custom-nav-links
-          li.nav-item.custom-nav-item 
-            a.nav-link.custom-nav-link(href='#') Beranda
-          li.nav-item.custom-nav-item
-            a.nav-link.custom-nav-link(href='#') Tentang Kami
-          li.nav-item.custom-nav-item
-            a.nav-link.custom-nav-link(href='#') Cari Lowongan
-        
+          
+          //- Di layout.pug atau navbar
+          if role === "Job Seeker"
+            
+            li.nav-item.custom-nav-item
+              a.nav-link.custom-nav-link(href='/jobseeker') Jobseeker Dashboard
+            li.nav-item.custom-nav-item 
+              button.btn.btn-outline-light.custom-login-btn(type='button') 
+                a.custom-login-link(href='/admin/jobseeker') Profile
+                  ul.navbar-nav.custom-nav-actions
+            li.nav-item.custom-nav-item 
+              button.btn.btn-outline-light.custom-login-btn(type='button') 
+                a.custom-login-link(href='/admin/account') Account
+            
+              a.nav-link.custom-nav-link(href='#') Cari Lowongan
+          else if role === "Company"
+            li.nav-item.custom-nav-item
+              a.nav-link.custom-nav-link(href='/jobseeker') Company Dashboard
+            li.nav-item.custom-nav-item 
+                button.btn.btn-outline-light.custom-login-btn(type='button') 
+                  a.custom-login-link(href='/admin/job') Membuat Lowongan
+            li.nav-item.custom-nav-item 
+                button.btn.btn-outline-light.custom-login-btn(type='button') 
+                  a.custom-login-link(href='/admin/company') Profile
+            li.nav-item.custom-nav-item 
+              button.btn.btn-outline-light.custom-login-btn(type='button') 
+                a.custom-login-link(href='/admin/account') Account
+          else 
+            li.nav-item.custom-nav-item 
+              a.nav-link.custom-nav-link(href='#') Beranda
+            li.nav-item.custom-nav-item
+              a.nav-link.custom-nav-link(href='#') Tentang Kami
+            li.nav-item.custom-nav-item
+           
 
-      //- span() #{checkUser}
+      
       if checkUser
         #navbarSupportedContent.collapse.navbar-collapse.justify-content-end
           form.d-flex
             //- span.navbar-text.text-light.pe-2 Hello #{checkUser}
-            a.btn.btn-outline-light(href='/logout') Logout
-          ul.navbar-nav.custom-nav-actions
-            li.nav-item.custom-nav-item 
-              button.btn.btn-outline-light.custom-login-btn(type='button') 
-                a.custom-login-link(href='/login') Profile
+            //- a.btn.btn-outline-light(href='/logout') Logout
+            button.btn.btn-outline-light.custom-login-btn(type='button') 
+                a.custom-login-link(href='/login/logout') Logout
+                  ul.navbar-nav.custom-nav-actions
+              
       else 
           ul.navbar-nav.custom-nav-actions
             li.nav-item.custom-nav-item 

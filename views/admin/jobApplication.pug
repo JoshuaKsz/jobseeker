@@ -2,28 +2,6 @@ extends ../layout.pug
 
 block content
   include ../admin/index.pug
-  h2 Job Application List
-  table(style="border: 1px solid black; border-collapse: collapse;")
-    tr
-      th(style="border: 1px solid black;") applicationId
-      th(style="border: 1px solid black;") jobSeekerId
-      th(style="border: 1px solid black;") jobId
-      th(style="border: 1px solid black;") Application Status
-      th(style="border: 1px solid black;") File
-      th(style="border: 1px solid black;") Apply Date
-      th(style="border: 1px solid black;") Action
-    each application in applications
-      tr(id=`row-${application.applicationId}`)
-        td(style="border: 1px solid black;")= application.applicationId
-        td(style="border: 1px solid black;")= application.jobSeekerId
-        td(style="border: 1px solid black;")= application.jobId
-        td(style="border: 1px solid black;")= application.applicationStatus
-        td(style="border: 1px solid black;")= application.File
-        td(style="border: 1px solid black;")= application.applyDate
-        td(style="border: 1px solid black;")
-          form(action=`/admin/job-application/delete/${application.applicationId}`, method="POST")
-            button(type="submit") Delete
-          button(onclick=`handleClick(${application.applicationId}, '${application.jobSeekerId}', '${application.jobId}', '${application.applicationStatus}', '${application.File}', '${application.applyDate}')`) Edit
 
   form.form-horizontal(method='post' action='/admin/jobapplication' id='create')
     .mb-3
@@ -50,6 +28,30 @@ block content
     .mb-3.py-3
       button.btn.btn-primary.login-button(type='submit') Create/Update Application
     div#test
+  h2 Job Application List
+  table(style="border: 1px solid black; border-collapse: collapse;")
+    tr
+      th(style="border: 1px solid black;") applicationId
+      th(style="border: 1px solid black;") jobSeekerId
+      th(style="border: 1px solid black;") jobId
+      th(style="border: 1px solid black;") Application Status
+      th(style="border: 1px solid black;") File
+      th(style="border: 1px solid black;") Apply Date
+      th(style="border: 1px solid black;") Action
+    each application in applications
+      tr(id=`row-${application.applicationId}`)
+        td(style="border: 1px solid black;")= application.applicationId
+        td(style="border: 1px solid black;")= application.jobSeekerId
+        td(style="border: 1px solid black;")= application.jobId
+        td(style="border: 1px solid black;")= application.applicationStatus
+        td(style="border: 1px solid black;")= application.File
+        td(style="border: 1px solid black;")= application.applyDate
+        td(style="border: 1px solid black;")
+          form(action=`/admin/job-application/delete/${application.applicationId}`, method="POST")
+            button(type="submit") Delete
+          button(onclick=`handleClick(${application.applicationId}, '${application.jobSeekerId}', '${application.jobId}', '${application.applicationStatus}', '${application.File}', '${application.applyDate}')`) Edit
+
+  
   script.
     function handleClick(applicationId, jobSeekerId, jobId, applicationStatus, File, applyDate) {
       document.getElementById('applicationId').value = applicationId;

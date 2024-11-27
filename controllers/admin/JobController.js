@@ -1,15 +1,20 @@
 const Job = require('../../models/JobModel'); // Adjust the path as needed
 const Company = require('../../models/CompanyModel'); // For companyId reference
-
+const Account = require('../../models/AccountModel'); 
 module.exports = {
   createUpdateJob: async (req, res) => {
-    const { jobId, companyId, jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry } = req.body;
-
+    const { jobId, jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry } = req.body;
+    const userId = req.session.userId;
+  
+    if (!userId) {
+      return res.status(400).send('User not logged in');
+    }
     try {
-      const existingCompany = await Company.findOne({ where: { companyId } });
+      const existingCompany = await Company.findOne({ where: { userId } });
       if (!existingCompany) {
         return res.status(400).send('Company does not exist');
       }
+      const companyId = existingCompany.companyId;
 
       const existingJob = await Job.findOne({ where: { jobId } });
       if (existingJob) {
@@ -26,7 +31,7 @@ module.exports = {
         await existingJob.save();
       } else {
         console.log("create?");
-        await Job.create({ companyId, jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry });
+        await Job.create({  companyId,jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry });
       }
 
       res.redirect('/admin/job');
@@ -38,8 +43,21 @@ module.exports = {
 
   getAllJobs: async (req, res) => {
     try {
-      const jobs = await Job.findAll();
-      res.render("admin/job", { jobs, checkUser: req.session.email });
+      const userId = req.session.userId;
+    if (!userId) {
+      return res.status(403).send('Access denied');
+    }
+    
+    // Cari company berdasarkan userId
+    const companyUser = await Company.findOne({ where: { userId } }); 
+    
+    if (!companyUser) {
+      return res.status(404).send('You must create your profile company first');
+    }
+
+    const jobs = await Job.findAll({ where: { companyId: companyUser.companyId } });
+      
+    res.render("admin/job", { jobs, checkUser: req.session.email,companyId: companyUser.companyId,jobTitle: companyUser.jobTitle, requirements: companyUser.requirements, benefits: companyUser.benefits, salary: companyUser.salary, dateOpened: companyUser.dateOpened, dateExpired: companyUser.dateExpired, industry: companyUser.industry });
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');
@@ -74,6 +92,18 @@ module.exports = {
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');
+    }
+  },
+
+  listJobs: async (req, res) => {
+    try {
+        const jobs = await Job.findAll({
+            where: { status: 'open' }, // Hanya lowongan yang "open"
+        });
+        res.render('jobseeker/jobs', { jobs });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
     }
   },
 };

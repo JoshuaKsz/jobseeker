@@ -3,8 +3,11 @@ const Account = require('../../models/AccountModel');
 
 module.exports = {
   createUpdateCompany: async (req, res) => {
-    const { companyId, userId, companyName, industry, phone, city, country, email } = req.body;
-    
+    const { companyId, companyName, industry, phone, city, country, email } = req.body;
+    const userId = req.session.userId;
+    if (!userId) {
+      return res.status(400).send('User not logged in');
+    }
     try {
       const existingAccount = await Account.findOne({ where: { userId } });
       if (!existingAccount) {
@@ -37,8 +40,16 @@ module.exports = {
 
   getAllCompanies: async (req, res) => {
     try {
-      const companies = await Company.findAll();
-      res.render("admin/company", { companies, checkUser: req.session.email });
+      const userId = req.session.userId; // Ambil userId dari sesi pengguna yang login
+      if (!userId) {
+        return res.status(403).send('Access denied'); // Pastikan user login
+      }
+      const user = await Account.findOne({ where: { userId } }); // Hanya ambil data user yang sesuai dengan sesi login
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
+      const companies = await Company.findAll({ where: { userId } });
+      res.render("admin/company", { companies, checkUser: req.session.email,userId: user.userId,companyName:user.companyName, industry:user.industry, phone:user.phone, city:user.city, country:user.country, role:user.role });
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');

@@ -1,7 +1,7 @@
 extends ../layout.pug
 
 block content
-  include ../admin/index.pug
+
   h2 Company List
   table(style="border: 1px solid black; border-collapse: collapse;")
     tr
@@ -32,10 +32,10 @@ block content
   form.form-horizontal(method='post' action='/admin/company' id='create')
     .mb-3
       label.form-label.control-label(for='companyId') companyId (Leave blank to create a new entry)
-      input#companyId.form-control(type='text' name='companyId' value="")
+      input#companyId.form-control(type='text' name='companyId' value="",hidden)
     .mb-3
       label.form-label.control-label(for='userId') userId
-      input#userId.form-control(type='text' name='userId' value="")
+      input#userId.form-control(type='text' name='userId' value=userId ? userId : '' hidden)
     .mb-3
       label.form-label.control-label(for='companyName') Company Name
       input#companyName.form-control(type='text' name='companyName' value="")
@@ -57,6 +57,9 @@ block content
     .mb-3.py-3
       button.btn.btn-primary.login-button(type='submit') Create/Update Company
     div#test
+
+  
+  
   script.
     function handleClick(companyId, userId, companyName, industry, phone, city, country, email) {
       document.getElementById('companyId').value = companyId;

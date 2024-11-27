@@ -1,7 +1,6 @@
 extends ../layout.pug
 
 block content
-  include ../admin/index.pug
   h2 User List
   table(style="border: 1px solid black; border-collapse: collapse;")
     tr
@@ -11,29 +10,30 @@ block content
       th(style="border: 1px solid black;") role
       th(style="border: 1px solid black;") Action
     each user in users
-      tr(id=`row-${user.userId}`)
-        td(style="border: 1px solid black;")= user.userId
-        td(class="email" style="border: 1px solid black;")= user.email
-        td(style="border: 1px solid black;")= user.password
-        td(class="role" style="border: 1px solid black;")= user.role 
-        td(style="border: 1px solid black;")
-          form(action=`/admin/account/delete/${user.userId}`, method="POST")
-            button(type="submit") Delete
-          button(onclick=`handleClick(${user.userId}, '${user.email}', '${user.password}', '${user.role}')`) Edit
-          //- form(action=`/admin/account/delete/${user.userId}`, method='POST', style='display:inline')
+     
+        tr(id=`row-${user.userId}`)
+          td(style="border: 1px solid black;")= user.userId
+          td(class="email" style="border: 1px solid black;")= user.email
+          td(style="border: 1px solid black;")= user.password
+          td(class="role" style="border: 1px solid black;")= user.role 
+          td(style="border: 1px solid black;")
+            form(action=`/admin/account/delete/${user.userId}`, method="POST")
+              button(type="submit") Delete
+            button(onclick=`handleClick(${user.userId}, '${user.email}', '${user.password}', '${user.role}')`) Edit
+            //- form(action=`/admin/account/delete/${user.userId}`, method='POST', style='display:inline')
           //-   button(type='submit') Delete
           //- form(action=`/users/delete/${user.userId}`, method="POST" style="display:inline;")
           //-   button(type="submit" style="color: red;") Delete
   form.form-horizontal(method='post' action='/admin/account' id='create')
     .mb-3
       label.form-label.control-label(for='userId') userId (Kosongkan Jika ingin insert/create)
-      input#userId.form-control(type='text' name='userId' value="")
+      input#userId.form-control(type='text' name='userId' value= userId)
     .mb-3
       label.form-label.control-label(for='email') email
-      input#email.form-control(type='email' name='email' value="")
+      input#email.form-control(type='email' name='email' value= checkUser)
     .mb-3
       label.form-label.control-label(for='password') Password
-      input#password.form-control(type='password' name='password' value="")
+      input#password.form-control(type='password' name='password' value= password)
     .mb-3
       label.form-label.control-label(for='role') Role
       select#role.form-control(name='role' value="")
@@ -43,6 +43,9 @@ block content
     .mb-3.py-3
       button.btn.btn-primary.login-button(type='submit') Create/update account
     div#test
+
+  
+  
   script.
     function handleClick(userId, email, password, role) {
       console.log(userId, email, password, role);

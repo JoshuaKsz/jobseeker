@@ -1,8 +1,12 @@
 extends layout.pug
 block content
-  div.p Jika anda belum memiliki akun, silahkan registrasi terlebih dahulu
-      button.btn.btn-outline-light.custom-login-btn(type='button') 
-        a.custom-login-link(href='/register') Register
+  .container.con-fom
+    // Teks yang memberikan informasi mengenai registrasi
+    .row.justify-content-center
+      .col-md-8.text-center
+        p.mb-4 Jika anda belum memiliki akun, silahkan registrasi terlebih dahulu
+        button.btn.btn-outline-primary(type='button') 
+          a.custom-login-link(href='/register') Register
   .container.con-fom
     .row.justify-content-center
       .col-md-8

@@ -5,8 +5,12 @@ const dashboardController = require('../controllers/DashboardController');
 const router = express.Router();
 
 
-
+// Route untuk menampilkan halaman login
 router.get('/', authController.loginView);
+
+// Route untuk proses login
+router.post('/', authController.loginUser);
+// router.get('/', authController.loginView);
 router.get('/register', authController.registerView);
 router.get('/login', authController.loginView);
 router.get('/logout', authController.logoutUser);

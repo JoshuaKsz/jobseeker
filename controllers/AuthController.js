@@ -10,7 +10,7 @@ module.exports = {
     
   
   loginView: (req, res) => {
-    res.render('login');
+    res.render('login',{ user: req.session.userId, role: req.session.role });
   },
   
   registerUser: async (req, res) => {
@@ -57,10 +57,12 @@ module.exports = {
       // Redirect based on role
       if (user.role === 'Admin') {
         return res.redirect('/admin'); // Redirect to admin dashboard
-      } else {
-        return res.redirect('/dashboard/somethingDisplay'); // Redirect to user dashboard
       }
-      
+      else {
+        return res.redirect('/dashboard'); // Redirect to user dashboard
+      }
+      console.log(user.role);  // Debugging untuk melihat apakah 'role' ada di session
+
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');
