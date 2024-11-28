@@ -18,6 +18,11 @@ block content
               a(href='/register').regis-text Daftar
         .wrap-right
           img(src="/img/logo_right.svg", alt="Ilustrasi Kanan")
+      // Tambahkan elemen salju di bawah 
+      span.snowflake ❄
+      span.snowflake ❅
+      span.snowflake ✻
+
     
     .container-about
       .about-card
@@ -32,28 +37,81 @@ block content
           span.span-job-bot Job
           span.span-seeker-bot Seeker!
 
-    .container
+    .container-fitur
       h1.fitur-title FITUR & LAYANAN
       p.fitur-description 
-        | Job Seeker menyediakan fitur dan layanan terlengkap. Sebuah Aplikasi recruitment end to end
+        | JobSeeker menyediakan fitur dan layanan terlengkap. Sebuah Aplikasi recruitment end to end
         br
         | (Mulai dari perencanaan, posting lowongan, profiling, psikotes, interview hingga offering calon karyawan).
       .fitur-grid
         .fitur-card
-          img.logo(src="/assets/logos/lowongan.png", alt="Portal Lowongan Kerja")
+          img.logo(src="/img/svg_fitur/portal.svg", alt="Portal Lowongan Kerja")
           span.fitur-name Portal Lowongan Kerja
         .fitur-card
-          img.logo(src="/assets/logos/interview.png", alt="Interview")
+          img.logo(src="/img/svg_fitur/interview.svg", alt="Interview")
           span.fitur-name Interview
         .fitur-card
-          img.logo(src="/assets/logos/scoring.png", alt="Scoring & Test Interpretation")
+          img.logo(src="/img/svg_fitur/student.svg", alt="Scoring & Test Interpretation")
           span.fitur-name Scoring & Test Interpretation
         .fitur-card
-          img.logo(src="/assets/logos/psikotes.png", alt="Psikotes Online")
+          img.logo(src="/img/svg_fitur/tes.svg", alt="Psikotes Online")
           span.fitur-name Psikotes Online
         .fitur-card
-          img.logo(src="/assets/logos/status.png", alt="Recruitment Status")
+          img.logo(src="/img/svg_fitur/status.svg", alt="Recruitment Status")
           span.fitur-name Recruitment Status
         .fitur-card
-          img.logo(src="/assets/logos/database.png", alt="Recruitment Database")
+          img.logo(src="/img/svg_fitur/base.svg", alt="Recruitment Database")
           span.fitur-name Recruitment Database
+    
+    .containerGaris1
+      .garis1
+
+    .section-faq
+      h2.faq-title Kami Siap Menjawab Pertanyaan Anda
+      ul.faq-list
+        li.faq-item
+          span.faq-question Bagaimana cara mendaftar akun di Jobseeker?
+          span.faq-icon(data-answer="#answer1") +
+          p.faq-answer.hidden#answer1 Anda dapat mendaftar akun di Jobseeker dengan mengklik tombol "Daftar" di halaman utama.
+        li.faq-item
+          span.faq-question Bagaimana cara melamar pekerjaan melalui Jobseeker?
+          span.faq-icon(data-answer="#answer2") +
+          p.faq-answer.hidden#answer2 Setelah membuat akun, cari lowongan pekerjaan yang sesuai, lalu klik tombol "Lamar".
+        li.faq-item
+          span.faq-question Apakah Jobseeker gratis digunakan?
+          span.faq-icon(data-answer="#answer3") +
+          p.faq-answer.hidden#answer3 Ya, Jobseeker gratis untuk semua pengguna.
+        li.faq-item
+          span.faq-question Bagaimana cara memperbarui profil dan CV saya?
+          span.faq-icon(data-answer="#answer4") +
+          p.faq-answer.hidden#answer4 Anda bisa memperbarui profil di halaman "Pengaturan Akun" setelah login.
+        li.faq-item
+          span.faq-question Bagaimana cara mengetahui status lamaran pekerjaan saya?
+          span.faq-icon(data-answer="#answer5") +
+          p.faq-answer.hidden#answer5 Status lamaran dapat dilihat di menu "Lamaran Saya" di dashboard pengguna.
+        li.faq-item
+          span.faq-question Apakah saya bisa menyimpan pekerjaan yang menarik untuk dilihat nanti?
+          span.faq-icon(data-answer="#answer6") +
+          p.faq-answer.hidden#answer6 Ya, klik tombol "Simpan Pekerjaan" untuk menyimpan pekerjaan ke daftar favorit Anda.
+    
+    .containerGaris2 
+      .garis2
+
+    footer.footer
+      .footer-container
+        .footer-column
+          p Jl. Sukses No. 123, Bandung 10110, Indonesia
+          p Hubungi Kami: +62 812 3456 7890
+          p Kirim Email ke Kami: support@jobseeker.com
+        .footer-column
+          ul
+            li Tentang Kami
+            li Kontak
+        .footer-column
+          ul
+            li Instagram
+            li Facebook
+            li Twitter
+            li Linkedin
+        .footer-bottom
+          p ©2024-2025 JobSeeker

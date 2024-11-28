@@ -11,6 +11,7 @@ body {
   top: 0;
   padding: 2rem;
   margin: 0 1.8rem;
+  z-index: 1;
 }
 
 .custom-container {
@@ -198,9 +199,34 @@ button.custom-login-btn {
 
 /* DASHBOARD */
 .containerDas {
+  position: relative;
   align-items: flex-start;
   height: 100vh;
   padding: 0 5%;
+  margin-bottom: 3rem;
+  overflow: hidden;
+}
+
+.snowflake {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  font-size: 1rem;
+  color: white;
+  opacity: 0.8;
+  animation: fall 5s linear infinite;
+}
+
+/* Animasi jatuh ke bawah */
+@keyframes fall {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0.5;
+  }
 }
 
 .hero-section {
@@ -300,7 +326,7 @@ button.custom-login-btn {
   justify-content: center;
   align-items: center;
   padding: 20px;
-  margin-bottom: 90px;
+  margin-bottom: 200px;
 }
 
 .about-card {
@@ -311,6 +337,12 @@ button.custom-login-btn {
   border: 3px solid #222222;
   max-width: 50%;
   text-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.about-card:hover {
+  transform: perspective(1000px) rotateX(10deg) rotateY(5deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 10px 20px rgba(221, 255, 0, 0.4);
 }
 
 .about-card h2 {
@@ -354,5 +386,196 @@ button.custom-login-btn {
   font-weight: bold;
 }
 
-
 /* STYLE FITUR & LAYANAN  */
+.container-fitur {
+  background-color: none;
+  color: #fff;
+  padding: 50px 20px;
+  text-align: center;
+  margin-bottom: 180px;
+}
+
+.fitur-title {
+  font-size: 38px;
+  font-weight: bold;
+  color: #ddff00;
+  margin-bottom: 10px;
+}
+
+.fitur-description {
+  font-size: 1.5rem;
+  line-height: 1.8;
+  color: #7a7a7a;
+  margin-bottom: 30px;
+}
+
+.fitur-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  justify-content: center;
+  margin: 0 22rem;
+}
+
+.fitur-card {
+  background-color: #1e1e1e;
+  border-radius: 20px;
+  padding: 35px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border: 2px solid #222222;
+}
+
+.fitur-card:hover {
+  transform: translateY(-10px); /* Melayang ke atas */
+  box-shadow: 0 0 20px rgba(221, 255, 0, 0.6), 0 0 10px rgba(221, 255, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fitur-name {
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  color: #ffff;
+}
+
+.containerGaris1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 100px;
+}
+
+.garis1 {
+  width: 92%;
+  height: 0.5px;
+  background-color: #7a7a7a;
+}
+
+/* STYLE SECTION FAQ */
+.section-faq {
+  color: #ffff;
+  padding: 5rem 5%;
+  text-align: center;
+}
+
+.faq-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 3.8rem;
+}
+
+.faq-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+.faq-item {
+  text-align: left;
+  border-bottom: 1px solid #333;
+  padding: 1rem 0;
+}
+
+.faq-question {
+  display: inline-block;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+.faq-icon {
+  float: right;
+  font-size: 2rem;
+  color: #ffff;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Jawaban */
+.faq-answer {
+  margin-top: 0.5rem;
+  font-size: 1.3rem;
+  color: #ffffff;
+  text-align: left;
+  line-height: 1.5;
+  display: none;
+}
+
+.faq-answer.hidden {
+  display: none;
+}
+
+.faq-answer.visible {
+  display: block;
+}
+
+.containerGaris2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 350px;
+  margin-bottom: 30px;
+}
+
+.garis2 {
+  width: 92%;
+  height: 0.5px;
+  background-color: #7a7a7a;
+}
+
+/* STYLE FOOTER  */
+.footer {
+  color: #7a7a7a;
+  padding: 2rem 4%;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column li {
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.footer-column li:hover {
+  color: #ddff00;
+}
+
+.footer-bottom {
+  text-align: right;
+  font-size: 0.9rem;
+  color: #7a7a7a;
+}
+
+@media screen and (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+}
