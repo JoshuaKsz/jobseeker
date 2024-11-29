@@ -1,5 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../database');
+const Company = require('./CompanyModel')
+
+
 
 const Job = sequelize.define('Job', {
     jobId: {
@@ -42,5 +45,5 @@ const Job = sequelize.define('Job', {
     tableName: 'job',
     timestamps: false
 });
-
+Job.belongsTo(Company, { foreignKey: 'companyId' }); // Relasi Job ke Company
 module.exports = Job;

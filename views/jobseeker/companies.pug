@@ -1,0 +1,70 @@
+extends ../layout.pug
+
+block content
+  .container.mt-5
+    .row
+      .col-md-8.offset-md-2
+        .card.shadow-lg
+          .card-header.bg-primary.text-white
+            h2.text-center= company.companyName
+          
+          .card-body
+            .row
+              .col-md-4.text-center.mb-4
+                // Placeholder for company logo (if you have one)
+                .rounded-circle.bg-light.p-4.d-inline-block
+                  i.fas.fa-building.fa-5x.text-muted
+                
+              .col-md-8
+                h4 Informasi Perusahaan
+                hr
+                
+                .row.mb-3
+                  .col-5.fw-bold Industri
+                  .col-7= company.industry || 'Tidak disebutkan'
+                
+                .row.mb-3
+                  .col-5.fw-bold Lokasi
+                  .col-7= `${company.city || 'Tidak disebutkan'}, ${company.country || 'Tidak disebutkan'}`
+                
+                .row.mb-3
+                  .col-5.fw-bold Kontak Telepon
+                  .col-7= company.phone || 'Tidak tersedia'
+                
+                .row.mb-3
+                  .col-5.fw-bold Email
+                  .col-7= company.email || 'Tidak tersedia'
+          
+          .card-footer
+            h4.mb-3 Lowongan Aktif dari Perusahaan Ini
+            
+            if jobs && jobs.length > 0
+              .row.row-cols-1.row-cols-md-2.g-3
+                each job in jobs
+                  .col
+                    .card.shadow-sm
+                      .card-body
+                        h5.card-title= job.jobTitle || 'Judul Tidak Disebutkan'
+                        p.card-text.text-muted
+                          | Industri: 
+                          b= job.industry || 'Tidak disebutkan'
+                        
+                        ul.list-group.list-group-flush
+                          li.list-group-item
+                            | Gaji: 
+                            span.text-primary= job.salary ? `Rp ${job.salary}` : 'Tidak disebutkan'
+                          
+                          li.list-group-item
+                            | Tanggal Dibuka: 
+                            span.text-muted= job.dateOpened || 'Tidak disebutkan'
+                          
+                          li.list-group-item
+                            | Tanggal Berakhir: 
+                            span.text-muted= job.dateExpired || 'Tidak disebutkan'
+                        
+                        .mt-3
+                          a.btn.btn-primary.btn-sm(href=`/jobseeker/apply/${job.jobId}`) Lamar Sekarang
+            
+            else
+              .alert.alert-info.text-center
+                | Tidak ada lowongan aktif dari perusahaan ini saat ini

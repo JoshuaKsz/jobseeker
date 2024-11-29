@@ -1,6 +1,13 @@
 extends layout.pug
 block content
   .container.con-fom
+    // Teks yang memberikan informasi mengenai registrasi
+    .row.justify-content-center
+      .col-md-8.text-center
+        p.mb-4 Jika anda belum memiliki akun, silahkan registrasi terlebih dahulu
+        button.btn.btn-outline-primary(type='button') 
+          a.custom-login-link(href='/register') Register
+  .container.con-fom
     .row.justify-content-center
       .col-md-8
         .card 
@@ -14,5 +21,5 @@ block content
                 label.form-label.control-label(for='password') Password
                 input#password.form-control(type='password' name='password')
               .mb-3.py-3
-                button.btn-login-form(type='submit') Login
-                a(href='/register').ps-2.btn-regis Register
+                button.btn.btn-primary(type='submit') Login
+                //- a(href='/register').ps-2.btn-regis Register

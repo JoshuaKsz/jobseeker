@@ -1,7 +1,6 @@
 extends ../layout.pug
 
 block content
-  include ../admin/index.pug
   h2 Job List
   table(style="border: 1px solid black; border-collapse: collapse;")
     tr
@@ -33,11 +32,11 @@ block content
 
   form.form-horizontal(method='post' action='/admin/job' id='create')
     .mb-3
-      label.form-label.control-label(for='jobId') jobId (Leave blank to create a new entry)
-      input#jobId.form-control(type='text' name='jobId' value="")
+      label.form-label.control-label(for='jobId' hidden) jobId (Leave blank to create a new entry)
+      input#jobId.form-control(type='text' name='jobId' value="" hidden)
     .mb-3
-      label.form-label.control-label(for='companyId') companyId
-      input#companyId.form-control(type='text' name='companyId' value="")
+      label.form-label.control-label(for='companyId' hidden) companyId
+      input#companyId.form-control(type='text' name='companyId' value=companyId ? companyId : '' hidden)
     .mb-3
       label.form-label.control-label(for='jobTitle') Job Title
       input#jobTitle.form-control(type='text' name='jobTitle' value="")
@@ -62,6 +61,8 @@ block content
     .mb-3.py-3
       button.btn.btn-primary.login-button(type='submit') Create/Update Job
     div#test
+  
+  
   script.
     function handleClick(jobId, companyId, jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry) {
       document.getElementById('jobId').value = jobId;

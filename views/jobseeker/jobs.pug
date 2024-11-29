@@ -1,0 +1,58 @@
+extends ../layout.pug
+
+block content
+  .container.mt-5
+    h1.text-center.mb-4 Lowongan Pekerjaan
+    .row.row-cols-1.row-cols-md-2.row-cols-lg-3.g-4
+      each job in jobs
+        .col
+          .card.shadow-lg
+            .card-body
+              h5.card-title.jobtittle= job.jobTitle || 'Judul Tidak Disebutkan'
+              p.card-text.text-muted.jobdesc
+                | Perusahaan: 
+                b= job.companyName || 'Tidak disebutkan'
+              p.card-text.text-muted.jobdesc
+                | Lokasi: 
+                b= `${job.city || 'Tidak disebutkan'}, ${job.country || 'Tidak disebutkan'}`
+              p.card-text.text-muted.jobdesc
+                | Industri: 
+                b= job.industry || 'Tidak disebutkan'
+              ul.list-group.list-group-flush
+                li.list-group-item
+                  | Gaji: 
+                  span.text-primary= job.salary ? `Rp ${job.salary}` : 'Tidak disebutkan'
+                li.list-group-item
+                  | Tanggal Dibuka: 
+                  span.text-muted= job.dateOpened || 'Tidak disebutkan'
+                li.list-group-item
+                  | Tanggal Berakhir: 
+                  span.text-muted= job.dateExpired || 'Tidak disebutkan'
+                li.list-group-item
+                  if job.requirements
+                    | Syarat: 
+                    small.text-muted= job.requirements
+                  else
+                    | Syarat: 
+                    small.text-danger Tidak disebutkan
+                li.list-group-item
+                  if job.benefits
+                    | Benefit: 
+                    small.text-success= job.benefits
+                  else
+                    | Benefit: 
+                    small.text-danger Tidak disebutkan
+              .mt-3
+                if job.status === 'expired'
+                  span.badge.bg-danger.mb-2 Status: Expired
+                else
+                  span.badge.bg-success.mb-2 Status: Active
+                
+                .d-flex.justify-content-between.mt-2
+                  if job.status === 'active'
+                    //- a.btn.btn-primary(href=`/admin/jobapplication/form?jobId=${job.jobId}&jobSeekerId=${req.session.userId}`) Lamar Sekarang
+                    a.btn.btn-primary() Lamar Sekarang
+                  else
+                    span.text-muted Tidak Tersedia
+                  
+                  a.btn.btn-secondary(href=`/jobseeker/company/${job.companyId}`) Lihat Profil Perusahaan

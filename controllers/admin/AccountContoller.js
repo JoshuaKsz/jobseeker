@@ -5,13 +5,11 @@ const Account = require('../../models/AccountModel');
 module.exports = {
   createUpdateAccount: async (req, res) => {
     const { userId, email, password, role } = req.body;
-    console.log(userId, email, password, role);
     
+ 
     try {
       const existingUser = await Account.findOne({ where: { email } });
-      if (existingUser) {
-        return res.status(400).send('User already exists');
-      } else if (!password) {
+      if (!password) {
         return res.status(400).send("password can't be null");
       }
 
@@ -30,6 +28,9 @@ module.exports = {
       }
       res.redirect('/admin/account');
     } catch (err) {
+      if (err.name === "SequelizeUniqueConstraintError") {
+        return res.status(400).send("Duplicate email found. Please use a different email.");
+      }
       console.error(err);
       return res.status(500).send('Server error');
     }
@@ -37,14 +38,29 @@ module.exports = {
 
   getAllAccounts: async (req, res) => {
     try {
-      const users = await Account.findAll();
-    //   res.status(200).json(users);
-      res.render("admin/account", { users, checkUser: req.session.email });
+      const userId = req.session.userId; // Ambil userId dari sesi pengguna yang login
+      if (!userId) {
+        return res.status(403).send('Access denied'); // Pastikan user login
+      }
+  
+      const user = await Account.findOne({ where: { userId } }); // Hanya ambil data user yang sesuai dengan sesi login
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
+  
+      res.render("admin/account", {
+        users: [user], // Kirim data pengguna dalam bentuk array untuk kompatibilitas dengan `each` di pug
+        checkUser: req.session.email,
+        userId: user.userId,
+        password: '', // Jangan kirim password langsung ke front-end demi keamanan
+        role: user.role,
+      });
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');
     }
   },
+  
 
   getAccountById: async (req, res) => {
     const { id } = req.params;

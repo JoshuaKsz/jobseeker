@@ -4,8 +4,9 @@ const Job = require('../../models/JobModel'); // For jobId reference
 
 module.exports = {
   createUpdateJobApplication: async (req, res) => {
-    const { applicationId, jobSeekerId, jobId, applicationStatus, File, applyDate } = req.body;
-
+    const { applicationId, jobId,applicationStatus, File, applyDate } = req.body;
+    // const jobId = req.params.jobId;
+    const jobSeekerId = req.session.userId;
     try {
       const existingJobSeeker = await JobSeeker.findOne({ where: { jobSeekerId } });
       const existingJob = await Job.findOne({ where: { jobId } });

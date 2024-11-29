@@ -1,7 +1,29 @@
 extends ../layout.pug
 
 block content
-  include ../admin/index.pug
+  form.form-horizontal(method='post' action='/admin/jobapplication' id='create')
+  .mb-3
+    label.form-label.control-label(for='applicationId') Application ID (Leave blank to create a new entry)
+    input#applicationId.form-control(type='text' name='applicationId' value="")
+  .mb-3
+    label.form-label.control-label(for='jobSeekerId') Job Seeker ID
+    input#jobSeekerId.form-control(type='text' name='jobSeekerId' value=jobSeekerId readonly)
+  .mb-3
+    label.form-label.control-label(for='jobId') Job ID
+    input#jobId.form-control(type='text' name='jobId' value=jobId readonly)
+  .mb-3
+    label.form-label.control-label(for='applicationStatus') Application Status
+    select#applicationStatus.form-control(name='applicationStatus' value='Pending')
+  .mb-3
+    label.form-label.control-label(for='File') File
+    input#File.form-control(type='text' name='File' value="" multiple)
+  .mb-3
+    label.form-label.control-label(for='applyDate') Apply Date
+    input#applyDate.form-control(type='date' name='applyDate' value="")
+  .mb-3.py-3
+    button.btn.btn-primary.login-button(type='submit') Create/Update Application
+
+    div#test
   h2 Job Application List
   table(style="border: 1px solid black; border-collapse: collapse;")
     tr
@@ -25,31 +47,7 @@ block content
             button(type="submit") Delete
           button(onclick=`handleClick(${application.applicationId}, '${application.jobSeekerId}', '${application.jobId}', '${application.applicationStatus}', '${application.File}', '${application.applyDate}')`) Edit
 
-  form.form-horizontal(method='post' action='/admin/jobapplication' id='create')
-    .mb-3
-      label.form-label.control-label(for='applicationId') Application ID (Leave blank to create a new entry)
-      input#applicationId.form-control(type='text' name='applicationId' value="")
-    .mb-3
-      label.form-label.control-label(for='jobSeekerId') Job Seeker ID
-      input#jobSeekerId.form-control(type='text' name='jobSeekerId' value="")
-    .mb-3
-      label.form-label.control-label(for='jobId') Job ID
-      input#jobId.form-control(type='text' name='jobId' value="")
-    .mb-3
-      label.form-label.control-label(for='applicationStatus') Application Status
-      select#applicationStatus.form-control(name='applicationStatus')
-        option(value='Pending') Pending
-        option(value='Approved') Approved
-        option(value='Rejected') Rejected
-    .mb-3
-      label.form-label.control-label(for='File') File
-      input#File.form-control(type='text' name='File' value="")
-    .mb-3
-      label.form-label.control-label(for='applyDate') Apply Date
-      input#applyDate.form-control(type='date' name='applyDate' value="")
-    .mb-3.py-3
-      button.btn.btn-primary.login-button(type='submit') Create/Update Application
-    div#test
+  
   script.
     function handleClick(applicationId, jobSeekerId, jobId, applicationStatus, File, applyDate) {
       document.getElementById('applicationId').value = applicationId;
@@ -58,4 +56,11 @@ block content
       document.getElementById('applicationStatus').value = applicationStatus;
       document.getElementById('File').value = File;
       document.getElementById('applyDate').value = applyDate.split('T')[0]; 
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const applyDateInput = document.getElementById('applyDate');
+      const currentDate = new Date();
+      const formattedDate = currentDate.toISOString().slice(0, 16); // Format ke 'YYYY-MM-DDTHH:MM'
+      applyDateInput.value = formattedDate;
+    });
     }

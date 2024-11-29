@@ -51,7 +51,14 @@ router.post('/jobapplication',authMiddleware, jobApplicationController.createUpd
 router.get('/jobapplication',authMiddleware, jobApplicationController.getAllJobApplications);
 router.get('/jobapplication/:id',authMiddleware, jobApplicationController.getJobApplicationById);
 router.post('/jobapplication/delete/:id',authMiddleware, jobApplicationController.deleteJobApplication);
-
+router.get('/jobapplication/form', (req, res) => {
+    const { jobId, jobSeekerId } = req.query;
+    res.render('admin/jobApplication', {
+      jobId: jobId || '',
+      jobSeekerId: jobSeekerId || '',
+      checkUser: req.session.email,
+    });
+  });
 
 module.exports = router;
 

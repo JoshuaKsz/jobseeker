@@ -1,58 +1,61 @@
 extends ../layout.pug
 
 block content
-  //- include ../admin/index.pug
-  .container-account
-    h2.account-title User List
-    table.account-table(style="border: 1px solid black; border-collapse: collapse;")
-        tr
-            th.account-header(style="border: 1px solid black;") UserId
-            th.account-header(style="border: 1px solid black;") Email
-            th.account-header(style="border: 1px solid black;") Password
-            th.account-header(style="border: 1px solid black;") Role
-            th.account-header(style="border: 1px solid black;") Action
-        each user in users
-            tr.account-row(id=`row-${user.userId}`)
-                td.account-cell(style="border: 1px solid black;")= user.userId
-                td.account-cell.email-cell(style="border: 1px solid black;")= user.email
-                td.account-cell(style="border: 1px solid black;")= user.password
-                td.account-cell.role-cell(style="border: 1px solid black;")= user.role
-                td.account-cell.action-cell(style="border: 1px solid black;")
-                    form(action=`/admin/account/delete/${user.userId}`, method="POST")
-                        button.account-button-delete(type="submit") Delete
-                    button.account-button-edit(onclick=`handleClick(${user.userId}, '${user.email}', '${user.password}', '${user.role}')`) Edit
-                    //- form(action=`/admin/account/delete/${user.userId}`, method='POST', style='display:inline')
-                    //-   button(type='submit') Delete
-                    //- form(action=`/users/delete/${user.userId}`, method="POST" style="display:inline;")
-                    //-   button(type="submit" style="color: red;") Delete
-  .container-account-form          
-    form.form-horizontal.form-account(method='post' action='/admin/account' id='create')
-        .form-group.mb-3.userId-group
-            label.form-label.control-label(for='userId') UserId (Kosongkan Jika ingin insert/create)
-            input#userId.form-control.userId-input(type='text' name='userId' value="")
-        .form-group.mb-3.email-group
-            label.form-label.control-label(for='email') Email
-            input#email.form-control.email-input(type='email' name='email' value="")
-        .form-group.mb-3.password-group
-            label.form-label.control-label(for='password') Password
-            input#password.form-control.password-input(type='password' name='password' value="")
-        .form-group.mb-3.role-group
-            label.form-label.control-label(for='role') Role
-            select#role.form-control.role-select(name='role' value="")
-                option.role-option(value='Job Seeker') Job Seeker
-                option.role-option(value='Company') Company
-                option.role-option(value='Admin') Admin
-        .form-group.mb-3.py-3.submit-group
-            button.btn.btn-primary.login-button(type='submit') Create/update account
-        div#test
-        script.
-          function handleClick(userId, email, password, role) {
-            console.log(userId, email, password, role);
-            document.getElementById('userId').value = userId;
-            document.getElementById('email').value = email;
-            document.getElementById('password').value = password;
-            document.getElementById('role').value = role;
-          }
+  div.container.mt-4
+  h2.text-center.mb-4 Silahkan Update Account Anda
+  div.row.justify-content-center
+    //- Loop data
+    each user in users
+      div.col-md-4.mb-4
+        div.card.text-black.text-center(style="background-color: #dfff00;") 
+          //- div.card-header
+          //-   h5.mb-0= `User ID: ${user.userId}`
+          div.card-body
+            p.mb-2
+              strong Email: 
+              span= user.email
+            p.mb-2
+              strong Role: 
+              span= user.role
+          div.card-footer
+            form(action=`/admin/account/delete/${user.userId}`, method="POST", class="d-inline")
+              button.btn.btn-danger.btn-sm(type="submit") Delete
+            button.btn.btn-dark.btn-sm(
+              onclick=`handleClick(${user.userId}, '${user.email}', '${user.role}')`
+            ) Edit
+            //- form(action=`/admin/account/delete/${user.userId}`, method='POST', style='display:inline')
+          //-   button(type='submit') Delete
+          //- form(action=`/users/delete/${user.userId}`, method="POST" style="display:inline;")
+          //-   button(type="submit" style="color: red;") Delete
+  form.form-horizontal(method='post' action='/admin/account' id='create')
+    .mb-3
+      //- label.form-label.control-label(for='userId') userId (Kosongkan Jika ingin insert/create)
+      input#userId.form-control(type='text' name='userId' value= userId hidden)
+    .mb-3
+      label.form-label.control-label(for='email') email
+      input#email.form-control(type='email' name='email' value= checkUser)
+    .mb-3
+      label.form-label.control-label(for='password') Password
+      input#password.form-control(type='password' name='password' value= password)
+    //- .mb-3
+    //-   label.form-label.control-label(for='role') Role
+    //-   select#role.form-control(name='role' value="")
+    //-     option(value='Job Seeker') Job Seeker
+    //-     option(value='Company') Company
+    .mb-3.py-3
+      button.btn.btn-primary.login-button(type='submit') Update account
+    div#test
+
+  
+  
+  script.
+    function handleClick(userId, email, password, role) {
+      console.log(userId, email, password, role);
+      document.getElementById('userId').value = userId;
+      document.getElementById('email').value = email;
+      document.getElementById('password').value = password;
+      document.getElementById('role').value = role;
+    }
 
 
 

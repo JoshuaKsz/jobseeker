@@ -1,7 +1,6 @@
 extends ../layout.pug
 
 block content
-  include ../admin/index.pug
   h2 Job Seeker List
   table(style="border: 1px solid black; border-collapse: collapse;")
     tr
@@ -36,10 +35,10 @@ block content
   form.form-horizontal(method='post' action='/admin/jobseeker' id='create')
     .mb-3
       label.form-label.control-label(for='jobSeekerId') jobSeekerId (Leave blank to create a new entry)
-      input#jobSeekerId.form-control(type='text' name='jobSeekerId' value="")
+      input#jobSeekerId.form-control(type='text' name='jobSeekerId' value="" hidden)
     .mb-3
       label.form-label.control-label(for='userId') userId
-      input#userId.form-control(type='text' name='userId' value="")
+      input#userId.form-control(type='text' name='userId' value=userId )
     .mb-3
       label.form-label.control-label(for='jobSeekerName') Name
       input#jobSeekerName.form-control(type='text' name='jobSeekerName' value="")
