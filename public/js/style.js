@@ -35,3 +35,27 @@ faqIcons.forEach((icon) => {
     });
 });
 
+
+// SCROLL CLICK TO PAGE ABOUT
+function scrollToClass(className) {
+    const target = document.querySelector(`.${className}`);
+    if (target) {
+        target.scrollIntoView({ behavior:'smooth' });
+        target.style.marginTop = '200px';
+    }
+}
+
+// EDIT ACCOUNT TOMBOL 
+function openEditPopup(userId, email, role) {
+    document.getElementById('userId-account').value = userId;
+    document.getElementById('email-account').value = email;
+    document.getElementById('password-account').value = ''; 
+
+    const popup = document.querySelector('.account-popup-container-account');
+    popup.classList.add('visible-account');
+}
+
+function closePopup() {
+    const popup = document.querySelector('.account-popup-container-account');
+    popup.classList.remove('visible-account');
+}

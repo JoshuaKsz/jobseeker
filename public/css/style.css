@@ -9,7 +9,7 @@ body {
 .custom-navbar {
   position: sticky;
   top: 0;
-  padding: 2rem;
+  padding: 2.2rem;
   margin: 0 1.8rem;
   z-index: 1;
 }
@@ -31,13 +31,20 @@ body {
   font-size: 2rem;
 }
 
+.wrap-middle-nav {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  margin-right: 4.5rem;
+}
+
 .custom-nav-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #1a1a1a;
   border-radius: 50px;
   padding: 0.5rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   border: 3px solid #222222;
 }
@@ -55,7 +62,7 @@ body {
 }
 
 .custom-nav-link:hover {
-  color: #fff;
+  color: #ffff;
 }
 
 /* Tombol masuk */
@@ -80,50 +87,40 @@ body {
   display: inline-block;
 }
 
-button.custom-login-btn {
-  padding: 0;
+/* FORM LOGIN STYLE  */
+.container-login-fom {
+  margin: 4rem 30rem 0rem 30rem;
 }
 
-.custom-login-btn:hover {
-  background-color: #fff;
-  color: #000;
-}
-
-/* FORM LOGIN & REGISTER STYLE  */
-.con-fom {
-  margin-top: 4em;
-}
-
-.card {
+.card-login {
   background-color: #1e1e1e;
-  border: 1px solid #333330;
+  border: 2px solid #333330;
+  padding: 2rem;
+  margin: 0;
+  border-radius: 10px;
 }
 
-.card-header {
+.login-tittle {
   font-size: 2rem;
   font-weight: 600;
   color: #ffff;
   text-align: center;
 }
 
-.card-body {
-  padding: 2rem;
-}
-
-.form-label {
+.form-label-login {
   color: #ffffff;
   font-weight: 100;
 }
 
-.form-control {
+.form-control-login {
   background-color: #1e1e1e;
-  color: #f0f0f0;
+  color: #ffffff;
   border: 1px solid #333330;
 }
 
 .form-control:focus {
   background-color: #333;
-  color: #f0f0f0;
+  color: #ffffff;
   border-color: #777;
   box-shadow: none;
 }
@@ -148,6 +145,42 @@ button.custom-login-btn {
 .btn-login-form:active {
   background-color: #aabb00;
   transform: scale(0.95);
+}
+
+.btn-login {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-regis,
+.btn-login {
+  color: #ffffff;
+  margin-left: 0.6em;
+}
+
+/* FORM REGISTER STYLE  */
+.container-register-fom {
+  margin: 4rem 30rem 4rem 30rem;
+}
+
+.card-register {
+  background-color: #1e1e1e;
+  border: 2px solid #333330;
+  padding: 2rem;
+  margin: 0;
+  border-radius: 10px;
+}
+
+.register-tittle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffff;
+  text-align: center;
 }
 
 .btn-register-form {
@@ -181,20 +214,24 @@ button.custom-login-btn {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
-.btn-login {
-  text-decoration: none;
-  font-size: 1rem;
+
+.form-label {
+  color: #ffffff;
   font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btn-regis,
-.btn-login {
+.form-control {
+  padding: 10px;
+  border: 3px solid #222222;
+  border-radius: 5px;
+  background-color: #1a1a1a;
   color: #ffffff;
-  margin-left: 0.6em;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.form-control:focus {
+  border-color: #444444;
+  outline: none;
 }
 
 /* DASHBOARD */
@@ -266,13 +303,13 @@ button.custom-login-btn {
   font-size: 3.5rem;
   font-weight: bold;
   margin: 0;
-  color: #cccccc;
+  color: #ffffff;
 }
 
 .wrap-middle p {
   font-size: 1.4rem;
   margin: 1rem 0;
-  color: #7a7a7a;
+  color: #ccc;
   line-height: 1.6;
 }
 
@@ -311,6 +348,16 @@ button.custom-login-btn {
 .cta-buttons .daftar {
   background-color: #ddff00;
   border-radius: 50px;
+}
+
+.cta-buttons > .daftar:hover {
+  background-color: #c5e500;
+  transform: scale(1.05);
+}
+
+.cta-buttons > .daftar:active {
+  background-color: #aabb00;
+  transform: scale(0.95);
 }
 
 .regis-text {
@@ -355,7 +402,7 @@ button.custom-login-btn {
 .about-card > .tentang {
   font-size: 32px;
   line-height: 1.6;
-  color: #7a7a7a;
+  color: #ffff;
 }
 
 .about-card > .tentang > .span-job {
@@ -405,7 +452,7 @@ button.custom-login-btn {
 .fitur-description {
   font-size: 1.5rem;
   line-height: 1.8;
-  color: #7a7a7a;
+  color: #ccc;
   margin-bottom: 30px;
 }
 
@@ -578,4 +625,220 @@ button.custom-login-btn {
     text-align: center;
     margin-top: 1.5rem;
   }
+}
+
+/* STYLE FILE ACCOUNT.PUG  */
+.container-account {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 30px;
+}
+
+/* Card styling */
+.card-account {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Header styling */
+.card-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card-header h4 {
+  font-size: 1.5rem;
+  color: #343a40;
+  margin: 0;
+}
+
+/* Content styling */
+.card-content p {
+  margin: 8px 0;
+  color: #6c757d;
+}
+
+.card-content strong {
+  color: #495057;
+}
+
+.card-content span {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* Button container */
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Button styling */
+.btn-delete-account,
+.btn-edit-account {
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-delete-account {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.btn-delete-account:hover {
+  background-color: #c82333;
+}
+
+.btn-edit-account {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.btn-edit-account:hover {
+  background-color: #0056b3;
+}
+
+/* General Popup Styling */
+.account-popup-container-account {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s ease;
+}
+
+.account-popup-container-account.visible-account {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Popup Overlay */
+.account-popup-overlay-account {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 1;
+}
+
+/* Popup Content */
+.account-popups-account {
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 400px;
+  max-width: 90%;
+  animation: fadeInPopup 0.3s ease-in-out;
+}
+
+/* Popup Animation */
+@keyframes fadeInPopup {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form Fields */
+.account-popups-account form {
+  display: flex;
+  flex-direction: column;
+}
+
+.m-0-account input {
+  display: none; /* For hidden userId */
+}
+
+.mb-3-account {
+  margin-bottom: 20px;
+}
+
+label.form-label-account {
+  font-size: 1rem;
+  color: #495057;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.input-field-account {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-field-account:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+/* Submit Button */
+.btn-submit-account {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-submit-account:hover {
+  background-color: #0056b3;
+}
+
+.btn-submit-account:active {
+  transform: scale(0.98);
+}
+
+/* Close Button (Optional) */
+.account-popup-close-account {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6c757d;
+  transition: color 0.3s;
+}
+
+.account-popup-close-account:hover {
+  color: #343a40;
 }
