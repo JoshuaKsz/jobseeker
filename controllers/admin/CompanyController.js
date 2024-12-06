@@ -104,7 +104,7 @@ module.exports = {
           where: {
               companyId: companyId,
               dateExpired: {
-                  [Op.gt]: currentDate // Only get jobs that haven't expired
+                  [Op.gt]: currentDate
               }
           }
       });

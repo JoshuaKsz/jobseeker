@@ -42,6 +42,9 @@ block content
                   else
                     | Benefit: 
                     small.text-danger Tidak disebutkan
+                //- li.list-group-item
+                //-   small.text-success= job.jobId
+
               .mt-3
                 if job.status === 'expired'
                   span.badge.bg-danger.mb-2 Status: Expired
@@ -54,5 +57,6 @@ block content
                     a.btn.btn-primary() Lamar Sekarang
                   else
                     span.text-muted Tidak Tersedia
+                  a.btn.btn-primary(href=`/jobseeker/jobsApply/${job.jobId}`) Lamar Sekarang
                   
                   a.btn.btn-secondary(href=`/jobseeker/company/${job.companyId}`) Lihat Profil Perusahaan

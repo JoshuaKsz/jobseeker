@@ -2,6 +2,8 @@ const Job = require('../../models/JobModel'); // Adjust the path as needed
 const Company = require('../../models/CompanyModel'); // For companyId reference
 const Account = require('../../models/AccountModel'); 
 module.exports = {
+  
+
   createUpdateJob: async (req, res) => {
     const { jobId, jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry } = req.body;
     const userId = req.session.userId;

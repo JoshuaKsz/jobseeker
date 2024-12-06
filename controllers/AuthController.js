@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 
 // const User = require('../models/UserModel');
 const Account = require('../models/AccountModel');
+const jobSeeker = require('../models/JobSeekerModel');
+const company = require('../models/CompanyModel');
 
 module.exports = {
   registerView: (req, res) => {
@@ -28,7 +30,17 @@ module.exports = {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      await Account.create({ email, password: hashedPassword, role });
+      const accountId = (await Account.create({ email, password: hashedPassword, role })).userId;
+      if (role == "Job Seeker") {
+        if (await jobSeeker.findOne({ where: { userId: accountId } }) == null) {
+          await jobSeeker.create({ userId: accountId });
+        }
+
+      } else if (role == "Company") {
+        if (await company.findOne({ where: { userId: accountId } }) == null) {
+          await company.create({ userId: accountId });
+        }
+      }
       res.redirect('/login');
     } catch (err) {
       console.error(err);
@@ -53,7 +65,11 @@ module.exports = {
       req.session.userId = user.userId;
       req.session.email = user.email;
       req.session.role = user.role; // Store role as well
-
+      if (user.role == "Job Seeker") {
+        req.session.otherId = (await jobSeeker.findOne({ where: { userId: user.userId } } )).jobSeekerId;
+      } else if (user.role == "Company") {
+        req.session.otherId = (await company.findOne({ where: { userId: user.userId } } )).companyId;
+      }
       // Redirect based on role
       if (user.role === 'Admin') {
         return res.redirect('/admin'); // Redirect to admin dashboard

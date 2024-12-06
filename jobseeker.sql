@@ -1,5 +1,9 @@
+CREATE DATABASE IF NOT EXISTS jobseeker; 
+
+USE jobseeker;
+
 -- Membuat tabel Account
-CREATE TABLE Account (
+CREATE TABLE IF NOT EXISTS Account (
     userId INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -7,7 +11,7 @@ CREATE TABLE Account (
 );
 
 -- Membuat tabel Job Seeker
-CREATE TABLE jobSeeker (
+CREATE TABLE IF NOT EXISTS jobSeeker (
     jobSeekerId INT AUTO_INCREMENT PRIMARY KEY,
     userId INT,
     jobSeekerName VARCHAR(255) NOT NULL,
@@ -22,7 +26,7 @@ CREATE TABLE jobSeeker (
 );
 
 -- Membuat tabel Company
-CREATE TABLE company (
+CREATE TABLE IF NOT EXISTS company (
     companyId INT AUTO_INCREMENT PRIMARY KEY,
     userId INT,
     companyName VARCHAR(255) NOT NULL,
@@ -35,7 +39,7 @@ CREATE TABLE company (
 );
 
 -- Membuat tabel Job
-CREATE TABLE job (
+CREATE TABLE IF NOT EXISTS job (
     jobId INT AUTO_INCREMENT PRIMARY KEY,
     companyId INT,
     jobTitle VARCHAR(255) NOT NULL,
@@ -45,14 +49,17 @@ CREATE TABLE job (
     dateOpened DATE,
     dateExpired DATE,
     industry VARCHAR(100),
-    FOREIGN KEY (companyId) REFERENCES Company(companyId) );
+    FOREIGN KEY (companyId) REFERENCES Company(companyId)
+);
 
 -- Membuat tabel Job Application
-CREATE TABLE jobApplication (
+CREATE TABLE IF NOT EXISTS jobApplication (
     applicationId INT AUTO_INCREMENT PRIMARY KEY,
     jobSeekerId INT,
     jobId INT,
     applicationStatus ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
-File VARCHAR(255) ,
+    File VARCHAR(255),
     applyDate DATE,
-    FOREIGN KEY (jobSeekerId) REFERENCES jobSeeker(jobSeekerId),    FOREIGN KEY (jobId) REFERENCES job(jobId) );
+    FOREIGN KEY (jobSeekerId) REFERENCES jobSeeker(jobSeekerId),
+    FOREIGN KEY (jobId) REFERENCES job(jobId)
+);

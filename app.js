@@ -1,13 +1,16 @@
 const express = require("express");
+
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const dashboardRoutes = require('./routes/dashboard');
 const jobseekerRoutes = require('./routes/jobseeker');
+
 const sequelize = require('./database');
 const session = require('express-session');
-
+const multer = require('multer');
 const app = express();
 const path = require('path');
+
 const AuthController = require("./controllers/AuthController");
 
 app.use(express.static(path.join(__dirname,'public')))
@@ -38,19 +41,38 @@ app.use((req, res, next) => {
 // Routes after session middleware
 app.use('/', dashboardRoutes);
 app.use('/', authRoutes);
-app.use('/', jobseekerRoutes); // Make sure this line exists
+app.use('/', jobseekerRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/admin', adminRoutes);
 app.use('/jobseeker', jobseekerRoutes);
 
 sequelize.sync().then(() => {
-    const port = 3000;
+    const port = 80;
     app.listen(port, () => {
-        console.log("Server running on port http://localhost:" + port);
+        if (port != 80) {
+            console.log("Server running on port http://localhost:" + port);
+        } else {
+            console.log("Server running on port http://localhost");
+        }
     });
 }).catch(err => {
     console.error('Error syncing the database:', err);
 });
+
+
+// Endpoint to download the file
+app.get('/download', (req, res) => {
+    const filePath = path.join(__dirname, 'test', 'example.txt');
+    res.download(filePath, 'example.txt', (err) => {
+        if (err) {
+            console.log('Error downloading the file', err);
+            res.status(500).send('Could not download the file');
+        }
+    });
+});
+
+
+
 
 //cd "C:\Users\LENOVO\Downloads\SEMESTER 5\jobseeker-main" jangan dihapus biar aku bisa tinggal copas pake nodemon
 

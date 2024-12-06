@@ -18,7 +18,7 @@ const JobSeeker = sequelize.define('JobSeeker', {
     },
     jobSeekerName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     phone: {
         type: DataTypes.STRING(15)
