@@ -86,4 +86,3 @@ module.exports = {
     res.render('test', { users });
   }
 };
-  

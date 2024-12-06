@@ -1,53 +1,39 @@
 extends ../layout.pug
 
 block content
-  div.container.mt-4
-  h2.text-center.mb-4 Silahkan Update Account Anda
-  div.row.justify-content-center
-    //- Loop data
+  div.container-account.mt-4
     each user in users
-      div.col-md-4.mb-4
-        div.card.text-black.text-center(style="background-color: #dfff00;") 
-          //- div.card-header
-          //-   h5.mb-0= `User ID: ${user.userId}`
-          div.card-body
-            p.mb-2
-              strong Email: 
-              span= user.email
-            p.mb-2
-              strong Role: 
-              span= user.role
-          div.card-footer
-            form(action=`/admin/account/delete/${user.userId}`, method="POST", class="d-inline")
-              button.btn.btn-danger.btn-sm(type="submit") Delete
-            button.btn.btn-dark.btn-sm(
-              onclick=`handleClick(${user.userId}, '${user.email}', '${user.role}')`
-            ) Edit
-            //- form(action=`/admin/account/delete/${user.userId}`, method='POST', style='display:inline')
-          //-   button(type='submit') Delete
-          //- form(action=`/users/delete/${user.userId}`, method="POST" style="display:inline;")
-          //-   button(type="submit" style="color: red;") Delete
-  form.form-horizontal(method='post' action='/admin/account' id='create')
-    .mb-3
-      //- label.form-label.control-label(for='userId') userId (Kosongkan Jika ingin insert/create)
-      input#userId.form-control(type='text' name='userId' value= userId hidden)
-    .mb-3
-      label.form-label.control-label(for='email') email
-      input#email.form-control(type='email' name='email' value= checkUser)
-    .mb-3
-      label.form-label.control-label(for='password') Password
-      input#password.form-control(type='password' name='password' value= password)
-    //- .mb-3
-    //-   label.form-label.control-label(for='role') Role
-    //-   select#role.form-control(name='role' value="")
-    //-     option(value='Job Seeker') Job Seeker
-    //-     option(value='Company') Company
-    .mb-3.py-3
-      button.btn.btn-primary.login-button(type='submit') Update account
-    div#test
+      div.card-account
+        div.card-header
+          h4 Silahkan Update Account Anda
+        div.card-content
+          p.mb-2
+            strong Email: 
+            span= user.email
+          p.mb-2
+            strong Role: 
+            span= user.role
+        div.card-actions
+          form(action=`/admin/account/delete/${user.userId}`, method="POST", class="d-inline")
+            button.btn-delete-account(type="submit") Delete
+          button.btn-edit-account(onclick=`openEditPopup('${user.userId}', '${user.email}', '${user.role}')`) Edit
 
-  
-  
+  div.account-popup-container-account.hidden-account
+    div.account-popup-overlay-account(onclick="closePopup()")
+    div.account-popups-account
+      button.account-popup-close-account(onclick="closePopup()") ✖
+      form(method='post' action='/admin/account' id='edit')
+        div.m-0-account
+          input#userId-account(type='text' name='userId' hidden)
+        div.mb-3-account
+          label.form-label-account(for='email') Email
+          input#email-account.input-field-account(type='email' name='email')
+        div.mb-3-account
+          label.form-label-account(for='password') Password
+          input#password-account.input-field-account(type='password' name='password')
+        div.mb-3-account
+          button.btn-submit-account(type='submit') Update Account
+
   script.
     function handleClick(userId, email, password, role) {
       console.log(userId, email, password, role);

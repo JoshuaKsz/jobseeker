@@ -1,25 +1,19 @@
 extends layout.pug
 block content
-  .container.con-fom
-    // Teks yang memberikan informasi mengenai registrasi
-    .row.justify-content-center
-      .col-md-8.text-center
-        p.mb-4 Jika anda belum memiliki akun, silahkan registrasi terlebih dahulu
-        button.btn.btn-outline-primary(type='button') 
-          a.custom-login-link(href='/register') Register
-  .container.con-fom
-    .row.justify-content-center
-      .col-md-8
-        .card 
-          .card-header Login 
-          .card-body
-            form.form-horizontal(method='post' action='/login')
-              .mb-3
-                label.form-label.control-label(for='email') Email
-                input#email.form-control(type='email' name='email')
-              .mb-3
-                label.form-label.control-label(for='password') Password
-                input#password.form-control(type='password' name='password')
-              .mb-3.py-3
-                button.btn.btn-primary(type='submit') Login
-                //- a(href='/register').ps-2.btn-regis Register
+  div.container-login-fom
+    div.card-login
+      form.form-horizontal(method='post' action='/login')
+        h2.mb-5.login-tittle Login
+        .mb-3
+          label.form-label.control-label(for='email') Email
+          input#email.form-control(type='email' name='email' autocomplete="off")
+        .mb-3
+          label.form-label.control-label(for='password') Password
+          input#password.form-control(type='password' name='password' autocomplete="off")
+        .mb-3
+          label.form-label.control-label(for='retype-password') Re-type Password
+          input#retype-password.form-control(type='password' name='retype-password' autocomplete="off")
+        .mb-3.py-3
+          button.btn-login-form(type='submit') Login
+          a(href='/register').ps-2.btn-regis Register
+
