@@ -1,0 +1,25 @@
+extends ../layout.pug
+
+block content
+  div#test
+  h1= applications
+  h2 Job Application List
+  table(style="border: 1px solid black; border-collapse: collapse;")
+    tr
+      th(style="border: 1px solid black;") applicationId
+      th(style="border: 1px solid black;") jobSeekerId
+      th(style="border: 1px solid black;") jobId
+      th(style="border: 1px solid black;") Application Status
+      th(style="border: 1px solid black;") File
+      th(style="border: 1px solid black;") Apply Date
+      th(style="border: 1px solid black;") Files
+    each application in applications
+      tr(id=`row-${application.applicationId}`)
+        td(style="border: 1px solid black;")= application.applicationId
+        td(style="border: 1px solid black;")= application.jobSeekerId
+        td(style="border: 1px solid black;")= application.jobId
+        td(style="border: 1px solid black;")= application.applicationStatus
+        td(style="border: 1px solid black;")= application.File
+        td(style="border: 1px solid black;")= application.applyDate
+        td(style="border: 1px solid black;")
+          button download

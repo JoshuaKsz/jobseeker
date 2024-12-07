@@ -11,20 +11,7 @@ const companyController = require('../controllers/admin/CompanyController');
 const jobApplicationForm = require('../controllers/jobseeker/JobSeekerFormApplicationController');
 
 
-// handle file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      // saved lokasi
-      cb(null, 'test/'); 
-    },
-    filename: (req, file, cb) => {
-      // Set unique file name
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname)); // Keep file extension
-    }
-});
-  
-const upload = multer({ storage: storage });
+
   
 
 // Route untuk melihat daftar lowongan
@@ -33,7 +20,8 @@ router.get('/jobs', jobController.listJobs);
 router.get('/jobseeker/company/:companyId', authMiddleware, companyController.getCompanyProfile); // Sepertinya ini salah!
 
 router.get('/jobsApply/:jobId', authMiddleware, jobApplicationForm.getFormJob);
-router.post('/jobsApply/:jobId', upload.array('files'), authMiddleware, jobApplicationForm.submitFormJob);
+router.post('/jobsApply/:jobId',  authMiddleware, jobApplicationForm.submitFormJob);
+router.get('/jobApplication/history', authMiddleware, jobApplicationForm.getHistoryPage);
 
 
 // Halaman Dashboard untuk Jobseeker

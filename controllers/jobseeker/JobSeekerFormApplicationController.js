@@ -2,6 +2,8 @@ const JobApplication = require('../../models/JobApplicationModel'); // Adjust th
 const JobSeeker = require('../../models/JobSeekerModel'); // For jobSeekerId reference
 const Job = require('../../models/JobModel'); // For jobId reference
 
+const multer = require('multer');
+
 module.exports = {
   getFormJob: async (req, res) => {
     const { jobId } = req.params;
@@ -13,18 +15,60 @@ module.exports = {
   },
   submitFormJob: async (req, res) => {
     const { jobId } = req.params;
-    const files = req.files; // Multer middleware will parse files
     const otherId = req.session.otherId;
+    const applicationStatus = 'Pending';
 
-    console.log(files);
+    // console.log(otherId, jobId, applicationStatus, fileName)
+    const newApplication = await JobApplication.create({ jobSeekerId: otherId, jobId, applicationStatus, File: '' });
 
-    if (!files || files.length === 0) {
-      return res.status(400).send("No files uploaded.");
-    }
+    // handle file uploads
+    const storage = multer.diskStorage({
+      destination: (req, file, cb) => {
+        // saved lokasi
+        cb(null, 'test/'); 
+      },
+      filename: (req, file, cb) => {
+        // Set unique file name
+        // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, newApplication.applicationId + '-' + otherId + '-' + jobId + '-' + file.originalname ); // Keep file extension
+      }
+    });
 
-    res.send("SUCCESS");
+    const upload = multer({ storage: storage }).array('files');
+
+    upload(req, res, async (err) => {
+      if (err) {
+        return next(err); // Handle any errors from Multer
+      }
+      const files = req.files; // Multer middleware will parse files
+      const fileName = files.map(file => file.originalname).join(',');
+
+      if (!files || files.length === 0) {
+        return res.status(400).send("No files uploaded.");
+      }
+
+      if (newApplication) {
+        console.log("edit/update");
+
+        if (applicationStatus) newApplication.applicationStatus = applicationStatus;
+        if (File) newApplication.File = fileName;
+        // if (applyDate) newApplication.applyDate = applyDate;
+
+        await newApplication.save();
+      }
+    });
+    res.redirect('/jobApplication/history');
     // res.send((req.params, req.body, req.session, req));
   },
+
+
+  getHistoryPage: async (req, res) => {
+    const existingJobSeeker = await JobSeeker.findOne({ where: { userId: req.session.userId } });
+    const applications = await JobApplication.findAll({ where: { jobSeekerId: existingJobSeeker.jobSeekerId } })
+    res.render('jobseeker/jobApplicationHistory', { applications })
+  },
+
+
 
   createUpdateJobApplication: async (req, res) => {
     const { applicationId, jobId,applicationStatus, File, applyDate } = req.body;
