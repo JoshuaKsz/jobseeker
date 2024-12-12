@@ -1,0 +1,41 @@
+extends ../layout.pug
+
+block content
+  h1= search
+  .container.mt-5
+    form(action="/jobseeker/search" method="get" onsubmit="return submitForm()")
+      input(type='text' id='id' placeholder='Search...')
+      button(type='submit') Search
+    
+    if items.length > 0
+      h2 Results for "#{searchTerm}"
+      ul
+        each item in items
+          li= item.jobSeekerId + ': ' + item.jobSeekerName
+            a(href=`/jobseeker/profile/${item.jobSeekerId}`) profile
+            
+
+      if page > 1
+        a(href=`/jobseeker/search/${page - 1}/${searchTerm}`) Previous
+      if page < 99
+        a(href=`/jobseeker/search/${page + 1}/${searchTerm}`) Next
+    else
+      p No results found.
+
+    script.
+      function submitForm() {
+      const id = document.getElementById('id').value;
+      let page;
+      if (document.getElementById('page') != null) {
+        page = document.getElementById('page').value;
+      } else {
+        page = 1;
+      }
+      console.log(id, page)
+      if (page == '') {
+          page = 1;
+        }
+
+      window.location.href = `/jobseeker/search/${page}/${id}`;
+      return false; // Prevent the default form submission
+      }

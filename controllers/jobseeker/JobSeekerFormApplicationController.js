@@ -1,17 +1,18 @@
-const JobApplication = require('../../models/JobApplicationModel'); // Adjust the path as needed
-const JobSeeker = require('../../models/JobSeekerModel'); // For jobSeekerId reference
-const Job = require('../../models/JobModel'); // For jobId reference
+const JobApplication = require('../../models/JobApplicationModel');
+const JobSeeker = require('../../models/JobSeekerModel');
+const Job = require('../../models/JobModel');
 
 const multer = require('multer');
+const Company = require('../../models/CompanyModel');
 
 module.exports = {
   getFormJob: async (req, res) => {
     const { jobId } = req.params;
-
+    const jobs = await Job.findOne({ where: { jobId:jobId } });
     // res.send(req.session);
     const existingJobSeeker = await JobSeeker.findOne({ where: { userId: req.session.userId } });
 
-    res.render('jobseeker/jobApplication', { jobId, id: existingJobSeeker.jobSeekerId});
+    res.render('jobseeker/jobApplication', { jobId, id: existingJobSeeker.jobSeekerId, jobs});
   },
   submitFormJob: async (req, res) => {
     const { jobId } = req.params;
@@ -56,6 +57,7 @@ module.exports = {
 
         await newApplication.save();
       }
+      res.redirect('/jobApplication/history');
     });
     res.redirect('/jobApplication/history');
     // res.send((req.params, req.body, req.session, req));
@@ -65,8 +67,26 @@ module.exports = {
   getHistoryPage: async (req, res) => {
     const existingJobSeeker = await JobSeeker.findOne({ where: { userId: req.session.userId } });
     const applications = await JobApplication.findAll({ where: { jobSeekerId: existingJobSeeker.jobSeekerId } })
+    console.log(applications);
+
     res.render('jobseeker/jobApplicationHistory', { applications })
   },
+
+  getHistoryPageCompany: async (req, res) => {
+    const existingCompany = await Company.findOne({ where: { userId: req.session.userId } });
+    const jobss = await Job.findAll({ where: { companyId: existingCompany }});
+    const applicationss = await Promise.all(jobss.map(async (job) => {
+      const applications = await JobApplication.findAll({ where: { jobId: job.jobId } });
+      return [applications]; // Return a 2D array with job and its applications
+    }));
+  
+    console.log(applicationss);
+
+    res.render('company/jobApplicationHistory', { applicationss })
+  },
+
+
+  
 
 
 

@@ -1,6 +1,7 @@
 extends ../layout.pug
 
 block content
+  h1= jobs.requirements
   h1= id
   form.form-horizontal(method='post' action=`/jobsApply/${jobId}` id='create' enctype="multipart/form-data")
     //- .mb-3

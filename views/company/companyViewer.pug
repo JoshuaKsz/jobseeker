@@ -1,0 +1,36 @@
+extends ../layout.pug
+
+block content
+  .container.mt-5
+    .row
+      .col-md-8.offset-md-2
+        .card.shadow-lg
+          .card-header.bg-primary.text-white
+            h2.text-center= company.companyName
+          
+          .card-body
+            .row
+              .col-md-4.text-center.mb-4
+                // Placeholder for company logo (if you have one)
+                .rounded-circle.bg-light.p-4.d-inline-block
+                  i.fas.fa-building.fa-5x.text-muted
+                
+              .col-md-8
+                h4 Informasi Perusahaan
+                hr
+                
+                .row.mb-3
+                  .col-5.fw-bold Industri
+                  .col-7= company.industry || 'Tidak disebutkan'
+                
+                .row.mb-3
+                  .col-5.fw-bold Lokasi
+                  .col-7= `${company.city || 'Tidak disebutkan'}, ${company.country || 'Tidak disebutkan'}`
+                
+                .row.mb-3
+                  .col-5.fw-bold Kontak Telepon
+                  .col-7= company.phone || 'Tidak tersedia'
+                
+                .row.mb-3
+                  .col-5.fw-bold Email
+                  .col-7= company.email || 'Tidak tersedia'

@@ -10,9 +10,7 @@ const jobController = require('../controllers/admin/JobController');
 const companyController = require('../controllers/admin/CompanyController');
 const jobApplicationForm = require('../controllers/jobseeker/JobSeekerFormApplicationController');
 
-
-
-  
+router.get("/profile/:id", jobseekerController.profileViewer);
 
 // Route untuk melihat daftar lowongan
 router.get('/jobs', jobController.listJobs);
@@ -22,6 +20,10 @@ router.get('/jobseeker/company/:companyId', authMiddleware, companyController.ge
 router.get('/jobsApply/:jobId', authMiddleware, jobApplicationForm.getFormJob);
 router.post('/jobsApply/:jobId',  authMiddleware, jobApplicationForm.submitFormJob);
 router.get('/jobApplication/history', authMiddleware, jobApplicationForm.getHistoryPage);
+
+router.get('/search/:page/:id', jobseekerController.getSearchJobSeekerString);
+
+router.get('/search/:page', jobseekerController.getSearchJobSeeker);
 
 
 // Halaman Dashboard untuk Jobseeker

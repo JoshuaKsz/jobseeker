@@ -38,7 +38,7 @@ module.exports = {
 
       } else if (role == "Company") {
         if (await company.findOne({ where: { userId: accountId } }) == null) {
-          await company.create({ userId: accountId });
+          await company.create({ userId: accountId, companyName: accountId });
         }
       }
       res.redirect('/login');

@@ -1,5 +1,6 @@
 const JobSeeker = require('../../models/JobSeekerModel'); // Adjust the path as needed
 const Account = require('../../models/AccountModel'); // For userId reference
+const { Op } = require('sequelize');
 
 module.exports = {
  
@@ -94,4 +95,64 @@ module.exports = {
       return res.status(500).send('Server error');
     }
   },
+
+  profileViewer: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const jobSeeker = await JobSeeker.findOne({ where: { jobSeekerId: id } });
+      if (!jobSeeker) {
+        return res.status(404).send('Job seeker not found');
+      }
+      res.render("jobseeker/jobSeekerProfile", { jobSeeker: jobSeeker })
+      
+    } catch (err) {
+      console.error(err);
+      return res.status(500).send('Server error');
+    }
+  },
+
+  getSearchJobSeeker: async (req, res) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    console.log("getSearchJobSeeker");
+    res.render("jobseeker/search", { items: [], page: 1, totalPages: 0, searchTerm: '' });
+  },
+
+  getSearchJobSeekerString: async (req, res) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    const { page, id } = req.params; // Assuming 'id' is the search term
+    console.log(`Parameters: ${JSON.stringify(req.params)}`);
+    console.log(`Page: ${page}, Search Term: ${id}`);
+
+    const limit = 10;
+    const offset = (page - 1) * limit;
+
+    try {
+      const items = await JobSeeker.findAll({
+        where: {
+          jobSeekerName: {
+            [Op.like]: `%${id}%`, // Use Op.like for partial matching
+          },
+        },
+        limit: limit,
+        offset: offset,
+      });
+      console.log("Retrieved Items:", items);
+
+      const totalItems = await JobSeeker.count({
+        where: {
+          jobSeekerName: {
+            [Op.like]: `%${id}%`,
+          },
+        },
+      });
+
+      const totalPages = Math.ceil(totalItems / limit);
+      res.render('jobseeker/search', { items, page: parseInt(page), totalPages, searchTerm: id });
+    } catch (error) {
+      console.error("Error fetching job seekers:", error);
+      res.status(500).send('Internal Server Error');
+    }
+  }
+
 };

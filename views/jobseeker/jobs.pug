@@ -54,9 +54,9 @@ block content
                 .d-flex.justify-content-between.mt-2
                   if job.status === 'active'
                     //- a.btn.btn-primary(href=`/admin/jobapplication/form?jobId=${job.jobId}&jobSeekerId=${req.session.userId}`) Lamar Sekarang
-                    a.btn.btn-primary() Lamar Sekarang
+                    a.btn.btn-primary(href=`/jobseeker/jobsApply/${job.jobId}`) Lamar Sekarang
                   else
                     span.text-muted Tidak Tersedia
-                  a.btn.btn-primary(href=`/jobseeker/jobsApply/${job.jobId}`) Lamar Sekarang
+                  //- a.btn.btn-primary(href=`/jobseeker/jobsApply/${job.jobId}`) Lamar Sekarang
                   
                   a.btn.btn-secondary(href=`/jobseeker/company/${job.companyId}`) Lihat Profil Perusahaan

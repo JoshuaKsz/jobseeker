@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS jobSeeker (
 CREATE TABLE IF NOT EXISTS company (
     companyId INT AUTO_INCREMENT PRIMARY KEY,
     userId INT,
-    companyName VARCHAR(255) NOT NULL,
+    companyName VARCHAR(255),
     industry VARCHAR(100),
     phone VARCHAR(15),
     city VARCHAR(100),

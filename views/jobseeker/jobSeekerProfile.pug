@@ -1,0 +1,27 @@
+extends ../layout.pug
+
+block content
+  h2 Job Seeker List
+  table(style="border: 1px solid black; border-collapse: collapse;")
+    tr
+      th(style="border: 1px solid black;") jobSeekerId
+      th(style="border: 1px solid black;") userId
+      th(style="border: 1px solid black;") Name
+      th(style="border: 1px solid black;") Phone
+      th(style="border: 1px solid black;") City
+      th(style="border: 1px solid black;") Country
+      th(style="border: 1px solid black;") About/Skills
+      th(style="border: 1px solid black;") Education
+      th(style="border: 1px solid black;") Experience
+      th(style="border: 1px solid black;") Social Media
+      tr(id=`row-${jobSeeker.jobSeekerId}`)
+        td(style="border: 1px solid black;")= jobSeeker.jobSeekerId
+        td(style="border: 1px solid black;")= jobSeeker.userId
+        td(style="border: 1px solid black;")= jobSeeker.jobSeekerName
+        td(style="border: 1px solid black;")= jobSeeker.phone
+        td(style="border: 1px solid black;")= jobSeeker.city
+        td(style="border: 1px solid black;")= jobSeeker.country
+        td(style="border: 1px solid black;")= jobSeeker.about_skill
+        td(style="border: 1px solid black;")= jobSeeker.education
+        td(style="border: 1px solid black;")= jobSeeker.experience
+        td(style="border: 1px solid black;")= jobSeeker.socialMedia
