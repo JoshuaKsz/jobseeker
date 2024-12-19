@@ -59,7 +59,6 @@ module.exports = {
       }
       res.redirect('/jobApplication/history');
     });
-    res.redirect('/jobApplication/history');
     // res.send((req.params, req.body, req.session, req));
   },
 
@@ -74,10 +73,14 @@ module.exports = {
 
   getHistoryPageCompany: async (req, res) => {
     const existingCompany = await Company.findOne({ where: { userId: req.session.userId } });
-    const jobss = await Job.findAll({ where: { companyId: existingCompany }});
+    console.log(existingCompany);
+    const jobss = await Job.findAll({ where: { companyId: existingCompany.companyId }});
+    console.log(jobss);
     const applicationss = await Promise.all(jobss.map(async (job) => {
       const applications = await JobApplication.findAll({ where: { jobId: job.jobId } });
-      return [applications]; // Return a 2D array with job and its applications
+      console.log(applications);
+      // applications.job.jobTitle = ;
+      return applications; // Return a 2D array with job and its applications
     }));
   
     console.log(applicationss);

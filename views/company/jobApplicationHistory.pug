@@ -2,9 +2,9 @@ extends ../layout.pug
 
 block content
   div#test
-  h1= applications
-  h2 Job Application List
-  each aplications in applicationss
+  h1= applicationss
+  each applications in applicationss
+    h2 Job Application List
     table(style="border: 1px solid black; border-collapse: collapse;")
       tr
         th(style="border: 1px solid black;") applicationId
@@ -28,16 +28,3 @@ block content
                 tr
                   td(style="border: 1px solid black;")
                     a(href=`/download/${application.applicationId}-${application.jobSeekerId}-${application.jobId}-${fileName}`)= fileName
-  //- each fileNames in fileNames2D
-  //-   table
-  //-     tr
-  //-       th(style="border: 1px solid black;") File Name
-  //-       th(style="border: 1px solid black;") download
-  //-     each fileName in fileNames
-  //-       tr
-  //-         td(style="border: 1px solid black;")= fileName
-  //-         td(style="border: 1px solid black;")
-  //-           a(href=`/download/${fileName}`) asdadsadsdsa
-
-
-    
