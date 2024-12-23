@@ -89,7 +89,7 @@ body {
 
 /* FORM LOGIN STYLE  */
 .container-login-fom {
-  margin: 4rem 30rem 0rem 30rem;
+  margin: 3rem 24rem 4rem 24rem;
 }
 
 .card-login {
@@ -165,7 +165,7 @@ body {
 
 /* FORM REGISTER STYLE  */
 .container-register-fom {
-  margin: 4rem 30rem 4rem 30rem;
+  margin: 3rem 24rem 4rem 24rem;
 }
 
 .card-register {
@@ -275,7 +275,7 @@ body {
 
 .wrap-left {
   align-self: flex-end;
-  margin-top: 27rem;
+  margin-top: 17.5rem;
 }
 
 .wrap-middle {
@@ -283,19 +283,19 @@ body {
   flex-direction: column;
   align-items: center;
   align-self: flex-start;
-  margin-top: 11rem;
+  margin-top: 7rem;
   text-align: center;
   flex: 1;
 }
 
 .wrap-right {
   align-self: flex-end;
-  margin-top: 27rem;
+  margin-top: 17.5rem;
 }
 
 .wrap-left img,
 .wrap-right img {
-  max-width: 100%;
+  max-width: 90%;
   height: auto;
 }
 
@@ -629,85 +629,78 @@ body {
 
 /* STYLE FILE ACCOUNT.PUG  */
 .container-account {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  padding: 30px;
-}
-
-/* Card styling */
-.card-account {
-  background-color: #ffffff;
+  margin-top: 40px;
+  margin: 60px 450px 0 450px;
+  padding: 25px;
+  background-color: #4e515c;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 500px;
-  padding: 20px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
 
-/* Header styling */
-.card-header {
-  text-align: center;
+.card-account {
+  padding: 25px;
+  background-color: #faf9f6;
+  border-radius: 12px;
   margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .card-header h4 {
-  font-size: 1.5rem;
-  color: #343a40;
   margin: 0;
+  color: #4e515c;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0.5px;
 }
 
-/* Content styling */
-.card-content p {
-  margin: 8px 0;
-  color: #6c757d;
-}
-
-.card-content strong {
-  color: #495057;
-}
-
-.card-content span {
-  color: #007bff;
-  font-weight: bold;
-}
-
-/* Button container */
-.card-actions {
-  display: flex;
-  gap: 10px;
+.card-content {
   margin-top: 20px;
 }
 
-/* Button styling */
-.btn-delete-account,
-.btn-edit-account {
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: bold;
-  transition: background-color 0.3s, color 0.3s;
+.card-content p {
+  margin-bottom: 12px;
+  color: #4e515c;
+}
+
+.card-content strong {
+  color: #4e515c;
+}
+
+.card-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
 .btn-delete-account {
-  background-color: #dc3545;
+  background-color: #ff2929;
   color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-delete-account:hover {
-  background-color: #c82333;
+  background-color: #f9e400;
+  transform: scale(1.05);
 }
 
 .btn-edit-account {
-  background-color: #007bff;
+  background-color: #60b478;
   color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-edit-account:hover {
-  background-color: #0056b3;
+  background-color: #9a7cf8;
+  transform: scale(1.05);
 }
 
 /* General Popup Styling */
@@ -720,11 +713,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1000;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s, opacity 0.3s ease;
+  transition: visibility 0s, opacity 0.3s ease-in-out;
 }
 
 .account-popup-container-account.visible-account {
@@ -745,20 +738,21 @@ body {
 .account-popups-account {
   position: relative;
   z-index: 2;
-  background-color: #ffffff;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  width: 400px;
+  background-color: #f7fafc;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  width: 450px;
   max-width: 90%;
-  animation: fadeInPopup 0.3s ease-in-out;
+  animation: slideInPopup 0.4s ease-in-out;
+  text-align: left;
 }
 
 /* Popup Animation */
-@keyframes fadeInPopup {
+@keyframes slideInPopup {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-30px);
   }
   to {
     opacity: 1;
@@ -782,36 +776,37 @@ body {
 
 label.form-label-account {
   font-size: 1rem;
-  color: #495057;
-  font-weight: bold;
-  margin-bottom: 5px;
+  color: #2d3748;
+  font-weight: 600;
+  margin-bottom: 8px;
   display: inline-block;
 }
 
 .input-field-account {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 1rem;
-  border: 1px solid #ced4da;
+  border: 1px solid #cbd5e0;
   border-radius: 8px;
-  background-color: #f8f9fa;
+  background-color: #edf2f7;
+  color: #2d3748;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .input-field-account:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-color: #3182ce;
+  box-shadow: 0 0 8px rgba(49, 130, 206, 0.5);
   outline: none;
 }
 
 /* Submit Button */
 .btn-submit-account {
   width: 100%;
-  padding: 12px 15px;
+  padding: 14px 20px;
   font-size: 1rem;
   font-weight: bold;
   color: #ffffff;
-  background-color: #007bff;
+  background-color: #48bb78;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -819,14 +814,15 @@ label.form-label-account {
 }
 
 .btn-submit-account:hover {
-  background-color: #0056b3;
+  background-color: #38a169;
+  transform: scale(1.03);
 }
 
 .btn-submit-account:active {
   transform: scale(0.98);
 }
 
-/* Close Button (Optional) */
+/* Close Button */
 .account-popup-close-account {
   position: absolute;
   top: 10px;
@@ -835,10 +831,175 @@ label.form-label-account {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #6c757d;
-  transition: color 0.3s;
+  color: #2c7a7b;
+  transition: color 0.3s ease;
 }
 
 .account-popup-close-account:hover {
-  color: #343a40;
+  color: #285e61;
+}
+
+// HALAMAN STYLE JOBSEEKER.PUG
+.container-job {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+}
+
+.jobseeker-tittle {
+  margin: 40px 0 20px 0;
+  text-align: center;
+}
+
+.jobseeker-tittle h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #f2f2f2;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 25px;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+  color: #f2f2f2;
+  margin: 30px 250px 50px 250px;
+}
+
+.tr-job {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid #333333;
+  border-radius: 12px;
+  background-color: #1e1e1e;
+  gap: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.td-job {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  gap: 10px;
+  line-height: 1.5;
+}
+
+.label-job {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.value-job {
+  color: #bbbbbb;
+}
+
+.btn-delete-job,
+.btn-edit-job {
+  margin-top: 15px;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.btn-delete-job {
+  background-color: #e74c3c;
+  width: 70px;
+  max-width: 70px;
+  min-width: 70px;
+  text-align: center;
+}
+
+.btn-delete-job:hover {
+  background-color: #c0392b;
+}
+
+.btn-edit-job {
+  background-color: #2ecc71;
+  width: 70px;
+  max-width: 70px;
+  min-width: 70px;
+  text-align: center;
+}
+
+.btn-edit-job:hover {
+  background-color: #27ae60;
+}
+
+.container-jobseeker {
+  margin: 30px 250px 50px 250px;
+  padding: 25px;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+}
+
+.wrap-jobseeker {
+  margin-bottom: 15px;
+}
+
+.label-jobseeker {
+  color: #f2f2f2;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-jobseeker {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #333333;
+  border-radius: 4px;
+  background-color: #262626;
+  color: #f2f2f2;
+}
+
+.input-jobseeker:focus {
+  outline: none;
+  border-color:#54ecc4;
+  box-shadow: 0 0 4px #54ecc4;
+}
+
+.textarea-jobseeker {
+  width: 100%;
+  height: 80px;
+  padding: 8px;
+  border: 1px solid #333333;
+  border-radius: 4px;
+  background-color: #262626;
+  color: #f2f2f2;
+  resize: vertical;
+}
+
+.textarea-jobseeker:focus {
+  outline: none;
+  border-color: #54ecc4;
+  box-shadow: 0 0 4px #54ecc4;
+}
+
+.wrap-bnt-jobseeker {
+  margin-top: 35px;
+}
+
+.btn-jobseeker {
+  background-color: #54ecc4;
+  color: #000000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 0 auto;
 }
