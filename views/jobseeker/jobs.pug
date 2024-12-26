@@ -1,62 +1,60 @@
 extends ../layout.pug
 
 block content
-  .container.mt-5
-    h1.text-center.mb-4 Lowongan Pekerjaan
-    .row.row-cols-1.row-cols-md-2.row-cols-lg-3.g-4
+  div.container-lowongan
+    div.wrap-tittle-lowongan
+      h1.tittle-lowongan Lowongan Pekerjaan
+    div.each-container
       each job in jobs
-        .col
-          .card.shadow-lg
-            .card-body
-              h5.card-title.jobtittle= job.jobTitle || 'Judul Tidak Disebutkan'
-              p.card-text.text-muted.jobdesc
+        div.col-container
+          div.card-lowongan
+            div.card-body-lowongan
+              h5.card-title-lowongan.jobtittle= job.jobTitle || 'Judul Tidak Disebutkan'
+              p.card-company.jobdesc
                 | Perusahaan: 
                 b= job.companyName || 'Tidak disebutkan'
-              p.card-text.text-muted.jobdesc
+              p.card-lokasi.jobdesc
                 | Lokasi: 
                 b= `${job.city || 'Tidak disebutkan'}, ${job.country || 'Tidak disebutkan'}`
-              p.card-text.text-muted.jobdesc
+              p.card-industri.jobdesc
                 | Industri: 
                 b= job.industry || 'Tidak disebutkan'
-              ul.list-group.list-group-flush
-                li.list-group-item
+              ul.ul-lowongan
+                li.li-lowongan
                   | Gaji: 
-                  span.text-primary= job.salary ? `Rp ${job.salary}` : 'Tidak disebutkan'
-                li.list-group-item
+                  span.text-gaji= job.salary ? `Rp ${job.salary}` : 'Tidak disebutkan'
+                li.li-lowongan
                   | Tanggal Dibuka: 
-                  span.text-muted= job.dateOpened || 'Tidak disebutkan'
-                li.list-group-item
+                  span.text-dibuka= job.dateOpened || 'Tidak disebutkan'
+                li.li-lowongan
                   | Tanggal Berakhir: 
-                  span.text-muted= job.dateExpired || 'Tidak disebutkan'
-                li.list-group-item
+                  span.text-ditutup= job.dateExpired || 'Tidak disebutkan'
+                li.li-lowongan
                   if job.requirements
                     | Syarat: 
-                    small.text-muted= job.requirements
+                    small.syarat= job.requirements
                   else
                     | Syarat: 
-                    small.text-danger Tidak disebutkan
-                li.list-group-item
+                    small.syarat-mute Tidak disebutkan
+                li.li-lowongan
                   if job.benefits
                     | Benefit: 
-                    small.text-success= job.benefits
+                    small.benefits-lowongan= job.benefits
                   else
                     | Benefit: 
-                    small.text-danger Tidak disebutkan
-                //- li.list-group-item
-                //-   small.text-success= job.jobId
+                    small.benefits-lowongan-mute Tidak disebutkan
 
-              .mt-3
+              div.container-status
                 if job.status === 'expired'
-                  span.badge.bg-danger.mb-2 Status: Expired
+                  span.status-expired Status: Expired
                 else
-                  span.badge.bg-success.mb-2 Status: Active
+                  span.status-active Status: Active
                 
-                .d-flex.justify-content-between.mt-2
+                div.container-detail
                   if job.status === 'active'
-                    //- a.btn.btn-primary(href=`/admin/jobapplication/form?jobId=${job.jobId}&jobSeekerId=${req.session.userId}`) Lamar Sekarang
-                    a.btn.btn-primary(href=`/jobseeker/jobsApply/${job.jobId}`) Lamar Sekarang
+                    button.btn-lamar-lowongan 
+                      a.link-lamar(href=`/jobseeker/jobsApply/${job.jobId}`) Lamar Sekarang
                   else
-                    span.text-muted Tidak Tersedia
-                  //- a.btn.btn-primary(href=`/jobseeker/jobsApply/${job.jobId}`) Lamar Sekarang
-                  
-                  a.btn.btn-secondary(href=`/jobseeker/company/${job.companyId}`) Lihat Profil Perusahaan
+                    span.text-null Tidak Tersedia
+                  button.btn-detail-perusahaan
+                    a.link-detail(href=`/jobseeker/company/${job.companyId}`) Detail Lowongan

@@ -1,77 +1,103 @@
 extends ../layout.pug
 
 block content
-  h2 Job List
-  table(style="border: 1px solid black; border-collapse: collapse;")
-    tr
-      th(style="border: 1px solid black;") jobId
-      th(style="border: 1px solid black;") companyId
-      th(style="border: 1px solid black;") Job Title
-      th(style="border: 1px solid black;") Requirements
-      th(style="border: 1px solid black;") Benefits
-      th(style="border: 1px solid black;") Salary
-      th(style="border: 1px solid black;") Date Opened
-      th(style="border: 1px solid black;") Date Expired
-      th(style="border: 1px solid black;") Industry
-      th(style="border: 1px solid black;") Action
-    each job in jobs
-      tr(id=`row-${job.jobId}`)
-        td(style="border: 1px solid black;")= job.jobId
-        td(style="border: 1px solid black;")= job.companyId
-        td(style="border: 1px solid black;")= job.jobTitle
-        td(style="border: 1px solid black;")= job.requirements
-        td(style="border: 1px solid black;")= job.benefits
-        td(style="border: 1px solid black;")= job.salary
-        td(style="border: 1px solid black;")= job.dateOpened
-        td(style="border: 1px solid black;")= job.dateExpired
-        td(style="border: 1px solid black;")= job.industry
-        td(style="border: 1px solid black;")
-          form(action=`/admin/job/delete/${job.jobId}`, method="POST")
-            button(type="submit") Delete
-          button(onclick=`handleClick(${job.jobId}, '${job.companyId}', '${job.jobTitle}', '${job.requirements}', '${job.benefits}', ${job.salary}, '${job.dateOpened}', '${job.dateExpired}', '${job.industry}')`) Edit
+  div.container-create-lowongan 
+    div.table-create-low
+      div.wrap-judul-create-low
+        h2.tittle-create-lowongan Membuat Lowongan
+      i#toggleIconLow(class="fas fa-chevron-down icon-toggle-low", onclick="toggleJobTable()")
+      div.wrap-create-low(id="tableContainerLow")
+        each job in jobs
+          div.tr-create-low
+            div.td-create-low
+              span.label-create-low Job ID:
+              span.value-create-low= job.jobId
+            div.td-create-low
+              span.label-create-low Company ID:
+              span.value-create-low= job.companyId
+            div.td-create-low
+              span.label-create-low Job Title:
+              span.value-create-low= job.jobTitle
+            div.td-create-low
+              span.label-create-low Requirements:
+              span.value-create-low= job.requirements
+            div.td-create-low
+              span.label-create-low Benefits:
+              span.value-create-low= job.benefits
+            div.td-create-low
+              span.label-create-low Salary:
+              span.value-create-low= job.salary
+            div.td-create-low
+              span.label-create-low Date Opened:
+              span.value-create-low= job.dateOpened
+            div.td-create-low
+              span.label-create-low Date Expired:
+              span.value-create-low= job.dateExpired
+            div.td-create-low
+              span.label-create-low Industry:
+              span.value-create-low= job.industry
+            div.wrap-btn-create-low
+              form.form-btn-low(action=`/admin/job/delete/${job.jobId}`, method="POST")
+                button.btn-delete-low(type="submit") Delete
+              button.btn-edit-low(onclick=`handleClick(${job.jobId}, '${job.companyId}', '${job.jobTitle}', '${job.requirements}', '${job.benefits}', ${job.salary}, '${job.dateOpened}', '${job.dateExpired}', '${job.industry}')`) Edit
+    
+    div.container-edit-create-low
+      form.form-edit-low(method='post' action='/admin/job' id='create')
+        div.m-0
+          label.label-hidden-low(for='jobId' hidden) jobId (Leave blank to create a new entry)
+          input#jobId.input-hidden-low(type='text' name='jobId' value="" hidden)
+        div.m-0
+          label.label-hidden-low(for='companyId' hidden) companyId
+          input#companyId.input-hidden-low(type='text' name='companyId' value=companyId ? companyId : '' hidden)
+        div.mb-3
+          label.label-create-low(for='jobTitle') Job Title
+          input#jobTitle.input-create-low(type='text' name='jobTitle' value="" autocomplete="off")
+        div.mb-3
+          label.label-create-low(for='requirements') Requirements
+          textarea#requirements.textarea-create-low(name='requirements') 
+        div.mb-3
+          label.label-create-low(for='benefits') Benefits
+          textarea#benefits.textarea-create-low(name='benefits') 
+        div.mb-3
+          label.label-create-low(for='salary') Salary
+          input#salary.input-create-low(type='number' name='salary' value="" autocomplete="off")
+        div.mb-3
+          label.label-create-low(for='dateOpened') Date Opened
+          input#dateOpened.input-create-low(type='date' name='dateOpened' value="" autocomplete="off")
+        div.mb-3
+          label.label-create-low(for='dateExpired') Date Expired
+          input#dateExpired.input-create-low(type='date' name='dateExpired' value="" autocomplete="off")
+        div.mb-3
+          label.label-create-low(for='industry') Industry
+          input#industry.input-create-low(type='text' name='industry' value="" autocomplete="off")
+        div.mb-3.wrap-btn-low
+          button.btn-create-low(type='submit') Create/Update Job
+      
+      
+    script.
+      function handleClick(jobId, companyId, jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry) {
+        document.getElementById('jobId').value = jobId;
+        document.getElementById('companyId').value = companyId;
+        document.getElementById('jobTitle').value = jobTitle;
+        document.getElementById('requirements').value = requirements;
+        document.getElementById('benefits').value = benefits;
+        document.getElementById('salary').value = salary;
+        document.getElementById('dateOpened').value = dateOpened.split('T')[0]; // Format date for input
+        document.getElementById('dateExpired').value = dateExpired.split('T')[0]; // Format date for input
+        document.getElementById('industry').value = industry;
+      }
 
-  form.form-horizontal(method='post' action='/admin/job' id='create')
-    .mb-3
-      label.form-label.control-label(for='jobId' hidden) jobId (Leave blank to create a new entry)
-      input#jobId.form-control(type='text' name='jobId' value="" hidden)
-    .mb-3
-      label.form-label.control-label(for='companyId' hidden) companyId
-      input#companyId.form-control(type='text' name='companyId' value=companyId ? companyId : '' hidden)
-    .mb-3
-      label.form-label.control-label(for='jobTitle') Job Title
-      input#jobTitle.form-control(type='text' name='jobTitle' value="")
-    .mb-3
-      label.form-label.control-label(for='requirements') Requirements
-      textarea#requirements.form-control(name='requirements') 
-    .mb-3
-      label.form-label.control-label(for='benefits') Benefits
-      textarea#benefits.form-control(name='benefits') 
-    .mb-3
-      label.form-label.control-label(for='salary') Salary
-      input#salary.form-control(type='number' name='salary' value="")
-    .mb-3
-      label.form-label.control-label(for='dateOpened') Date Opened
-      input#dateOpened.form-control(type='date' name='dateOpened' value="")
-    .mb-3
-      label.form-label.control-label(for='dateExpired') Date Expired
-      input#dateExpired.form-control(type='date' name='dateExpired' value="")
-    .mb-3
-      label.form-label.control-label(for='industry') Industry
-      input#industry.form-control(type='text' name='industry' value="")
-    .mb-3.py-3
-      button.btn.btn-primary.login-button(type='submit') Create/Update Job
-    div#test
-  
-  
-  script.
-    function handleClick(jobId, companyId, jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry) {
-      document.getElementById('jobId').value = jobId;
-      document.getElementById('companyId').value = companyId;
-      document.getElementById('jobTitle').value = jobTitle;
-      document.getElementById('requirements').value = requirements;
-      document.getElementById('benefits').value = benefits;
-      document.getElementById('salary').value = salary;
-      document.getElementById('dateOpened').value = dateOpened.split('T')[0]; // Format date for input
-      document.getElementById('dateExpired').value = dateExpired.split('T')[0]; // Format date for input
-      document.getElementById('industry').value = industry;
-    }
+      function toggleJobTable() {
+        const tableContainer = document.getElementById("tableContainerLow");
+        const toggleIcon = document.getElementById("toggleIconLow");
+
+        if (tableContainer.classList.contains("show")) {
+          tableContainer.classList.remove("show"); 
+          toggleIcon.classList.remove("active"); 
+          toggleIcon.style.marginBottom = "2px";
+        } else {
+          tableContainer.classList.add("show"); 
+          toggleIcon.classList.add("active"); 
+          toggleIcon.style.marginBottom = "30px";
+        }
+      }

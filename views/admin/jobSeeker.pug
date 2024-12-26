@@ -1,91 +1,111 @@
 extends ../layout.pug
 
 block content
-  div.container-job
-    div.jobseeker-tittle
-      h2 Job Seeker List
-    div.table-container
-      each jobSeeker in jobSeekers
-        div.tr-job
-          div.td-job
-            span.label-job Job Seeker ID :
-            span.value-job= jobSeeker.jobSeekerId
-          div.td-job
-            span.label-job User ID :
-            span.value-job= jobSeeker.userId
-          div.td-job
-            span.label-job Name :
-            span.value-job= jobSeeker.jobSeekerName
-          div.td-job
-            span.label-job Phone :
-            span.value-job= jobSeeker.phone
-          div.td-job
-            span.label-job City :
-            span.value-job= jobSeeker.city
-          div.td-job
-            span.label-job Country :
-            span.value-job= jobSeeker.country
-          div.td-job
-            span.label-job About/Skills :
-            span.value-job= jobSeeker.about_skill
-          div.td-job
-            span.label-job Education :
-            span.value-job= jobSeeker.education
-          div.td-job
-            span.label-job Experience :
-            span.value-job= jobSeeker.experience
-          div.td-job
-            span.label-job Social Media :
-            span.value-job= jobSeeker.socialMedia
-          div.td-job
-            form.form-btn-job(action=`/admin/jobseeker/delete/${jobSeeker.jobSeekerId}`, method="POST")
-              button.btn-delete-job(type="submit") Delete
-            button.btn-edit-job(onclick=`handleClick(${jobSeeker.jobSeekerId}, '${jobSeeker.userId}', '${jobSeeker.jobSeekerName}', '${jobSeeker.phone}', '${jobSeeker.city}', '${jobSeeker.country}', '${jobSeeker.about_skill}', '${jobSeeker.education}', '${jobSeeker.experience}', '${jobSeeker.socialMedia}')`) Edit
+  div.container-utama-job
+    div.container-table-job
+      div.jobseeker-tittle
+        h2 JobSeeker Profile
+      i#toggleIconJobb.mt-4(class="fas fa-chevron-down icon-toggle-jobb", onclick="toggleDataVisibility()") 
+      div.table-container-jobb(id="tableContainerJobb")
+        each jobSeeker in jobSeekers
+          div.tr-job
+            div.td-job
+              span.label-job Job Seeker ID :
+              span.value-job= jobSeeker.jobSeekerId
+            div.td-job
+              span.label-job User ID :
+              span.value-job= jobSeeker.userId
+            div.td-job
+              span.label-job Name :
+              span.value-job= jobSeeker.jobSeekerName
+            div.td-job
+              span.label-job Phone :
+              span.value-job= jobSeeker.phone
+            div.td-job
+              span.label-job City :
+              span.value-job= jobSeeker.city
+            div.td-job
+              span.label-job Country :
+              span.value-job= jobSeeker.country
+            div.td-job
+              span.label-job About/Skills :
+              span.value-job= jobSeeker.about_skill
+            div.td-job
+              span.label-job Education :
+              span.value-job= jobSeeker.education
+            div.td-job
+              span.label-job Experience :
+              span.value-job= jobSeeker.experience
+            div.td-job
+              span.label-job Social Media :
+              span.value-job= jobSeeker.socialMedia
+            div.btn-td-job
+              form.form-btn-job(action=`/admin/jobseeker/delete/${jobSeeker.jobSeekerId}`, method="POST")
+                button.btn-delete-job(type="submit") Delete
+              button.btn-edit-job(onclick=`handleClick(${jobSeeker.jobSeekerId}, '${jobSeeker.userId}', '${jobSeeker.jobSeekerName}', '${jobSeeker.phone}', '${jobSeeker.city}', '${jobSeeker.country}', '${jobSeeker.about_skill}', '${jobSeeker.education}', '${jobSeeker.experience}', '${jobSeeker.socialMedia}')`) Edit
 
-    form.container-jobseeker(method='post' action='/admin/jobseeker' id='create')
-      div.wrap-jobseeker
-        label.label-jobseeker-hidden(for='jobSeekerId' hidden) jobSeekerId (Leave blank to create a new entry)
-        input#jobSeekerId.input-jobseeker-hidden(type='text' name='jobSeekerId' value="" hidden autocomplete="off")
-      div.wrap-jobseeker
-        label.label-jobseeker-hidden(for='userId' hidden) userId
-        input#userId.input-jobseeker-hidden(type='text' name='userId' value=userId hidden autocomplete="off")
-      div.wrap-jobseeker
-        label.label-jobseeker(for='jobSeekerName') Name
-        input#jobSeekerName.input-jobseeker(type='text' name='jobSeekerName' value="" autocomplete="off")
-      div.wrap-jobseeker
-        label.label-jobseeker(for='phone') Phone
-        input#phone.input-jobseeker(type='text' name='phone' value="" autocomplete="off")
-      div.wrap-jobseeker
-        label.label-jobseeker(for='city') City
-        input#city.input-jobseeker(type='text' name='city' value="" autocomplete="off")
-      div.wrap-jobseeker
-        label.label-jobseeker(for='country') Country
-        input#country.input-jobseeker(type='text' name='country' value="" autocomplete="off")
-      div.wrap-jobseeker
-        label.label-jobseeker(for='about_skill') About/Skills
-        textarea#about_skill.textarea-jobseeker(name='about_skill') 
-      div.wrap-jobseeker
-        label.label-jobseeker(for='education') Education
-        textarea#education.textarea-jobseeker(name='education') 
-      div.wrap-jobseeker
-        label.label-jobseeker(for='experience') Experience
-        textarea#experience.textarea-jobseeker(name='experience') 
-      div.wrap-jobseeker
-        label.label-jobseeker(for='socialMedia') Social Media
-        input#socialMedia.input-jobseeker(type='text' name='socialMedia' value="" autocomplete="off")
-      div.wrap-bnt-jobseeker
-        button.btn-jobseeker(type='submit') Create/Update Job Seeker
-        
-    script.
-      function handleClick(jobSeekerId, userId, jobSeekerName, phone, city, country, about_skill, education, experience, socialMedia) {
-        document.getElementById('jobSeekerId').value = jobSeekerId;
-        document.getElementById('userId').value = userId;
-        document.getElementById('jobSeekerName').value = jobSeekerName;
-        document.getElementById('phone').value = phone;
-        document.getElementById('city').value = city;
-        document.getElementById('country').value = country;
-        document.getElementById('about_skill').value = about_skill;
-        document.getElementById('education').value = education;
-        document.getElementById('experience').value = experience;
-        document.getElementById('socialMedia').value = socialMedia;
+    div.container-form-jobb
+      form.form-jobseeker(method='post' action='/admin/jobseeker' id='create')
+        div.wrap-jobseeker
+          label.label-jobseeker-hidden(for='jobSeekerId' hidden) jobSeekerId (Leave blank to create a new entry)
+          input#jobSeekerId.input-jobseeker-hidden(type='text' name='jobSeekerId' value="" hidden autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker-hidden(for='userId' hidden) userId
+          input#userId.input-jobseeker-hidden(type='text' name='userId' value=userId hidden autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='jobSeekerName') Name
+          input#jobSeekerName.input-jobseeker(type='text' name='jobSeekerName' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='phone') Phone
+          input#phone.input-jobseeker(type='text' name='phone' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='city') City
+          input#city.input-jobseeker(type='text' name='city' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='country') Country
+          input#country.input-jobseeker(type='text' name='country' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='about_skill') About/Skills
+          textarea#about_skill.textarea-jobseeker(name='about_skill') 
+        div.wrap-jobseeker
+          label.label-jobseeker(for='education') Education
+          textarea#education.textarea-jobseeker(name='education') 
+        div.wrap-jobseeker
+          label.label-jobseeker(for='experience') Experience
+          textarea#experience.textarea-jobseeker(name='experience') 
+        div.wrap-jobseeker
+          label.label-jobseeker(for='socialMedia') Social Media
+          input#socialMedia.input-jobseeker(type='text' name='socialMedia' value="" autocomplete="off")
+        div.wrap-bnt-jobseeker
+          button.btn-jobseeker(type='submit') Create/Update Job Seeker
+          
+  script.
+    function handleClick(jobSeekerId, userId, jobSeekerName, phone, city, country, about_skill, education, experience, socialMedia) {
+      document.getElementById('jobSeekerId').value = jobSeekerId;
+      document.getElementById('userId').value = userId;
+      document.getElementById('jobSeekerName').value = jobSeekerName;
+      document.getElementById('phone').value = phone;
+      document.getElementById('city').value = city;
+      document.getElementById('country').value = country;
+      document.getElementById('about_skill').value = about_skill;
+      document.getElementById('education').value = education;
+      document.getElementById('experience').value = experience;
+      document.getElementById('socialMedia').value = socialMedia;
+    }
+
+    function toggleDataVisibility() {
+      const tableContainer = document.getElementById("tableContainerJobb");
+      const toggleIcon = document.getElementById("toggleIconJobb");
+
+      if (tableContainer.style.display === "none" || tableContainer.style.display === "") {
+        tableContainer.style.display = "block";
+        toggleIcon.classList.add("rotated");
+        toggleIcon.classList.add("active");
+        toggleIcon.style.marginBottom = "30px";
+      } else {
+        tableContainer.style.display = "none";
+        toggleIcon.classList.remove("rotated");
+        toggleIcon.classList.remove("active");
+        toggleIcon.style.marginBottom = "3px";
       }
+    }
