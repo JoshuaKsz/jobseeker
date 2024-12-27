@@ -19,50 +19,51 @@ block content
           label.label-file(for='File')
             | Tarik File ke Area Ini untuk Diunggah
           div.upload-area
-            input#File.input-file(type='file' multiple onchange="addFiles(event)")
+
+            input#File.input-file(type='file' name='files' multiple onchange="renderFileList()")
             button.btn-upload(type='button' onclick="document.getElementById('File').click()") Unggah File
+
+            //- input#File.input-file(type='file' name='files' multiple onchange="addFiles(event)")
+            //- input#File.input-file(type='file' name='files' multiple)
+            //- button.btn-upload(type='button' onclick="document.getElementById('File').click()") Unggah File
           ul.file-list 
+        div.pesan-container
+          textarea#message.form-pesan(name='message' rows='4' placeholder='Tuliskan pesan atau pertanyaan Anda di sini!')
 
-      div.pesan-container
-        textarea#message.form-pesan(name='message' rows='4' placeholder='Tuliskan pesan atau pertanyaan Anda di sini!')
+        div.apply-container
+          button.btn-submit(type='submit') Kirim
 
-      div.apply-container
-        button.btn-submit(type='submit') Kirim
 
   script.
-    let filesArray = []; 
-
-    function addFiles(event) {
-      const input = event.target;
-      const newFiles = Array.from(input.files); 
-      filesArray = [...filesArray, ...newFiles]; 
-
-      input.value = '';
-
-      renderFileList();
-    }
-
-    function removeFile(index) {
-      filesArray.splice(index, 1); 
-      renderFileList(); 
-    }
-
     function renderFileList() {
+      const fileInput = document.getElementById('File');
       const fileListElement = document.querySelector('.file-list');
-      fileListElement.innerHTML = ''; 
+      fileListElement.innerHTML = ''; // Clear current list
 
-      filesArray.forEach((file, index) => {
+      // Loop through selected files and display their names
+      Array.from(fileInput.files).forEach((file, index) => {
         const li = document.createElement('li');
         li.textContent = `${file.name}`;
 
         const removeButton = document.createElement('button');
         removeButton.textContent = 'X';
-        removeButton.className = 'remove-button'; 
-        removeButton.onclick = () => removeFile(index); 
+        removeButton.className = 'remove-button';
+        removeButton.onclick = () => removeFile(index, fileInput); // Pass the fileInput to update the list
 
-        li.appendChild(removeButton); 
-        fileListElement.appendChild(li); 
+        li.appendChild(removeButton);
+        fileListElement.appendChild(li);
       });
+    }
+
+    // Function to remove a file from the list
+    function removeFile(index, fileInput) {
+      const files = Array.from(fileInput.files);
+      files.splice(index, 1); // Remove the file from the array
+
+      const dataTransfer = new DataTransfer();
+      files.forEach(file => dataTransfer.items.add(file));
+      fileInput.files = dataTransfer.files; // Reassign the modified files list
+      renderFileList(); // Update the UI
     }
 
 

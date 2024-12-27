@@ -1,5 +1,5 @@
-const JobSeeker = require('../../models/JobSeekerModel'); // Adjust the path as needed
-const Account = require('../../models/AccountModel'); // For userId reference
+const JobSeeker = require('../../models/JobSeekerModel');
+const Account = require('../../models/AccountModel');
 const { Op } = require('sequelize');
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
         return res.status(400).send('User does not exist');
       }
 
-      const existingJobSeeker = await JobSeeker.findOne({ where: { jobSeekerId } });
+      const existingJobSeeker = await JobSeeker.findOne({ where: { userId: existingAccount.userId } });
       if (existingJobSeeker) {
         console.log("edit/update");
 

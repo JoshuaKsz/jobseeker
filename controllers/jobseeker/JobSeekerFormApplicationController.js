@@ -19,6 +19,8 @@ module.exports = {
     const otherId = req.session.otherId;
     const applicationStatus = 'Pending';
 
+    
+
     // console.log(otherId, jobId, applicationStatus, fileName)
     const newApplication = await JobApplication.create({ jobSeekerId: otherId, jobId, applicationStatus, File: '' });
 
@@ -42,6 +44,7 @@ module.exports = {
         return next(err); // Handle any errors from Multer
       }
       const files = req.files; // Multer middleware will parse files
+      // console.log(files);
       const fileName = files.map(file => file.originalname).join(',');
 
       if (!files || files.length === 0) {
