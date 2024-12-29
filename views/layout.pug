@@ -1,9 +1,10 @@
 doctype html
 head
   meta(charset='utf-8')
-  title Node.js MVC Demo
+  title Jobseeker
   meta(name='viewport' content='width=device-width, initial-scale=1')
   link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH' crossorigin='anonymous')
+  script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
   link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet")
   link(rel='stylesheet', href='/css/style.css') 
 body 
@@ -21,7 +22,9 @@ body
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/dashboard') Beranda
             li.nav-item.custom-nav-item
-              a.nav-link.custom-nav-link(href='/jobseeker/jobs') Lowongan
+              a.nav-link.custom-nav-link(href='/jobseeker/jobs') Job Vacancies
+            li.nav-item.custom-nav-item 
+              a.nav-link.custom-nav-link(href='/jobseeker/jobApplication/history') History Application Jobs
             li.nav-item.custom-nav-item 
               
               a.nav-link.custom-nav-link(href='/admin/jobseeker') Profile
@@ -33,10 +36,12 @@ body
             //- li.nav-item.custom-nav-item 
             //-   a.nav-link.custom-nav-link(href='/dashboard') Beranda
             li.nav-item.custom-nav-item
-              a.nav-link.custom-nav-link(href='/jobseeker') Dashboard
+              a.nav-link.custom-nav-link(href='/dashboard') Dashboard
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/admin/job') Membuat Lowongan
             li.nav-item.custom-nav-item 
+              a.nav-link.custom-nav-link(href='/company/jobApplication/history') jobApplication history
+            li.nav-item.custom-nav-item     
               a.nav-link.custom-nav-link(href='/admin/company') Profile
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/admin/account') Account
@@ -60,8 +65,34 @@ body
       else 
         button.custom-login-btn(type='button') 
           a.custom-login-link(href='/login') Masuk
-
   block content
+  script.
+      document.addEventListener('DOMContentLoaded', function() {
+        // Perhatikan perubahan di sini:
+        const error = "#{error}";
+        const success = "#{success}";
 
+        if (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error,
+          }).then(() => {
+            // Hapus flash message setelah ditampilkan
+            fetch('/clear-flash', { method: 'POST' });
+          });
+        }
+
+        if (success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: success,
+          }).then(() => {
+            // Hapus flash message setelah ditampilkan
+            fetch('/clear-flash', { method: 'POST' });
+          });
+        }
+      });
   script(src="/js/style.js")
   script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM' crossorigin='anonymous')

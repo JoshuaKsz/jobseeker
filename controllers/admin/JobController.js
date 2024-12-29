@@ -1,6 +1,7 @@
 const Job = require('../../models/JobModel'); // Adjust the path as needed
 const Company = require('../../models/CompanyModel'); // For companyId reference
 const Account = require('../../models/AccountModel'); 
+const { Op } = require('sequelize');
 module.exports = {
   
 
@@ -9,12 +10,14 @@ module.exports = {
     const userId = req.session.userId;
   
     if (!userId) {
-      return res.status(400).send('User not logged in');
+      req.flash('error', 'User not logged in');
+      return res.redirect('/login');
     }
     try {
       const existingCompany = await Company.findOne({ where: { userId } });
       if (!existingCompany) {
-        return res.status(400).send('Company does not exist');
+        req.flash('error', 'Company do not exist');
+        return res.redirect('/dashboard');
       }
       const companyId = existingCompany.companyId;
 
@@ -31,15 +34,18 @@ module.exports = {
         if (industry) existingJob.industry = industry;
 
         await existingJob.save();
+        req.flash('success', 'Job updated successfully!');
       } else {
         console.log("create?");
         await Job.create({  companyId,jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry });
+        req.flash('success', 'Job created successfully!');
       }
 
       res.redirect('/admin/job');
     } catch (err) {
       console.error(err);
-      return res.status(500).send('Server error');
+      req.flash('error', 'Failed to create/update Job. Please try again later.');
+      res.redirect('/admin/job');
     }
   },
 
@@ -54,8 +60,21 @@ module.exports = {
     const companyUser = await Company.findOne({ where: { userId } }); 
     
     if (!companyUser) {
-      return res.status(404).send('You must create your profile company first');
-    }
+      // Jika company tidak ditemukan, kirim pesan error
+      return res.render("admin/job", {
+          jobs: [],
+          checkUser: req.session.email,
+          companyId: null,
+          jobTitle: null,
+          requirements: null,
+          benefits: null,
+          salary: null,
+          dateOpened: null,
+          dateExpired: null,
+          industry: null,
+          error: 'You must create your profile company first' // Tambahkan pesan error di sini
+      });
+  }
 
     const jobs = await Job.findAll({ where: { companyId: companyUser.companyId } });
       
@@ -87,13 +106,16 @@ module.exports = {
     try {
       const job = await Job.findOne({ where: { jobId: id } });
       if (!job) {
-        return res.status(404).send('Job not found');
+        req.flash('error', 'Job not found!');
+        return res.redirect('/admin/job');
       }
       await job.destroy();
+      req.flash('success', 'Job deleted successfully!');
       res.redirect('/admin/job');
     } catch (err) {
       console.error(err);
-      return res.status(500).send('Server error');
+      req.flash('error', 'Failed to delete Job. Please try again later.');
+      res.redirect('/admin/job');
     }
   },
 

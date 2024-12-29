@@ -1,6 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../database');
-
+const JobSeeker = require('./JobSeekerModel');
+const Job = require('./JobModel');
+ 
 const JobApplication = sequelize.define('JobApplication', {
     applicationId: {
         type: DataTypes.INTEGER,

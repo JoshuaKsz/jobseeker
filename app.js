@@ -1,11 +1,11 @@
 const express = require("express");
-
+const flash = require('connect-flash');
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const dashboardRoutes = require('./routes/dashboard');
 const jobseekerRoutes = require('./routes/jobseeker');
 const companyRoutes = require('./routes/company');
-
+const { defineAssociations } = require('./associations');
 const sequelize = require('./database');
 const session = require('express-session');
 const multer = require('multer');
@@ -25,7 +25,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
 }));
-
+app.use(flash());
 // app.use(express.static('public'));
 app.set('view engine', 'pug');
 app.use(express.json()); // Middleware to parse JSON bodies
@@ -37,9 +37,15 @@ app.use((req, res, next) => {
     console.log('Session Role:', req.session.role); // Debug untuk mengecek role
     res.locals.role = req.session.role || ''; // Simpan role di res.locals
     res.locals.checkUser = req.session.email || ''; // Simpan email di res.locals
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
     next();
 });
-
+app.post('/clear-flash', (req, res) => {
+    req.flash('error'); // Hapus flash message 'error'
+    req.flash('success'); // Hapus flash message 'success'
+    res.sendStatus(200);
+  });
 // Routes after session middleware
 app.use('/', dashboardRoutes);
 app.use('/', authRoutes);
@@ -48,11 +54,11 @@ app.use('/dashboard', dashboardRoutes);
 app.use('/admin', adminRoutes);
 app.use('/jobseeker', jobseekerRoutes);
 app.use("/company", companyRoutes);
-
+defineAssociations();
 sequelize.sync().then(() => {
-    const port = 80;
+    const port = 8080;
     app.listen(port, () => {
-        if (port != 80) {
+        if (port != 8080) {
             console.log("Server running on port http://localhost:" + port);
         } else {
             console.log("Server running on port http://localhost");

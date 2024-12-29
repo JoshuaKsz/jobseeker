@@ -5,10 +5,10 @@ block content
     div.container-table-job
       div.jobseeker-tittle
         h2 JobSeeker Profile
-      i#toggleIconJobb.mt-4(class="fas fa-chevron-down icon-toggle-jobb", onclick="toggleDataVisibility()") 
-      div.table-container-jobb(id="tableContainerJobb")
-        each jobSeeker in jobSeekers
-          div.tr-job
+      
+      div.table-container-jobb
+        each jobSeeker, index in jobSeekers
+          div.tr-job(id=`jobSeekerRow-${index}`)
             div.td-job
               span.label-job Job Seeker ID :
               span.value-job= jobSeeker.jobSeekerId
@@ -42,16 +42,19 @@ block content
             div.btn-td-job
               form.form-btn-job(action=`/admin/jobseeker/delete/${jobSeeker.jobSeekerId}`, method="POST")
                 button.btn-delete-job(type="submit") Delete
-              button.btn-edit-job(onclick=`handleClick(${jobSeeker.jobSeekerId}, '${jobSeeker.userId}', '${jobSeeker.jobSeekerName}', '${jobSeeker.phone}', '${jobSeeker.city}', '${jobSeeker.country}', '${jobSeeker.about_skill}', '${jobSeeker.education}', '${jobSeeker.experience}', '${jobSeeker.socialMedia}')`) Edit
-
-    div.container-form-jobb
+              button.btn-edit-job(onclick=`handleClick(${jobSeeker.jobSeekerId}, '${jobSeeker.userId}', '${jobSeeker.jobSeekerName}', '${jobSeeker.phone}', '${jobSeeker.city}', '${jobSeeker.country}', '${jobSeeker.about_skill}', '${jobSeeker.education}', '${jobSeeker.experience}', '${jobSeeker.socialMedia}', ${index})`) Edit
+        i#toggleIconJobb.mt-4(class="fas fa-chevron-down icon-toggle-jobb", onclick="toggleDataVisibility()") 
+    div.container-form-jobb(id="tableContainerJobb")
       form.form-jobseeker(method='post' action='/admin/jobseeker' id='create')
-        //- div.wrap-jobseeker
-        //-   label.label-jobseeker-hidden(for='jobSeekerId' hidden) jobSeekerId (Leave blank to create a new entry)
-        //-   input#jobSeekerId.input-jobseeker-hidden(type='text' name='jobSeekerId' value="" hidden autocomplete="off")
-        //- div.wrap-jobseeker
-        //-   label.label-jobseeker-hidden(for='userId' hidden) userId
-        //-   input#userId.input-jobseeker-hidden(type='text' name='userId' value=userId hidden autocomplete="off")
+
+        label.label-jobseeker Silahkan Lengkapi Profile Anda
+        div.wrap-jobseeker
+          
+          label.label-jobseeker-hidden(for='jobSeekerId' hidden) jobSeekerId (Leave blank to create a new entry)
+          input#jobSeekerId.input-jobseeker-hidden(type='text' name='jobSeekerId' value="" hidden autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker-hidden(for='userId' hidden) userId
+          input#userId.input-jobseeker-hidden(type='text' name='userId' value=userId hidden autocomplete="off")
         div.wrap-jobseeker
           label.label-jobseeker(for='jobSeekerName') Name
           input#jobSeekerName.input-jobseeker(type='text' name='jobSeekerName' value="" autocomplete="off")
@@ -80,9 +83,11 @@ block content
           button.btn-jobseeker(type='submit') Create/Update Job Seeker
           
   script.
-    function handleClick(jobSeekerId, userId, jobSeekerName, phone, city, country, about_skill, education, experience, socialMedia) {
-      //- document.getElementById('jobSeekerId').value = jobSeekerId;
-      //- document.getElementById('userId').value = userId;
+
+    function handleClick(jobSeekerId, userId, jobSeekerName, phone, city, country, about_skill, education, experience, socialMedia, index) {
+      document.getElementById('jobSeekerId').value = jobSeekerId;
+      document.getElementById('userId').value = userId;
+
       document.getElementById('jobSeekerName').value = jobSeekerName;
       document.getElementById('phone').value = phone;
       document.getElementById('city').value = city;
@@ -91,6 +96,16 @@ block content
       document.getElementById('education').value = education;
       document.getElementById('experience').value = experience;
       document.getElementById('socialMedia').value = socialMedia;
+
+      const tableContainer = document.getElementById("tableContainerJobb");
+      const toggleIcon = document.getElementById("toggleIconJobb");
+      tableContainer.style.display = "block";
+      toggleIcon.classList.add("rotated");
+      toggleIcon.classList.add("active");
+      toggleIcon.style.marginBottom = "30px";
+
+      // Scroll ke form
+      document.getElementById("formContainer").scrollIntoView({ behavior: 'smooth' });
     }
 
     function toggleDataVisibility() {

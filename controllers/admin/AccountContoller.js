@@ -1,18 +1,28 @@
 const bcrypt = require('bcrypt');
 
 const Account = require('../../models/AccountModel');
+const JobSeeker = require('../../models/JobSeekerModel');
+const Company = require('../../models/CompanyModel');
 
 module.exports = {
   createUpdateAccount: async (req, res) => {
-    const { userId, email, password, role } = req.body;
+    const { userId, email, password,"retype-password": retypePassword, role } = req.body;
     
  
     try {
       const existingUser = await Account.findOne({ where: { email } });
       if (!password) {
-        return res.status(400).send("password can't be null");
+        req.flash('error', 'Password can not be null');
+        return res.redirect('/admin/account');
       }
-
+      if (!retypePassword) {
+        req.flash('error', 'Retype Password is required!');
+        return res.redirect('/admin/account');
+      }
+      if (password !== retypePassword) {
+        req.flash('error', 'Passwords do not match!');
+        return res.redirect('/admin/account');
+      }
       const existingId = await Account.findOne({ where: { userId } });
       if (existingId) {
         console.log("edit/update")
@@ -26,13 +36,16 @@ module.exports = {
         const hashedPassword = await bcrypt.hash(password, 10);
         await Account.create({ email, password: hashedPassword, role });
       }
+      req.flash('success', 'Update Account successfully!.');
       res.redirect('/admin/account');
     } catch (err) {
       if (err.name === "SequelizeUniqueConstraintError") {
-        return res.status(400).send("Duplicate email found. Please use a different email.");
+        req.flash('error', 'Duplicate email found. Please use a different email.');
+        return res.redirect('/admin/account');
       }
       console.error(err);
-      return res.status(500).send('Server error');
+      req.flash('error', 'Account Update Failed!');
+      return res.redirect('/admin/account');
     }
   },
 
@@ -40,12 +53,14 @@ module.exports = {
     try {
       const userId = req.session.userId; // Ambil userId dari sesi pengguna yang login
       if (!userId) {
-        return res.status(403).send('Access denied'); // Pastikan user login
+        req.flash('error', 'User not logged in');
+        return res.redirect('/login');
       }
   
       const user = await Account.findOne({ where: { userId } }); // Hanya ambil data user yang sesuai dengan sesi login
       if (!user) {
-        return res.status(404).send('User not found');
+        req.flash('error', 'User not logged in');
+        return res.redirect('/login');
       }
   
       res.render("admin/account", {
@@ -100,19 +115,37 @@ module.exports = {
   // },
 
   deleteAccount: async (req, res) => {
-    console.log(req.params);
     const { id } = req.params;
     try {
       const user = await Account.findOne({ where: { userId: id } });
       if (!user) {
-        return res.status(404).send('User not found');
+        req.flash('error', 'User not found');
+        return res.redirect('/admin/account');
+      }
+      const jobSeekerData = await JobSeeker.findOne({ where: { userId: id } });
+      if (jobSeekerData) {
+        await jobSeekerData.destroy();
+      }
+
+      const companyData = await Company.findOne({ where: { userId: id } });
+      if (companyData) {
+        await companyData.destroy();
       }
       await user.destroy();
-      res.redirect('/admin/account');
+      req.flash('success', 'User deleted successfully!');
+      res.redirect('/logout'); // Lebih baik redirect ke /logout setelah menghapus akun
+      
     } catch (err) {
       console.error(err);
-      return res.send(req.params);
-      return res.status(500).send('Server error');
+  
+      // Cek jenis error
+      if (err.name === 'SequelizeForeignKeyConstraintError') {
+        req.flash('error', 'Cannot delete user. This user is referenced by other data (e.g., Job Seeker or Company).');
+      } else {
+        req.flash('error', 'Failed to delete user. Please try again later.');
+      }
+  
+      return res.redirect('/admin/account');
     }
   },
 };

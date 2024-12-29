@@ -5,19 +5,23 @@ block content
     each user in users
       div.card-account
         div.card-header
-          h4 Silahkan Update Account Anda
+          h4 Your Account
         div.card-content
           p.mb-2
             strong Email: 
             span= user.email
+          //- p.mb-2
+          //-   strong Role: 
+          //-   span= user.role
+      
           p.mb-2
-            strong Role: 
-            span= user.role
-        div.card-actions
-          form(action=`/admin/account/delete/${user.userId}`, method="POST", class="d-inline")
-            button.btn-delete-account(type="submit") Delete
-          button.btn-edit-account(onclick=`openEditPopup('${user.userId}', '${user.email}', '${user.role}')`) Edit
-
+            strong
+            span 
+                button.btn-edit-account(onclick=`openEditPopup('${user.userId}', '${user.email}', '${user.role}')`)  Change Password? 
+          div.card-actions
+          form(id=`deleteForm-${user.userId}` action=`/admin/account/delete/${user.userId}`, method="POST", class="d-inline")
+            input(type="hidden" name="_method" value="DELETE")
+            button.btn-delete-account(type="button" onclick=`confirmDelete('${user.userId}')`) Delete Account?
   div.account-popup-container-account.hidden-account
     div.account-popup-overlay-account(onclick="closePopup()")
     div.account-popups-account
@@ -26,13 +30,16 @@ block content
         div.m-0-account
           input#userId-account(type='text' name='userId' hidden)
         div.mb-3-account
-          label.form-label-account(for='email') Email
-          input#email-account.input-field-account(type='email' name='email')
+          label.form-label-account(for='email') 
+          input#email-account.input-field-account(type='email' name='email' hidden)
         div.mb-3-account
-          label.form-label-account(for='password') Password
+          label.form-label-account(for='password') New Password
           input#password-account.input-field-account(type='password' name='password')
         div.mb-3-account
-          button.btn-submit-account(type='submit') Update Account
+          label.form-label-account(for='retype-password') Re-type Password
+          input#password-account.input-field-account(type='password' name='retype-password' autocomplete="off")
+        div.mb-3-account
+          button.btn-submit-account(type='submit') Submit New Password
 
   script.
     function handleClick(userId, email, password, role) {
@@ -41,6 +48,24 @@ block content
       document.getElementById('email').value = email;
       document.getElementById('password').value = password;
       document.getElementById('role').value = role;
+    }
+
+    function confirmDelete(userId) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Jika user mengkonfirmasi, submit form delete
+          const form = document.getElementById(`deleteForm-${userId}`);
+          form.submit();
+        }
+      });
     }
 
 

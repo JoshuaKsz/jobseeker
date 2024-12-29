@@ -6,12 +6,14 @@ module.exports = {
   createUpdateCompany: async (req, res) => {
     const { companyName, industry, phone, city, country, email } = req.body;
     if (!req.session.userId) {
-      return res.status(400).send('User not logged in');
+      req.flash('error', 'User not logged in');
+      return res.redirect('/login');
     }
     try {
       const existingAccount = await Account.findOne({ where: { userId: req.session.userId } });
       if (!existingAccount) {
-        return res.status(400).send('User does not exist');
+        req.flash('error', 'User does not exist');
+        return res.redirect('/login');
       }
 
       const existingCompany = await Company.findOne({ where: { userId: req.session.userId } });
@@ -26,15 +28,18 @@ module.exports = {
         if (email) existingCompany.email = email;
 
         await existingCompany.save();
+        req.flash('success', 'Profile updated successfully!');
       } else {
         console.log("create?");
         await Company.create({ userId, companyName, industry, phone, city, country, email });
+        req.flash('success', 'Profile created successfully!');
       }
 
       res.redirect('/admin/company');
     } catch (err) {
       console.error(err);
-      return res.status(500).send('Server error');
+      req.flash('error', 'Failed to create/update Profile. Please try again later.');
+      res.redirect('/admin/company');
     }
   },
 
@@ -77,13 +82,16 @@ module.exports = {
     try {
       const company = await Company.findOne({ where: { companyId: id } });
       if (!company) {
-        return res.status(404).send('Company not found');
+        req.flash('error', 'Job Seeker not found!');
+        return res.redirect('/admin/company');
       }
       await company.destroy();
+      req.flash('success', 'Profile deleted successfully!');
       res.redirect('/admin/company');
     } catch (err) {
       console.error(err);
-      return res.status(500).send('Server error');
+      req.flash('error', 'Failed to delete Profile. Please try again later.');
+      res.redirect('/admin/company');
     }
   },
 
