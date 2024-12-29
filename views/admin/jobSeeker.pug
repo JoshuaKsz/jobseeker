@@ -46,6 +46,7 @@ block content
         i#toggleIconJobb.mt-4(class="fas fa-chevron-down icon-toggle-jobb", onclick="toggleDataVisibility()") 
     div.container-form-jobb(id="tableContainerJobb")
       form.form-jobseeker(method='post' action='/admin/jobseeker' id='create')
+
         label.label-jobseeker Silahkan Lengkapi Profile Anda
         div.wrap-jobseeker
           
@@ -82,9 +83,11 @@ block content
           button.btn-jobseeker(type='submit') Create/Update Job Seeker
           
   script.
+
     function handleClick(jobSeekerId, userId, jobSeekerName, phone, city, country, about_skill, education, experience, socialMedia, index) {
       document.getElementById('jobSeekerId').value = jobSeekerId;
       document.getElementById('userId').value = userId;
+
       document.getElementById('jobSeekerName').value = jobSeekerName;
       document.getElementById('phone').value = phone;
       document.getElementById('city').value = city;

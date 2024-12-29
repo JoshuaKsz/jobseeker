@@ -22,9 +22,8 @@ block content
           input#File.input-file(type='file' name='files' multiple onchange="addFiles(event)")
           button.btn-upload(type='button' onclick="document.getElementById('File').click()") Unggah File
         ul.file-list
-
-      div.pesan-container
-        textarea#message.form-pesan(name='message' rows='4' placeholder='Tuliskan pesan atau pertanyaan Anda di sini!')
+        div.apply-container
+          button.btn-submit(type='submit') Kirim
 
       div.apply-container
         button.btn-submit(type='button' onclick="submitForm()") Kirim
@@ -40,23 +39,27 @@ block content
       input.value = '';
       renderFileList();
     }
-
     function renderFileList() {
+      const fileInput = document.getElementById('File');
       const fileListElement = document.querySelector('.file-list');
+
       fileListElement.innerHTML = '';
 
-      filesArray.forEach((file, index) => {
+      // Loop through selected files and display their names
+      Array.from(fileInput.files).forEach((file, index) => {
         const li = document.createElement('li');
         li.textContent = `${file.name}`;
 
         const removeButton = document.createElement('button');
         removeButton.textContent = 'X';
         removeButton.className = 'remove-button';
+
         removeButton.onclick = () => removeFile(index);
         li.appendChild(removeButton);
         fileListElement.appendChild(li);
       });
     }
+
 
     function removeFile(index) {
       filesArray.splice(index, 1);

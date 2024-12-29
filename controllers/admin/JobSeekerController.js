@@ -1,5 +1,5 @@
-const JobSeeker = require('../../models/JobSeekerModel'); // Adjust the path as needed
-const Account = require('../../models/AccountModel'); // For userId reference
+const JobSeeker = require('../../models/JobSeekerModel');
+const Account = require('../../models/AccountModel');
 const { Op } = require('sequelize');
 
 module.exports = {
