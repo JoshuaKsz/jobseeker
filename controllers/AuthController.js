@@ -16,16 +16,37 @@ module.exports = {
   },
   
   registerUser: async (req, res) => {
-    const { email, password, role } = req.body;
+    const { email, password,"retype-password": retypePassword, role } = req.body;
 
     console.log()
     try {
+      if (!email) {
+        return res.render("register", { error: "Email is required!" });
+      }
+      // Validasi password kosong
+      if (!password) {
+        return res.render("register", { error: "Password is required!" });
+      }
+      // Validasi retype password kosong
+      if (!retypePassword) {
+        return res.render("register", { error: "Retype Password is required!" });
+      }
+      // Validasi role kosong
+      if (!role) {
+        return res.render("register", { error: "Role is required!" });
+      }
+      // Validasi password dan retype password
+      if (password !== retypePassword) {
+        return res.render("register", { error: "Passwords do not match!" });
+      }
       // Check user ada atau tidak
       const existingUser = await Account.findOne({ where: { email } });
       if (existingUser) {
-        return res.status(400).send('User already exists');
+        req.flash('error', 'Email already registered!');
+        return res.redirect('/register'); // Redirect dengan flash message
       } else if (role == "admin") {
-        return res.status(400).send('illegal role');
+        req.flash('error', 'Illegal role!');
+        return res.redirect('/register');
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -41,10 +62,12 @@ module.exports = {
           await company.create({ userId: accountId, companyName: accountId });
         }
       }
-      res.redirect('/login');
+      req.flash('success', 'Registration successful! Please login.');
+      res.redirect('/register');
     } catch (err) {
       console.error(err);
-      return res.status(500).send('Server error');
+      req.flash('error', 'Registration failed. Please try again later.');
+      res.redirect('/register');
     }
   },
   
@@ -54,14 +77,14 @@ module.exports = {
     try {
       const user = await Account.findOne({ where: { email } });
       if (!user) {
-        return res.status(400).send('User not found');
+        return res.render("login", { error: "Email not found!" });
       }
 
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        return res.status(400).send('Invalid password');
+        return res.render("login", { error: "Password Invalid!" });
       }
-
+      
       req.session.userId = user.userId;
       req.session.email = user.email;
       req.session.role = user.role; // Store role as well
@@ -71,17 +94,19 @@ module.exports = {
         req.session.otherId = (await company.findOne({ where: { userId: user.userId } } )).companyId;
       }
       // Redirect based on role
-      if (user.role === 'Admin') {
-        return res.redirect('/admin'); // Redirect to admin dashboard
-      }
-      else {
+      // if (user.role === 'Admin') {
+      //   return res.redirect('/admin'); // Redirect to admin dashboard
+      // }
+      if(user.role != 'Admin'){
+        req.flash('success', 'Login success');
         return res.redirect('/dashboard'); // Redirect to user dashboard
       }
       console.log(user.role);  // Debugging untuk melihat apakah 'role' ada di session
 
     } catch (err) {
       console.error(err);
-      return res.status(500).send('Server error');
+      req.flash('error', 'Login failed. Please try again later.');
+      return res.redirect('/login');
     }
   },
 

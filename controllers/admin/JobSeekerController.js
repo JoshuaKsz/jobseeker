@@ -9,16 +9,18 @@ module.exports = {
     const userId = req.session.userId;
 
     if (!userId) {
-      return res.status(400).send('User not logged in');
+      req.flash('error', 'User not logged in');
+      return res.redirect('/login');
     }
 
     try {
       const existingAccount = await Account.findOne({ where: { userId } });
       if (!existingAccount) {
-        return res.status(400).send('User does not exist');
+        req.flash('error', 'User does not exist');
+        return res.redirect('/login');
       }
 
-      const existingJobSeeker = await JobSeeker.findOne({ where: { jobSeekerId } });
+      const existingJobSeeker = await JobSeeker.findOne({ where: { userId: existingAccount.userId } });
       if (existingJobSeeker) {
         console.log("edit/update");
 
@@ -32,16 +34,19 @@ module.exports = {
         if (socialMedia) existingJobSeeker.socialMedia = socialMedia;
 
         await existingJobSeeker.save();
+        req.flash('success', 'Profile updated successfully!');
       } else {
         console.log("create?");
         await JobSeeker.create({ userId, jobSeekerName, phone, city, country, about_skill, education, experience, socialMedia });
+        req.flash('success', 'Profile created successfully!');
       }
 
       res.redirect('/admin/jobseeker');
     } catch (err) {
       console.error("Error during job seeker creation/update:",err);
       console.log('Received data:', req.body); // Menampilkan data yang diterima dari form
-      return res.status(500).send('Server error');
+      req.flash('error', 'Failed to create/update Profile. Please try again later.');
+      res.redirect('/admin/jobseeker');
     }
   },
 
@@ -71,9 +76,9 @@ module.exports = {
     try {
       const jobSeeker = await JobSeeker.findOne({ where: { jobSeekerId: id } });
       if (!jobSeeker) {
-        return res.status(404).send('Job seeker not found');
+        req.flash('error', 'Job Seeker not found!');
+        return res.redirect('/admin/jobseeker');
       }
-      res.status(200).json(jobSeeker);
     } catch (err) {
       console.error(err);
       return res.status(500).send('Server error');
@@ -82,17 +87,20 @@ module.exports = {
 
   deleteJobSeeker: async (req, res) => {
     const { id } = req.params;
-    
+
     try {
       const jobSeeker = await JobSeeker.findOne({ where: { jobSeekerId: id } });
       if (!jobSeeker) {
-        return res.status(404).send('Job seeker not found');
+        req.flash('error', 'Job Seeker not found!');
+        return res.redirect('/admin/jobseeker');
       }
       await jobSeeker.destroy();
+      req.flash('success', 'Profile deleted successfully!');
       res.redirect('/admin/jobseeker');
     } catch (err) {
       console.error(err);
-      return res.status(500).send('Server error');
+      req.flash('error', 'Failed to delete Profile. Please try again later.');
+      res.redirect('/admin/jobseeker');
     }
   },
 

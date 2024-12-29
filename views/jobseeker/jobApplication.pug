@@ -14,42 +14,36 @@ block content
       p
         | Klik tombol "Unggah Berkas Lamaran" di bawah ini untuk mengirimkan lamaran Anda.
 
-      form.form-lamar(method='post' action=`/jobsApply/${jobId}` id='create' enctype="multipart/form-data")
-        div.file-upload-dokumen
-          label.label-file(for='File')
-            | Tarik File ke Area Ini untuk Diunggah
-          div.upload-area
-            input#File.input-file(type='file' multiple onchange="addFiles(event)")
-            button.btn-upload(type='button' onclick="document.getElementById('File').click()") Unggah File
-          ul.file-list 
+    form.form-lamar(id='form-lamar' enctype="multipart/form-data")
+      div.file-upload-dokumen
+        label.label-file(for='File')
+          | Tarik File ke Area Ini untuk Diunggah
+        div.upload-area
+          input#File.input-file(type='file' name='files' multiple onchange="addFiles(event)")
+          button.btn-upload(type='button' onclick="document.getElementById('File').click()") Unggah File
+        ul.file-list
 
       div.pesan-container
         textarea#message.form-pesan(name='message' rows='4' placeholder='Tuliskan pesan atau pertanyaan Anda di sini!')
 
       div.apply-container
-        button.btn-submit(type='submit') Kirim
+        button.btn-submit(type='button' onclick="submitForm()") Kirim
 
   script.
-    let filesArray = []; 
+    let filesArray = [];
 
     function addFiles(event) {
       const input = event.target;
-      const newFiles = Array.from(input.files); 
-      filesArray = [...filesArray, ...newFiles]; 
-
+      const newFiles = Array.from(input.files);
+      filesArray = [...filesArray, ...newFiles];
+      console.log("filesArray:", filesArray);
       input.value = '';
-
       renderFileList();
-    }
-
-    function removeFile(index) {
-      filesArray.splice(index, 1); 
-      renderFileList(); 
     }
 
     function renderFileList() {
       const fileListElement = document.querySelector('.file-list');
-      fileListElement.innerHTML = ''; 
+      fileListElement.innerHTML = '';
 
       filesArray.forEach((file, index) => {
         const li = document.createElement('li');
@@ -57,12 +51,61 @@ block content
 
         const removeButton = document.createElement('button');
         removeButton.textContent = 'X';
-        removeButton.className = 'remove-button'; 
-        removeButton.onclick = () => removeFile(index); 
-
-        li.appendChild(removeButton); 
-        fileListElement.appendChild(li); 
+        removeButton.className = 'remove-button';
+        removeButton.onclick = () => removeFile(index);
+        li.appendChild(removeButton);
+        fileListElement.appendChild(li);
       });
     }
 
+    function removeFile(index) {
+      filesArray.splice(index, 1);
+      renderFileList();
+    }
 
+    async function submitForm() {
+      const form = document.getElementById('form-lamar');
+      const formData = new FormData(form);
+
+      // Tambahkan file dari filesArray ke formData
+      filesArray.forEach(file => {
+        formData.append('files', file);
+      });
+
+      // Kirim request AJAX
+      try {
+        const response = await fetch('/jobseeker/jobsApply/#{jobId}', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json(); // Ubah response menjadi JSON
+
+        if (data.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: data.message,
+          }).then(() => {
+            window.location.href = '/jobseeker/jobApplication/history';
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          });
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        });
+      }
+    }

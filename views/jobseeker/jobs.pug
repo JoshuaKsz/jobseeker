@@ -23,12 +23,12 @@ block content
                 li.li-lowongan
                   | Gaji: 
                   span.text-gaji= job.salary ? `Rp ${job.salary}` : 'Tidak disebutkan'
-                li.li-lowongan
-                  | Tanggal Dibuka: 
-                  span.text-dibuka= job.dateOpened || 'Tidak disebutkan'
-                li.li-lowongan
-                  | Tanggal Berakhir: 
-                  span.text-ditutup= job.dateExpired || 'Tidak disebutkan'
+                //- li.li-lowongan
+                //-   | Tanggal Dibuka: 
+                //-   span.text-dibuka= job.dateOpened || 'Tidak disebutkan'
+                //- li.li-lowongan
+                //-   | Tanggal Berakhir: 
+                //-   span.text-ditutup= job.dateExpired || 'Tidak disebutkan'
                 li.li-lowongan
                   if job.requirements
                     | Syarat: 

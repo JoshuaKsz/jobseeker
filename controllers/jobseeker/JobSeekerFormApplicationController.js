@@ -4,6 +4,8 @@ const Job = require('../../models/JobModel');
 
 const multer = require('multer');
 const Company = require('../../models/CompanyModel');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
   getFormJob: async (req, res) => {
@@ -14,80 +16,137 @@ module.exports = {
 
     res.render('jobseeker/jobApplication', { jobId, id: existingJobSeeker.jobSeekerId, jobs});
   },
+
   submitFormJob: async (req, res) => {
     const { jobId } = req.params;
     const otherId = req.session.otherId;
     const applicationStatus = 'Pending';
 
-    // console.log(otherId, jobId, applicationStatus, fileName)
-    const newApplication = await JobApplication.create({ jobSeekerId: otherId, jobId, applicationStatus, File: '' });
+    try {
+      // Dapatkan waktu saat ini
+      const applyDate = new Date(); // Ini akan menghasilkan objek Date dengan waktu saat ini
 
-    // handle file uploads
-    const storage = multer.diskStorage({
-      destination: (req, file, cb) => {
-        // saved lokasi
-        cb(null, 'test/'); 
-      },
-      filename: (req, file, cb) => {
-        // Set unique file name
-        // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, newApplication.applicationId + '-' + otherId + '-' + jobId + '-' + file.originalname ); // Keep file extension
-      }
-    });
+      const newApplication = await JobApplication.create({
+        jobSeekerId: otherId,
+        jobId,
+        applicationStatus,
+        File: '',
+        applyDate // Tambahkan applyDate ke sini
+      });
 
-    const upload = multer({ storage: storage }).array('files');
+      const storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+          cb(null, 'test/');
+        },
+        filename: (req, file, cb) => {
+          cb(null, newApplication.applicationId + '-' + otherId + '-' + jobId + '-' + file.originalname);
+        }
+      });
 
-    upload(req, res, async (err) => {
-      if (err) {
-        return next(err); // Handle any errors from Multer
-      }
-      const files = req.files; // Multer middleware will parse files
-      const fileName = files.map(file => file.originalname).join(',');
+      const upload = multer({ storage: storage }).array('files');
 
-      if (!files || files.length === 0) {
-        return res.status(400).send("No files uploaded.");
-      }
+      upload(req, res, async (err) => {
+        if (err) {
+          console.error("Error uploading files:", err);
+          return res.status(500).json({ success: false, message: 'File upload failed.' });
+        }
 
-      if (newApplication) {
-        console.log("edit/update");
+        const files = req.files;
+        if (!files || files.length === 0) {
+          // Hapus job application yang sudah dibuat jika tidak ada file yang diupload
+          await JobApplication.destroy({ where: { applicationId: newApplication.applicationId } });
+          return res.status(400).json({ success: false, message: 'No files uploaded.' });
+        }
 
-        if (applicationStatus) newApplication.applicationStatus = applicationStatus;
-        if (File) newApplication.File = fileName;
-        // if (applyDate) newApplication.applyDate = applyDate;
+        const fileNames = files.map(file => file.filename);
+        const filePaths = fileNames.map(filename => path.join('test', filename));
 
-        await newApplication.save();
-      }
-      res.redirect('/jobApplication/history');
-    });
-    // res.send((req.params, req.body, req.session, req));
+        try {
+          // Update data aplikasi
+          if (newApplication) {
+            newApplication.applicationStatus = applicationStatus;
+            newApplication.File = filePaths.join(',');
+            // Tidak perlu update applyDate di sini karena sudah di-set saat create
+            await newApplication.save();
+            return res.status(200).json({ success: true, message: 'Application submitted successfully!' });
+          } else {
+            return res.status(400).json({ success: false, message: 'Failed to create application.' });
+          }
+        } catch (updateErr) {
+          console.error("Error updating application:", updateErr);
+          return res.status(500).json({ success: false, message: 'Failed to update application.' });
+        }
+      });
+    } catch (err) {
+      console.error("Error creating application:", err);
+      return res.status(500).json({ success: false, message: 'Failed to create application.' });
+    }
   },
-
+  // ;
 
   getHistoryPage: async (req, res) => {
-    const existingJobSeeker = await JobSeeker.findOne({ where: { userId: req.session.userId } });
-    const applications = await JobApplication.findAll({ where: { jobSeekerId: existingJobSeeker.jobSeekerId } })
-    console.log(applications);
+    if (!req.session.userId) {
+        return res.redirect('/login');
+    }
+    try {
+        const existingJobSeeker = await JobSeeker.findOne({ where: { userId: req.session.userId } });
+        if (!existingJobSeeker) {
+            return res.status(404).send('Job Seeker profile not found.');
+        }
 
-    res.render('jobseeker/jobApplicationHistory', { applications })
-  },
+        const applications = await JobApplication.findAll({
+            where: { jobSeekerId: existingJobSeeker.jobSeekerId },
+            include: [
+                {
+                    model: Job,
+                    include: [
+                        {
+                            model: Company,
+                            attributes: ['companyName', 'city', 'country'] // Sertakan atribut yang Anda inginkan dari Company
+                        }
+                    ]
+                }
+            ],
+            order: [['applyDate', 'DESC']] // Urutkan berdasarkan applyDate secara descending
+        });
 
-  getHistoryPageCompany: async (req, res) => {
+        res.render('jobseeker/jobApplicationHistory', { applications });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send('Server error');
+    }
+},
+
+getHistoryPageCompany: async (req, res) => {
+  try {
     const existingCompany = await Company.findOne({ where: { userId: req.session.userId } });
-    console.log(existingCompany);
-    const jobss = await Job.findAll({ where: { companyId: existingCompany.companyId }});
-    console.log(jobss);
-    const applicationss = await Promise.all(jobss.map(async (job) => {
-      const applications = await JobApplication.findAll({ where: { jobId: job.jobId } });
-      console.log(applications);
-      // applications.job.jobTitle = ;
-      return applications; // Return a 2D array with job and its applications
-    }));
-  
-    console.log(applicationss);
+    if (!existingCompany) {
+      req.flash('error', 'Company profile not found.');
+      return res.redirect('/dashboard'); // Redirect ke halaman dashboard atau halaman lain yang sesuai
+    }
 
-    res.render('company/jobApplicationHistory', { applicationss })
-  },
+    const jobs = await Job.findAll({
+      where: { companyId: existingCompany.companyId },
+      include: [
+        {
+          model: JobApplication,
+          include: [
+            {
+              model: JobSeeker,
+              // attributes: ['jobSeekerId', 'jobSeekerName'], // Sertakan atribut yang ingin ditampilkan dari JobSeeker
+            },
+          ],
+        },
+      ],
+    });
 
+    res.render('company/jobApplicationHistory', { jobs });
+  } catch (err) {
+    console.error(err);
+    req.flash('error', 'Failed to load job application history.');
+    return res.redirect('/dashboard'); // Redirect ke halaman dashboard atau halaman lain yang sesuai
+  }
+},
 
   
 
@@ -102,10 +161,12 @@ module.exports = {
       const existingJob = await Job.findOne({ where: { jobId } });
 
       if (!existingJobSeeker) {
-        return res.status(400).send('Job Seeker does not exist');
+        req.flash('error', 'Job Seeker does not exist.');
+        res.redirect(`/jobseeker/jobs`);
       }
       if (!existingJob) {
-        return res.status(400).send('Job does not exist');
+        req.flash('error', 'Job does not exist.');
+        res.redirect(`/jobseeker/jobs`);
       }
 
       const existingApplication = await JobApplication.findOne({ where: { applicationId } });

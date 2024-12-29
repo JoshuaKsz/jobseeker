@@ -63,7 +63,7 @@ block content
           input#country.input-company(type='text' name='country' value='' autocomplete="off")
         div.mb-4
           label.label-company(for='email') Email
-          input#email.input-company(type='email' name='email' value='' autocomplete="off")
+          input#email.input-company(type='email' name='email' value=email ? email : '' autocomplete="off")
         div.mb-2
           button.btn-company(type='submit') Create/Update Company
 
