@@ -1,99 +1,88 @@
 extends ../layout.pug
 
 block content
-  div.container-company
-    div.container-table-company
-      div.wrap-tittle-comp
-        h2.tittle-comp Company Profile
-      i#toggleIconCompany(class="fas fa-chevron-down icon-toggle-company", onclick="toggleCompanyVisibility()")
-      div.table-container-comp(id="tableContainerCompany")
+  div.container-utama-job
+    div.container-table-job
+      div.jobseeker-tittle
+        h2 Company Profile
+      div.table-container-jobb
         each company in companies
-          div.tr-company
-            div.td-company
-              span.label-company Company ID:
-              span.value-company= company.companyId
-            div.td-company
-              span.label-company User ID:
-              span.value-company= company.userId
-            div.td-company
-              span.label-company Company Name:
-              span.value-company= company.companyName
-            div.td-company
-              span.label-company Industry:
-              span.value-company= company.industry
-            div.td-company
-              span.label-company Phone:
-              span.value-company= company.phone
-            div.td-company
-              span.label-company City:
-              span.value-company= company.city
-            div.td-company
-              span.label-company Country:
-              span.value-company= company.country
-            div.td-company
-              span.label-company Email:
-              span.value-company= company.email
-            div.wrap-btn-edit-delete-company
-              form.form-btn-company(action=`/admin/company/delete/${company.companyId}`, method="POST")
-                button.btn-delete-company(type="submit") Delete
-              button.btn-edit-company(onclick=`handleClick(${company.companyId}, '${company.userId}', '${company.companyName}', '${company.industry}', '${company.phone}', '${company.city}', '${company.country}', '${company.email}')`) Edit
+          div.tr-job
+            div.td-job
+              span.label-job Company ID:
+              span.value-job= company.companyId
+            div.td-job
+              span.label-job User ID:
+              span.value-job= company.userId
+            div.td-job
+              span.label-job Company Name:
+              span.value-job= company.companyName ? company.companyName : ""
+            div.td-job
+              span.label-job Industry:
+              span.value-job=company.industry ? company.industry : ""
+            div.td-job
+              span.label-job Phone:
+              span.value-job= company.phone ? company.phone: ""
+            div.td-job
+              span.label-job City:
+              span.value-job= company.city ?company.city: ""
+            div.td-job
+              span.label-job Country:
+              span.value-job= company.country ?company.country: ""
+            div.td-job
+              span.label-job Email:
+              span.value-job= company.email ? company.email: ""
+            div.btn-td-job
+              form.form-btn-job(action=`/admin/company/delete/${company.companyId}`, method="POST")
+                button.btn-delete-job(type="submit") Delete
+              button.btn-edit-job(onclick=`handleEditClick(${company.companyId}, '${company.userId}', '${company.companyName ? company.companyName : ""}', '${company.industry ? company.industry : ""}', '${company.phone ? company.phone: ""}', '${company.city ?company.city: ""}', '${company.country ?company.country: ""}', '${company.email ? company.email: ""}')`) Edit
     
-    div.container-form-comp
-      form.form-company(method='post' action='/admin/company' id='create')
-        div.mb-0
-          label.form-label.control-label(for='companyId' hidden) companyId (Leave blank to create a new entry)
-          input#companyId.form-control(type='text' name='companyId' value='' hidden)
-        div.mb-0
-          label.form-label.control-label(for='userId' hidden) userId
-          input#userId.form-control(type='text' name='userId' value=userId ? userId : '' hidden)
-        div.mb-3
-          label.label-company(for='companyName') Company Name
-          input#companyName.input-company(type='text' name='companyName' value='' autocomplete="off")
-        div.mb-3
-          label.label-company(for='industry') Industry
-          input#industry.input-company(type='text' name='industry' value='' autocomplete="off")
-        div.mb-3
-          label.label-company(for='phone') Phone
-          input#phone.input-company(type='text' name='phone' value='' autocomplete="off")
-        div.mb-3
-          label.label-company(for='city') City
-          input#city.input-company(type='text' name='city' value='' autocomplete="off")
-        div.mb-3
-          label.label-company(for='country') Country
-          input#country.input-company(type='text' name='country' value='' autocomplete="off")
-        div.mb-4
-          label.label-company(for='email') Email
-          input#email.input-company(type='email' name='email' value=email ? email : '' autocomplete="off")
-        div.mb-2
-          button.btn-company(type='submit') Create/Update Company
+    div#formContainer.container-form-jobb(style="display: none;")
+      div.wrap-tittle-comp(style="margin-top: 30px;")
+        h2.tittle-comp Please Complete Your Company Profile
+      form.form-jobseeker(method='post' action='/admin/company' id='editForm')
+        div.wrap-jobseeker
+          label.label-jobseeker-hidden(for='companyId' hidden) companyId (Leave blank to create a new entry)
+          input#companyId.input-jobseeker-hidden(type='text' name='companyId' value="" hidden autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker-hidden(for='userId' hidden) userId
+          input#userId.input-jobseeker-hidden(type='text' name='userId' value=userId hidden autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='companyName') Company Name
+          input#companyName.input-jobseeker(type='text' name='companyName' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='industry') Industry
+          input#industry.input-jobseeker(type='text' name='industry' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='phone') Phone
+          input#phone.input-jobseeker(type='text' name='phone' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='city') City
+          input#city.input-jobseeker(type='text' name='city' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='country') Country
+          input#country.input-jobseeker(type='text' name='country' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='email') Email
+          input#email.input-jobseeker(type='email' name='email' value="" autocomplete="off")
+        div.wrap-bnt-jobseeker
+          button.btn-jobseeker(type='submit') Create/Update Company
 
-    script.
-      function handleClick(companyId, userId, companyName, industry, phone, city, country, email) {
-        document.getElementById('companyId').value = companyId;
-        document.getElementById('userId').value = userId;
-        document.getElementById('companyName').value = companyName;
-        document.getElementById('industry').value = industry;
-        document.getElementById('phone').value = phone;
-        document.getElementById('city').value = city;
-        document.getElementById('country').value = country;
-        document.getElementById('email').value = email;
-      }
+  script.
+    function handleEditClick(companyId, userId, companyName, industry, phone, city, country, email) {
+      document.getElementById('companyId').value = companyId;
+      document.getElementById('userId').value = userId;
+      document.getElementById('companyName').value = companyName;
+      document.getElementById('industry').value = industry;
+      document.getElementById('phone').value = phone;
+      document.getElementById('city').value = city;
+      document.getElementById('country').value = country;
+      document.getElementById('email').value = email;
 
-      function toggleCompanyVisibility() {
-        const tableContainer = document.getElementById("tableContainerCompany");
-        const toggleIcon = document.getElementById("toggleIconCompany");
+      // Tampilkan form
+      const formContainer = document.getElementById("formContainer");
+      formContainer.style.display = "block";
 
-        if (tableContainer.style.display === "none" || tableContainer.style.display === "") {
-          tableContainer.style.display = "block";
-          toggleIcon.classList.add("rotated");
-          toggleIcon.classList.add("active");
-          toggleIcon.style.marginBottom = "30px";
-        } else {
-          tableContainer.style.display = "none";
-          toggleIcon.classList.remove("rotated");
-          toggleIcon.classList.remove("active");
-          toggleIcon.style.marginBottom = "2px";
-        }
-      }
-
-
+      // Scroll ke form
+      formContainer.scrollIntoView({ behavior: 'smooth' });
+    }

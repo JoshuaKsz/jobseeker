@@ -1,6 +1,9 @@
 extends ../layout.pug
 
 block content
+  mixin formatText(text)
+      - var formattedText = text ? text.replace(/\n/g, '<br>') : ''
+      | !{formattedText}
   div.container-detail-company
     div.wrap-container
       div.side1
@@ -27,25 +30,38 @@ block content
 
       div.container-jobdes
         div.job-description
-          h2.tittle-jobdes Job Description
-          ul.ul-jobdes
-            li.li-des Bertanggung jawab melakukan supervisi, pengawasan dan mendukung aktivitas harian dalam pelaksanaan Mekanisme dan prosedur demi mencapai kepuasan pelanggan dalam memberikan kontribusi kepada tujuan perusahaan.
-            li.li-des Menjaga hubungan baik dengan pasien
-            li.li-des Menerima dan menangani keluhan maupun saran dari pasien
+          if selectedJob
+            h2.tittle-jobdes #{selectedJob.jobTitle}
+          else
+            h2.tittle-jobdes Job Description Not Found
+          div.wrap-info
+              span.lokasi-text Salary :
+              span.result-info= ` Rp.${selectedJob.salary || 'Tidak disebutkan'}`
+          div.wrap-info
+              span.lokasi-text Requirements and Jobdesk :
+                ul.ul-jobdes
+                  .li-des
+                    +formatText(selectedJob.requirements)
+          div.wrap-info
+              span.lokasi-text Benefit :
+                ul.ul-jobdes
+                  .li-des
+                    +formatText(selectedJob.benefits)
+         
         
-        div.job-requirements
-          h2.tittle-req Job Requirements
-          ul.ul-req
-            li.li-des Usia maks. 27 Tahun
-            li.li-des Fresh graduate diperbolehkan
-            li.li-des Memiliki penampilan rapi dan menarik
-            li.li-des Memiliki komunikasi yang baik dan efektif
-            li.li-des Berorientasi pada target
-            li.li-des Menguasai MS. Office
-            li.li-des Memiliki jiwa service customer dengan baik
+        //- div.job-requirements
+        //-   h2.tittle-req Job Benefits
+        //-   ul.ul-req
+        //-     li.li-des Usia maks. 27 Tahun
+        //-     li.li-des Fresh graduate diperbolehkan
+        //-     li.li-des Memiliki penampilan rapi dan menarik
+        //-     li.li-des Memiliki komunikasi yang baik dan efektif
+        //-     li.li-des Berorientasi pada target
+        //-     li.li-des Menguasai MS. Office
+        //-     li.li-des Memiliki jiwa service customer dengan baik
 
       div.conatiner-active-lowongan
-        h4.tittle-active Lowongan Aktif dari Perusahaan Ini
+        h4.tittle-active Lowongan Aktif dari Perusahaan #{company.companyName}
         if jobs && jobs.length > 0
           div.wrap-each-active
             each job in jobs
@@ -58,16 +74,27 @@ block content
                   
                   ul.ul-card-low
                     li.li-low
-                      | Gaji: 
+                      | Salary: 
                       span.text-gaj= job.salary ? `Rp ${job.salary}` : 'Tidak disebutkan'
                     
                     li.li-low
-                      | Tanggal Dibuka: 
-                      span.text-buka= job.dateOpened || 'Tidak disebutkan'
-                    
+                      if job.requirements
+                        | Requirements and Jobdesk:
+          
+                        span.syarat 
+                        +formatText(job.requirements)
+                      else
+                        | Requirements and Jobdesk: 
+                        small.syarat-mute Tidak disebutkan
                     li.li-low
-                      | Tanggal Berakhir: 
-                      span.text-akhir= job.dateExpired || 'Tidak disebutkan'
+                      if job.benefits
+                        | Benefit: 
+                        
+                        small.benefits-lowongan
+                        +formatText(job.benefits)
+                      else
+                        | Benefit: 
+                        small.benefits-lowongan-mute Tidak disebutkan
                   div
                     a.link-btn-ative(href=`/jobseeker/jobsApply/${job.jobId}`) Lamar Sekarang
       

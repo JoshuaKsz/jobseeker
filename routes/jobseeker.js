@@ -13,9 +13,10 @@ const jobApplicationForm = require('../controllers/jobseeker/JobSeekerFormApplic
 router.get("/profile/:id", jobseekerController.profileViewer);
 
 // Route untuk melihat daftar lowongan
-router.get('/jobs', jobController.listJobs);
-// ini salah!
-router.get('/jobseeker/company/:companyId', authMiddleware, companyController.getCompanyProfile); // Sepertinya ini salah!
+// router.get('/jobs', jobController.listJobs);
+router.get('/jobs', jobController.getJobsPage);
+
+router.get('/jobseeker/company/:companyId/:jobId', authMiddleware, companyController.getCompanyProfile); 
 
 router.get('/jobsApply/:jobId', authMiddleware, jobApplicationForm.getFormJob);
 router.post('/jobsApply/:jobId',  authMiddleware, jobApplicationForm.submitFormJob);

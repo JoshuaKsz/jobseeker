@@ -1,10 +1,13 @@
 extends ../layout.pug
 
 block content
+  mixin formatText(text)
+    - var formattedText = text ? text.replace(/\n/g, '<br>') : ''
+    | !{formattedText}
   div.container-create-lowongan 
     div.table-create-low
       div.wrap-judul-create-low
-        h2.tittle-create-lowongan Membuat Lowongan
+        h2.tittle-create-lowongan Create Job
       i#toggleIconLow(class="fas fa-chevron-down icon-toggle-low", onclick="toggleJobTable()")
       div.wrap-create-low(id="tableContainerLow")
         each job in jobs
@@ -19,11 +22,13 @@ block content
               span.label-create-low Job Title:
               span.value-create-low= job.jobTitle
             div.td-create-low
-              span.label-create-low Requirements:
-              span.value-create-low= job.requirements
+              span.label-create-low Requirements and Jobdesk:
+              span.value-create-low 
+              +formatText(job.requirements)
             div.td-create-low
               span.label-create-low Benefits:
-              span.value-create-low= job.benefits
+              span.value-create-low 
+              +formatText(job.benefits)
             div.td-create-low
               span.label-create-low Salary:
               span.value-create-low= job.salary
@@ -53,7 +58,7 @@ block content
           label.label-create-low(for='jobTitle') Job Title
           input#jobTitle.input-create-low(type='text' name='jobTitle' value="" autocomplete="off")
         div.mb-3
-          label.label-create-low(for='requirements') Requirements
+          label.label-create-low(for='requirements') Requirements and Jobdesk
           textarea#requirements.textarea-create-low(name='requirements') 
         div.mb-3
           label.label-create-low(for='benefits') Benefits
@@ -71,7 +76,7 @@ block content
           label.label-create-low(for='industry') Industry
           input#industry.input-create-low(type='text' name='industry' value="" autocomplete="off")
         div.mb-3.wrap-btn-low
-          button.btn-create-low(type='submit') Create/Update Job
+          button.btn-create-low(type='submit') Submit
       
       
     script.

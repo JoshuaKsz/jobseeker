@@ -148,4 +148,57 @@ module.exports = {
       return res.redirect('/admin/account');
     }
   },
+
+  forgotPassword: async (req, res) => {
+    const {email, password,"retype-password": retypePassword } = req.body;
+    
+    try {
+      // Input validation
+      if (!email || email === 'undefined') {
+        req.flash('error', 'Email cannot be empty');
+        return res.redirect('/login');
+      }
+      if (!password) {
+        req.flash('error', 'Password cannot be empty');
+        return res.redirect('/login');
+      }
+      if (!retypePassword) {
+        req.flash('error', 'Please retype your password');
+        return res.redirect('/login');
+      }
+      if (password !== retypePassword) {
+        req.flash('error', 'Passwords do not match');
+        return res.redirect('/login');
+      }
+  
+      // Find user and update password
+      const user = await Account.findOne({ where: { email } });
+      if (!user) {
+        req.flash('error', 'Email not found');
+        return res.redirect('/login');
+      }
+  
+      // Hash and save new password
+      const hashedPassword = await bcrypt.hash(password, 10);
+      user.password = hashedPassword;
+      await user.save();
+  
+      req.flash('success', 'Password updated successfully');
+      return res.redirect('/login');
+      
+    } catch (error) {
+      console.error('Password reset error:', error);
+      req.flash('error', 'Failed to update password. Please try again.');
+      return res.redirect('/login');
+    }
+  },
+
+  forgotPasswordView : async (req, res) => {
+    const messages = {
+      error: req.flash('error'),
+      success: req.flash('success')
+    };
+    res.render('forgotPassword', { messages });
+  },
+  
 };

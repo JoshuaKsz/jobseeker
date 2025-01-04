@@ -12,7 +12,11 @@ module.exports = {
     
   
   loginView: (req, res) => {
-    res.render('login',{ user: req.session.userId, role: req.session.role });
+    const messages = {
+      error: req.flash('error'),
+      success: req.flash('success')
+    };
+    res.render('login',{ user: req.session.userId, role: req.session.role,messages });
   },
   
   registerUser: async (req, res) => {
@@ -54,12 +58,12 @@ module.exports = {
       const accountId = (await Account.create({ email, password: hashedPassword, role })).userId;
       if (role == "Job Seeker") {
         if (await jobSeeker.findOne({ where: { userId: accountId } }) == null) {
-          await jobSeeker.create({ userId: accountId });
+          await jobSeeker.create({ userId: accountId, jobSeekerName: "", phone: "", city: "", country: "", about_skill: "", education: "", experience: "", sosialMedia: "" });
         }
 
       } else if (role == "Company") {
         if (await company.findOne({ where: { userId: accountId } }) == null) {
-          await company.create({ userId: accountId, companyName: accountId });
+          await company.create({ userId: accountId, companyName: "",industry:"",phone:"",city:"",country:"",city:"",email:email });
         }
       }
       req.flash('success', 'Registration successful! Please login.');
