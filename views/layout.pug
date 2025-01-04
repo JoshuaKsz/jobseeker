@@ -26,9 +26,12 @@ body
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/jobseeker/jobApplication/history') History Application Jobs
             li.nav-item.custom-nav-item 
+              
               a.nav-link.custom-nav-link(href='/admin/jobseeker') Profile
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/admin/account') Account
+            li.nav-item.custom-nav-item 
+              a.nav-link.custom-nav-link(href='/jobseeker/jobApplication/history') jobApplication history
           else if role === "Company"
             //- li.nav-item.custom-nav-item 
             //-   a.nav-link.custom-nav-link(href='/dashboard') Beranda
@@ -42,6 +45,9 @@ body
               a.nav-link.custom-nav-link(href='/admin/company') Profile
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/admin/account') Account
+            li.nav-item.custom-nav-item 
+              a.nav-link.custom-nav-link(href='/company/jobApplication/history') jobApplication history
+            
           else 
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/dashboard') Beranda
