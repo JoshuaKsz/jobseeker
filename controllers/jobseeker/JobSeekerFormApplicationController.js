@@ -82,6 +82,8 @@ module.exports = {
       console.error("Error creating application:", err);
       return res.status(500).json({ success: false, message: 'Failed to create application.' });
     }
+  },
+  // ;
 
   getHistoryPage: async (req, res) => {
     if (!req.session.userId) {
