@@ -18,8 +18,8 @@ block content
       div.file-upload-dokumen
         label.label-file(for='File')
           | Tarik File ke Area Ini untuk Diunggah
-        div.upload-area
-          input#File.input-file(type='file' name='files' multiple onchange="addFiles(event)")
+        div.upload-area(ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)")
+          input#File.input-file(type='file' name='files' multiple onchange="addFiles(event)" hidden)
           button.btn-upload(type='button' onclick="document.getElementById('File').click()") Unggah File
         ul.file-list
 
@@ -31,6 +31,7 @@ block content
 
   script.
     let filesArray = [];
+    let isDragging = false; // Flag untuk track drag over
 
     function addFiles(event) {
       const input = event.target;
@@ -63,9 +64,37 @@ block content
       renderFileList();
     }
 
+    function handleDragOver(event) {
+      event.preventDefault();
+      isDragging = true;
+      const uploadArea = document.querySelector('.upload-area');
+      uploadArea.classList.add('drag-over'); // Tambahkan class untuk styling saat drag over
+    }
+
+    function handleDragLeave(event) {
+      event.preventDefault();
+      isDragging = false;
+      const uploadArea = document.querySelector('.upload-area');
+      uploadArea.classList.remove('drag-over'); // Hapus class saat drag leave
+    }
+
+    function handleDrop(event) {
+      event.preventDefault();
+      isDragging = false;
+      const uploadArea = document.querySelector('.upload-area');
+      uploadArea.classList.remove('drag-over'); // Hapus class saat drop
+
+      const newFiles = Array.from(event.dataTransfer.files);
+      filesArray = [...filesArray, ...newFiles];
+      renderFileList();
+    }
+
     async function submitForm() {
       const form = document.getElementById('form-lamar');
       const formData = new FormData(form);
+
+      // Hapus input 'files' yang lama
+      formData.delete('files');
 
       // Tambahkan file dari filesArray ke formData
       filesArray.forEach(file => {
@@ -83,7 +112,7 @@ block content
           throw new Error('Network response was not ok');
         }
 
-        const data = await response.json(); // Ubah response menjadi JSON
+        const data = await response.json();
 
         if (data.success) {
           Swal.fire({

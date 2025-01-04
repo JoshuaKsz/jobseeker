@@ -1,9 +1,11 @@
 extends ../layout.pug
 
 block content
+  mixin formatText(text)
+    - var formattedText = text ? text.replace(/\n/g, '<br>') : ''
+    | !{formattedText}
   div.container.mt-4
     h2.tittle-lowongan Job Application History
-
     each job in jobs
       h3.tittle-lowongan= job.jobTitle
       div.table-responsive
@@ -11,23 +13,40 @@ block content
           thead.table-dark
             tr
               th(scope="col") No.
-              th(scope="col") Job Seeker ID
+              //- th(scope="col") Job Seeker ID
               th(scope="col") Job Seeker Name
+              th(scope="col") City,Country
               th(scope="col") Skills
               th(scope="col") Experience
+              th(scope="col") Education
+              th(scope="col") Phone
+              th(scope="col") Social Media
+              th(scope="col") Email
               th(scope="col") Application Status
               th(scope="col") Apply Date
               th(scope="col") Files
+              th(scope="col") Actions
           tbody
             if job.JobApplications.length > 0
               each application, index in job.JobApplications
                 tr
                   td= index + 1
-                  td= application.JobSeeker.jobSeekerId
+                  //- td= application.JobSeeker.jobSeekerId
                   td= application.JobSeeker.jobSeekerName
-                  td= application.JobSeeker.about_skill
-                  td= application.JobSeeker.experience
-                  td= application.applicationStatus
+                  td= application.JobSeeker.city+", "+application.JobSeeker.country
+                  td 
+                    +formatText(application.JobSeeker.about_skill)
+                  td 
+                    +formatText(application.JobSeeker.experience)
+                  td 
+                    +formatText(application.JobSeeker.education)
+                  td= application.JobSeeker.phone
+                  td= application.JobSeeker.socialMedia 
+                  td
+                    a(href=`mailto:${application.JobSeeker.Account.email}`) #{application.JobSeeker.Account.email}
+
+                  td 
+                    +formatText(application.applicationStatus)
                   td= application.applyDate ? application.applyDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : ''
                   td
                     if application.File
@@ -37,6 +56,13 @@ block content
                             a(href=`/download/${file.trim()}` target="_blank")= file.trim()
                     else
                       | No files uploaded
+                  td
+                    form(action=`/company/approve/${application.applicationId}`, method="POST")
+                      input(type="hidden" name="applicationId" value=application.applicationId)
+                      button.btn.btn-success(type="submit") Approve
+                    form(action=`/company/reject/${application.applicationId}`, method="POST")
+                      input(type="hidden" name="applicationId" value=application.applicationId)
+                      button.btn.btn-danger(type="submit") Reject
             else
               tr
                 td(colspan="8") No applications found for this job.

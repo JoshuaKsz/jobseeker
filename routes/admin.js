@@ -45,7 +45,7 @@ router.post('/job',authMiddleware, jobController.createUpdateJob);
 router.get('/job',authMiddleware, jobController.getAllJobs);
 router.get('/job/:id', authMiddleware,jobController.getJobById);
 router.post('/job/delete/:id',authMiddleware, jobController.deleteJob);
-
+router.get('/job/:id', authMiddleware,jobController.getJobById);
 
 router.post('/jobapplication',authMiddleware, jobApplicationController.createUpdateJobApplication);
 router.get('/jobapplication',authMiddleware, jobApplicationController.getAllJobApplications);

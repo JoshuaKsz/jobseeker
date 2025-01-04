@@ -1,19 +1,83 @@
 extends layout.pug
 block content
   div.container-login-fom
+    if messages && messages.error && messages.error.length > 0
+      .alert.alert-danger
+        each error in messages.error
+          p= error
+        
+    if messages && messages.success && messages.success.length > 0
+      .alert.alert-success
+        each success in messages.success
+          p= success
     div.card-login
       form.form-horizontal(method='post' action='/login')
         h2.mb-5.login-tittle Login
+        
         .mb-3
           label.form-label.control-label(for='email') Email
           input#email.form-control(type='email' name='email' autocomplete="off")
         .mb-3
           label.form-label.control-label(for='password') Password
           input#password.form-control(type='password' name='password' autocomplete="off")
-        //- .mb-3
-        //-   label.form-label.control-label(for='retype-password') Re-type Password
-        //-   input#retype-password.form-control(type='password' name='retype-password' autocomplete="off")
         .mb-0.py-3
           button.btn-login-form(type='submit') Login
       a(href='/register').ps-2.btn-regis Register
+      a(onclick=`openEditPopup()`).ps-2.btn-regis Forgot Password?
+  
+  div.account-popup-container-account.hidden-account
+    div.account-popup-overlay-account(onclick="closePopup()")
+    div.account-popups-account
+      button.account-popup-close-account(onclick="closePopup()") ✖
+      form(method='post' action='/login/forgotPassword' id='edit')
+        if messages && messages.error && messages.error.length > 0
+          .alert.alert-danger
+            each error in messages.error
+              p= error
+        
+        if messages && messages.success && messages.success.length > 0
+          .alert.alert-success
+            each success in messages.success
+              p= success
+        
+        div.m-0-account
+          input#userId-account(type='text' name='userId' hidden)
+        div.mb-3-account
+          label.form-label-account(for='email') Email
+          input#email-account.input-field-account(type='email' name='email')
+        div.mb-3-account
+          label.form-label-account(for='password') New Password
+          input#password-account.input-field-account(type='password' name='password')
+        div.mb-3-account
+          label.form-label-account(for='retype-password') Re-type Password
+          input#password-account.input-field-account(type='password' name='retype-password' autocomplete="off")
+        div.mb-3-account
+          button.btn-submit-account(type='submit') Submit New Password
+  script.
+    function openEditPopup() {
+      const emailInput = document.getElementById('email');
+      if (!emailInput) {
+        console.error('Email input not found');
+        return;
+      }
+      
+      const email = emailInput.value.trim();
+      const emailAccount = document.getElementById('email-account');
+      if (!emailAccount) {
+        console.error('Email account input not found in popup');
+        return;
+      }
+      
+      emailAccount.value = email || '';
+      
+      if (!email) {
+        alert('Please enter your email address before clicking "Forgot Password".');
+      }
+      
+      document.querySelector('.account-popup-container-account').classList.remove('hidden-account');
+    }
 
+
+    function closePopup() {
+      document.querySelector('.account-popup-container-account').classList.add('hidden-account');
+    }

@@ -6,6 +6,7 @@ const multer = require('multer');
 const Company = require('../../models/CompanyModel');
 const fs = require('fs');
 const path = require('path');
+const Account = require('../../models/AccountModel');
 
 module.exports = {
   getFormJob: async (req, res) => {
@@ -133,6 +134,12 @@ getHistoryPageCompany: async (req, res) => {
           include: [
             {
               model: JobSeeker,
+              include: [
+                {
+                  model: Account,
+                  // attributes: ['jobSeekerId', 'jobSeekerName'], // Sertakan atribut yang ingin ditampilkan dari JobSeeker
+                },
+              ],
               // attributes: ['jobSeekerId', 'jobSeekerName'], // Sertakan atribut yang ingin ditampilkan dari JobSeeker
             },
           ],

@@ -1,6 +1,7 @@
 const Company = require('../../models/CompanyModel'); 
 const Account = require('../../models/AccountModel'); 
 const Job = require('../../models/JobModel');
+const JobApplication = require('../../models/JobApplicationModel');
 const { Op } = require('sequelize');
 module.exports = {
   createUpdateCompany: async (req, res) => {
@@ -98,6 +99,7 @@ module.exports = {
   getCompanyProfile: async (req, res) => {
     try {
       const companyId = req.params.companyId;
+      const jobId = req.params.jobId;
       const userId = req.session.userId;
       // Find company details
       const company = await Company.findByPk(companyId);
@@ -105,7 +107,8 @@ module.exports = {
       if (!company) {
           return res.status(404).send('Company not found');
       }
-
+      
+      const selectedJob= await Job.findOne({where: {jobId:jobId}})
       // Find active jobs for this company
       const currentDate = new Date();
       const jobs = await Job.findAll({
@@ -121,7 +124,8 @@ module.exports = {
           company, 
           jobs,
           checkUser: req.session.email,
-          userId
+          userId,
+          selectedJob
       });
     } catch (err) {
       console.error(err);
@@ -186,7 +190,67 @@ module.exports = {
       console.error("Error fetching job seekers:", error);
       res.status(500).send('Internal Server Error');
     }
-  }
+  },
+
+  approveApplication: async (req, res) => {
+    const { applicationId } = req.params;
+    try {
+      const application = await JobApplication.findByPk(applicationId);
+      if (!application) {
+        req.flash('error', 'Application not found.');
+        return res.redirect('back');      // Ganti dengan route yang sesuai
+      }
+  
+      // Pastikan yang mengubah adalah perusahaan yang memiliki lowongan
+      const job = await Job.findByPk(application.jobId);
+      const company = await Company.findOne({ where: { userId: req.session.userId } });
+  
+      if (job.companyId !== company.companyId) {
+        req.flash('error', 'Unauthorized to approve this application.');
+        return res.redirect('back');
+      }
+  
+      application.applicationStatus = 'Approved';
+      await application.save();
+  
+      req.flash('success', 'Application approved successfully.');
+      res.redirect('back'); // Ganti dengan route yang sesuai
+    } catch (err) {
+      console.error(err);
+      req.flash('error', 'Failed to approve application.');
+      res.redirect('back');     // Ganti dengan route yang sesuai
+    }
+  },
+  
+  rejectApplication: async (req, res) => {
+    const { applicationId } = req.params;
+    try {
+      const application = await JobApplication.findByPk(applicationId);
+      if (!application) {
+        req.flash('error', 'Application not found.');
+        return res.redirect('back');      // Ganti dengan route yang sesuai
+      }
+  
+      // Pastikan yang mengubah adalah perusahaan yang memiliki lowongan
+      const job = await Job.findByPk(application.jobId);
+      const company = await Company.findOne({ where: { userId: req.session.userId } });
+  
+      if (job.companyId !== company.companyId) {
+        req.flash('error', 'Unauthorized to reject this application.');
+        return res.redirect('back');   
+      }
+  
+      application.applicationStatus = 'Rejected';
+      await application.save();
+  
+      req.flash('success', 'Application rejected successfully.');
+      res.redirect('back');     // Ganti dengan route yang sesuai
+    } catch (err) {
+      console.error(err);
+      req.flash('error', 'Failed to reject application.');
+      res.redirect('back');    // Ganti dengan route yang sesuai
+    }
+  },
 
   
 

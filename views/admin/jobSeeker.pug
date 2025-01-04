@@ -1,11 +1,15 @@
 extends ../layout.pug
 
 block content
+  mixin formatText(text)
+    - var formattedText = text ? text.replace(/\n/g, '<br>') : ''
+    | !{formattedText}
+
   div.container-utama-job
     div.container-table-job
       div.jobseeker-tittle
         h2 JobSeeker Profile
-      
+
       div.table-container-jobb
         each jobSeeker, index in jobSeekers
           div.tr-job(id=`jobSeekerRow-${index}`)
@@ -17,39 +21,56 @@ block content
               span.value-job= jobSeeker.userId
             div.td-job
               span.label-job Name :
-              span.value-job= jobSeeker.jobSeekerName
+              span.value-job= jobSeeker.jobSeekerName ? jobSeeker.jobSeekerName: ""
             div.td-job
               span.label-job Phone :
-              span.value-job= jobSeeker.phone
+              span.value-job= jobSeeker.phone ? jobSeeker.phone : ""
             div.td-job
-              span.label-job City :
-              span.value-job= jobSeeker.city
+              span.label-job City,Province :
+              span.value-job= jobSeeker.city ? jobSeeker.city : ""
             div.td-job
               span.label-job Country :
-              span.value-job= jobSeeker.country
+              span.value-job= jobSeeker.country ? jobSeeker.country : ""
             div.td-job
               span.label-job About/Skills :
-              span.value-job= jobSeeker.about_skill
+              span.value-job
+                +formatText(jobSeeker.about_skill)
             div.td-job
               span.label-job Education :
-              span.value-job= jobSeeker.education
+              span.value-job
+                +formatText(jobSeeker.education)
             div.td-job
               span.label-job Experience :
-              span.value-job= jobSeeker.experience
+              span.value-job
+                +formatText(jobSeeker.experience)
             div.td-job
               span.label-job Social Media :
-              span.value-job= jobSeeker.socialMedia
+              span.value-job= jobSeeker.socialMedia ? jobSeeker.socialMedia : ""
             div.btn-td-job
               form.form-btn-job(action=`/admin/jobseeker/delete/${jobSeeker.jobSeekerId}`, method="POST")
                 button.btn-delete-job(type="submit") Delete
-              button.btn-edit-job(onclick=`handleClick(${jobSeeker.jobSeekerId}, '${jobSeeker.userId}', '${jobSeeker.jobSeekerName}', '${jobSeeker.phone}', '${jobSeeker.city}', '${jobSeeker.country}', '${jobSeeker.about_skill}', '${jobSeeker.education}', '${jobSeeker.experience}', '${jobSeeker.socialMedia}', ${index})`) Edit
-        i#toggleIconJobb.mt-4(class="fas fa-chevron-down icon-toggle-jobb", onclick="toggleDataVisibility()") 
-    div.container-form-jobb(id="tableContainerJobb")
-      form.form-jobseeker(method='post' action='/admin/jobseeker' id='create')
-        label.label-jobseeker Silahkan Lengkapi Profile Anda
+              button.btn-edit-job(
+                onclick=`handleEditClick(
+                  ${jobSeeker.jobSeekerId},
+                  "${encodeURIComponent(jobSeeker.userId || '')}",
+                  "${encodeURIComponent(jobSeeker.jobSeekerName || '')}",
+                  "${encodeURIComponent(jobSeeker.phone || '')}",
+                  "${encodeURIComponent(jobSeeker.city || '')}",
+                  "${encodeURIComponent(jobSeeker.country || '')}",
+                  "${encodeURIComponent(jobSeeker.about_skill || '')}",
+                  "${encodeURIComponent(jobSeeker.education || '')}",
+                  "${encodeURIComponent(jobSeeker.experience || '')}",
+                  "${encodeURIComponent(jobSeeker.socialMedia || '')}",
+                  ${index}
+                )`
+              ) Edit
+
+    div#formContainer.container-form-jobb(style="display: none;")
+      div.wrap-tittle-comp(style="margin-top: 30px;")
+        h2.tittle-comp Edit Job Seeker Profile
+      form.form-jobseeker(method='post' action='/admin/jobseeker' id='editForm')
         div.wrap-jobseeker
-          
-          label.label-jobseeker-hidden(for='jobSeekerId' hidden) jobSeekerId (Leave blank to create a new entry)
+          label.label-jobseeker-hidden(for='jobSeekerId' hidden) jobSeekerId
           input#jobSeekerId.input-jobseeker-hidden(type='text' name='jobSeekerId' value="" hidden autocomplete="off")
         div.wrap-jobseeker
           label.label-jobseeker-hidden(for='userId' hidden) userId
@@ -61,63 +82,62 @@ block content
           label.label-jobseeker(for='phone') Phone
           input#phone.input-jobseeker(type='text' name='phone' value="" autocomplete="off")
         div.wrap-jobseeker
-          label.label-jobseeker(for='city') City
+          label.label-jobseeker(for='city') City, Province
           input#city.input-jobseeker(type='text' name='city' value="" autocomplete="off")
         div.wrap-jobseeker
           label.label-jobseeker(for='country') Country
           input#country.input-jobseeker(type='text' name='country' value="" autocomplete="off")
         div.wrap-jobseeker
-          label.label-jobseeker(for='about_skill') About/Skills
-          textarea#about_skill.textarea-jobseeker(name='about_skill') 
+          label.label-jobseeker(for='about_skill') About Me and My Skills
+          textarea#about_skill.textarea-jobseeker(name='about_skill')
         div.wrap-jobseeker
           label.label-jobseeker(for='education') Education
-          textarea#education.textarea-jobseeker(name='education') 
+          textarea#education.textarea-jobseeker(name='education')
         div.wrap-jobseeker
           label.label-jobseeker(for='experience') Experience
-          textarea#experience.textarea-jobseeker(name='experience') 
+          textarea#experience.textarea-jobseeker(name='experience')
         div.wrap-jobseeker
           label.label-jobseeker(for='socialMedia') Social Media
           input#socialMedia.input-jobseeker(type='text' name='socialMedia' value="" autocomplete="off")
         div.wrap-bnt-jobseeker
-          button.btn-jobseeker(type='submit') Create/Update Job Seeker
-          
+          button.btn-jobseeker(type='submit') Update Profile
+
   script.
-    function handleClick(jobSeekerId, userId, jobSeekerName, phone, city, country, about_skill, education, experience, socialMedia, index) {
-      document.getElementById('jobSeekerId').value = jobSeekerId;
-      document.getElementById('userId').value = userId;
-      document.getElementById('jobSeekerName').value = jobSeekerName;
-      document.getElementById('phone').value = phone;
-      document.getElementById('city').value = city;
-      document.getElementById('country').value = country;
-      document.getElementById('about_skill').value = about_skill;
-      document.getElementById('education').value = education;
-      document.getElementById('experience').value = experience;
-      document.getElementById('socialMedia').value = socialMedia;
+    function handleEditClick(jobSeekerId, userId, jobSeekerName, phone, city, country, about_skill, education, experience, socialMedia, index) {
+      console.log("Edit button clicked"); // Pastikan ini yang pertama kali muncul
+      console.log("jobSeekerId:", jobSeekerId);
+      console.log("userId:", decodeURIComponent(userId));
+      console.log("jobSeekerName:", decodeURIComponent(jobSeekerName));
+      console.log("phone:", decodeURIComponent(phone));
+      console.log("city:", decodeURIComponent(city));
+      console.log("country:", decodeURIComponent(country));
+      console.log("about_skill:", decodeURIComponent(about_skill));
+      console.log("education:", decodeURIComponent(education));
+      console.log("experience:", decodeURIComponent(experience));
+      console.log("socialMedia:", decodeURIComponent(socialMedia));
+      console.log("index:", index);
 
-      const tableContainer = document.getElementById("tableContainerJobb");
-      const toggleIcon = document.getElementById("toggleIconJobb");
-      tableContainer.style.display = "block";
-      toggleIcon.classList.add("rotated");
-      toggleIcon.classList.add("active");
-      toggleIcon.style.marginBottom = "30px";
+      // Set values to form fields
+      document.getElementById('jobSeekerId').value = jobSeekerId || "";
+      document.getElementById('userId').value = decodeURIComponent(userId) || "";
+      document.getElementById('jobSeekerName').value = decodeURIComponent(jobSeekerName) || "";
+      document.getElementById('phone').value = decodeURIComponent(phone) || "";
+      document.getElementById('city').value = decodeURIComponent(city) || "";
+      document.getElementById('country').value = decodeURIComponent(country) || "";
+      document.getElementById('about_skill').value = decodeURIComponent(about_skill) || "";
+      document.getElementById('education').value = decodeURIComponent(education) || "";
+      document.getElementById('experience').value = decodeURIComponent(experience) || "";
+      document.getElementById('socialMedia').value = decodeURIComponent(socialMedia) || "";
 
-      // Scroll ke form
-      document.getElementById("formContainer").scrollIntoView({ behavior: 'smooth' });
-    }
+      // Show form container
+      const formContainer = document.getElementById("formContainer");
+      console.log("formContainer:", formContainer);
 
-    function toggleDataVisibility() {
-      const tableContainer = document.getElementById("tableContainerJobb");
-      const toggleIcon = document.getElementById("toggleIconJobb");
-
-      if (tableContainer.style.display === "none" || tableContainer.style.display === "") {
-        tableContainer.style.display = "block";
-        toggleIcon.classList.add("rotated");
-        toggleIcon.classList.add("active");
-        toggleIcon.style.marginBottom = "30px";
+      if (formContainer) {
+        formContainer.style.display = "block";
+        // Smooth scroll to form
+        formContainer.scrollIntoView({ behavior: 'smooth' });
       } else {
-        tableContainer.style.display = "none";
-        toggleIcon.classList.remove("rotated");
-        toggleIcon.classList.remove("active");
-        toggleIcon.style.marginBottom = "3px";
+        console.error("Form container not found");
       }
     }
