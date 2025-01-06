@@ -18,6 +18,12 @@ body
       div.collapse.navbar-collapse.wrap-middle-nav
         ul.navbar-nav.mx-auto.custom-nav-links
           //- Di layout.pug atau navbar
+          li.nav-item.custom-nav-item 
+            a.nav-link.custom-nav-link(href='/jobseeker/search/0') search jobseeker
+          li.nav-item.custom-nav-item 
+            a.nav-link.custom-nav-link(href='/company/search/0') search comapny
+          li.nav-item.custom-nav-item 
+            a.nav-link.custom-nav-link(href='/job/search/0') search job
           if role === "Job Seeker"
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/dashboard') Beranda
@@ -47,6 +53,7 @@ body
               a.nav-link.custom-nav-link(href='/admin/account') Account
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/company/jobApplication/history') jobApplication history
+
             
           else 
             li.nav-item.custom-nav-item 

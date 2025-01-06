@@ -14,6 +14,7 @@ const path = require('path');
 const fs = require('fs');
 
 const AuthController = require("./controllers/AuthController");
+const JobController = require("./controllers/admin/JobController");
 
 app.use(express.static(path.join(__dirname,'public')))
 
@@ -54,14 +55,18 @@ app.use('/dashboard', dashboardRoutes);
 app.use('/admin', adminRoutes);
 app.use('/jobseeker', jobseekerRoutes);
 app.use("/company", companyRoutes);
+
+app.use('/job/search/:page/:id', JobController.getSearchJobString);
+app.use('/job/search/:page', JobController.getSearchJob);
+
 defineAssociations();
 sequelize.sync().then(() => {
     const port = 8080;
     app.listen(port, () => {
         if (port != 8080) {
-            console.log("Server running on port http://localhost:" + port);
-        } else {
             console.log("Server running on port http://localhost");
+        } else {
+            console.log("Server running on port http://localhost:" + port);
         }
     });
 }).catch(err => {

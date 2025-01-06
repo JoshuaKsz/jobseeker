@@ -212,4 +212,66 @@ getJobsPage: async (req, res) => {
   }
 },
 
+getSearchJob: async (req, res) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  console.log("getSearchJob");
+  res.render("job/search", { items: [], page: 1, totalPages: 0, searchTerm: '' });
+},
+
+getSearchJobString: async (req, res) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  const { page, id } = req.params;
+  console.log(`Parameters: ${JSON.stringify(req.params)}`);
+  console.log(`Page: ${page}, Search Term: ${id}`);
+
+  const limit = 10;
+  const offset = (page - 1) * limit;
+
+  try {
+    const items = await Job.findAll({
+      where: {
+        [Op.or]: [
+          {
+            jobTitle: {
+              [Op.like]: `%${id}%`, // Op.like partial matching
+            },
+          },
+          {
+            requirements: {
+              [Op.like]: `%${id}%`, // Partial match for requirements
+            },
+          },
+        ],
+      },
+      limit: limit,
+      offset: offset,
+    });
+    console.log("Retrieved Items:", items);
+
+    const totalItems = await Job.count({
+      where: {
+        [Op.or]: [
+          {
+            jobTitle: {
+              [Op.like]: `%${id}%`, // Op.like partial matching
+            },
+          },
+          {
+            requirements: {
+              [Op.like]: `%${id}%`, // Partial match for requirements
+            },
+          },
+        ],
+      },
+    });
+
+    const totalPages = Math.ceil(totalItems / limit);
+    res.render('job/search', { items, page: parseInt(page), totalPages, searchTerm: id });
+  } catch (error) {
+    console.error("Error fetching job seekers:", error);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+
 };
