@@ -3,16 +3,21 @@ extends ../layout.pug
 block content
   h1= search
   .container.mt-5
-    form(action="/jobseeker/search" method="get" onsubmit="return submitForm()")
-      input(type='text' id='id' placeholder='Search...')
-      button(type='submit') Search
+    form(action="/jobseeker/search" method="get" onsubmit="return submitForm()" class="search-form")
+      input(type='text' id='id' placeholder='Search...' class="search-box")
+      button(type='submit' class="search-btn") Search
     
     if items.length > 0
-      h2 Results for "#{searchTerm}"
-      ul
-        each item in items
-          li= item.jobSeekerId + ': ' + item.jobSeekerName
-            a(href=`/jobseeker/profile/${item.jobSeekerId}`) profile
+      h2(style="color: #4CAF50; text-align: center; margin-top: 10px;") Results for "#{searchTerm}"
+      each item in items
+        a(href=`/jobseeker/profile/${item.jobSeekerId}` class="profile-link") 
+          .profile-container
+            img.profile-pic(src="/img/logo_left.svg" alt="Profile Picture")
+            .profile-detail
+              .profile-name= item.jobSeekerName
+              .profile-bio= item.city
+              .profile-bio= item.about_skill
+
             
 
       if page > 1
@@ -20,7 +25,7 @@ block content
       if page < 99
         a(href=`/jobseeker/search/${page + 1}/${searchTerm}`) Next
     else
-      p No results found.
+      p(style="color: #4CAF50; text-align: center; margin-top: 10px;") No results found.
 
     script.
       function submitForm() {

@@ -1961,3 +1961,96 @@ span.text-akhir {
   padding: 0.5rem;
   color: #6c757d;
 }
+
+
+
+.profile-container {
+  display: flex;
+  text-align: left;
+  padding: 20px;
+  background-color: #444444;
+  border-radius: 10%;
+  margin: 20px;
+
+}
+
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 25%;
+  object-fit: cover;
+  border: 2px solid #4CAF50; 
+}
+
+.profile-detail {
+  margin-left: 30px;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #f0f8ff;
+  /* margin-top: 10px; */
+}
+
+.profile-bio {
+  font-size: 16px;
+  color: #f0f8ff;
+  /* margin-top: 5px; */
+}
+
+.profile-link {
+  text-decoration: none; 
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+
+.search-box {
+  width: 300px;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+}
+
+/* Search input box focus */
+.search-box:focus {
+  border-color: #5a9;
+}
+
+/* Search button styling */
+.search-btn {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #5a9;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Search button hover effect */
+.search-btn:hover {
+  background-color: #4b8;
+}
+
+/* Search button focus effect */
+.search-btn:focus {
+  outline: none;
+}
+
+/* Placeholder styling */
+#search-input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}

@@ -3,24 +3,28 @@ extends ../layout.pug
 block content
   h1= search
   .container.mt-5
-    form(action="/company/search" method="get" onsubmit="return submitForm()")
-      input(type='text' id='id' placeholder='Search...')
-      button(type='submit') Search
+    form(action="/company/search" method="get" onsubmit="return submitForm()" class="search-form")
+      input(type='text' id='id' placeholder='Search...' class="search-box")
+      button(type='submit' class="search-btn") Search
     
     if items.length > 0
-      h2 Results for "#{searchTerm}"
-      ul
+      h2(style="color: #4CAF50; text-align: center; margin-top: 10px;") Results for "#{searchTerm}"
         each item in items
-          li= item.companyId + ': ' + item.companyName
-            a(href=`/company/profile/${item.companyId}`) profile
-            
+          a(href=`/company/profile/${item.companyId}` class="profile-link")
+            .profile-container
+              img.profile-pic(src="/img/logo_left.svg" alt="Profile Picture")
+              .profile-detail
+                .profile-name= item.companyName
+                .profile-bio= item.industry
+                .profile-bio= item.city
 
       if page > 1
         a(href=`/company/search/${page - 1}/${searchTerm}`) Previous
       if page < 99
         a(href=`/company/search/${page + 1}/${searchTerm}`) Next
     else
-      p No results found.
+      p(style="color: #4CAF50; text-align: center; margin-top: 10px;") No results found.
+      //- h2(style="color: #4CAF50; text-align: center; margin-top: 10px;") No results found.
 
     script.
       function submitForm() {

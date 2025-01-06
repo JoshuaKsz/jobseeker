@@ -1,26 +1,127 @@
 extends ../layout.pug
 
 block content
+  mixin formatText(text)
+    - var formattedText = text ? text.replace(/\n/g, '<br>') : ''
+    | !{formattedText}
   h1= search
   .container.mt-5
-    form(action="/job/search" method="get" onsubmit="return submitForm()")
-      input(type='text' id='id' placeholder='Search...')
-      button(type='submit') Search
+    form(action="/job/search" method="get" onsubmit="return submitForm()" class="search-form")
+      input(type='text' id='id' placeholder='Search...' class="search-box")
+      button(type='submit' class="search-btn") Search
     
     if items.length > 0
-      h2 Results for "#{searchTerm}"
-      ul
-        each item in items
-          li= item.jobId + '| ' + item.jobTitle + '| ' + item.requirements
-            a(href=`/jobseeker/company/${item.companyId}/${item.jobId}`)   job detail
-            
+      h2(style="color: #4CAF50; text-align: center; margin-top: 10px;") Results for "#{searchTerm}"
+      div.container-lowongan
+        //- div.wrap-tittle-lowongan
+        //-   h1.tittle-lowongan Lowongan Pekerjaan
+        div.each-container
+          each job in items
+            if job.status === 'active'
+            //- li= item.jobId + '| ' + item.jobTitle + '| ' + item.requirements
+            a(href=`/jobseeker/company/${job.companyId}/${job.jobId}` class="profile-link")
+            div.col-container
+              div.card-lowongan
+                div.card-body-lowongan
+                  h5.card-title-lowongan.jobtittle= job.jobTitle || 'Judul Tidak Disebutkan'
+                  p.card-company.jobdesc
+                    | Company: 
+                    b= job.companyName || 'Tidak disebutkan'
+                  p.card-industri.jobdesc
+                    | Industry: 
+                    b= job.industry || 'Tidak disebutkan'
+                  p.card-lokasi.jobdesc
+                    | Location: 
+                    b= `${job.city || 'Tidak disebutkan'}, ${job.country || 'Tidak disebutkan'}`
+                  ul.ul-lowongan
+                    li.li-lowongan
+                      | Salary: 
+                      span.text-gaji= job.salary ? `Rp ${job.salary}` : 'Tidak disebutkan'
+                    //- li.li-lowongan
+                    //-   | Tanggal Dibuka: 
+                    //-   span.text-dibuka= job.dateOpened || 'Tidak disebutkan'
+                    //- li.li-lowongan
+                    //-   | Tanggal Berakhir: 
+                    //-   span.text-ditutup= job.dateExpired || 'Tidak disebutkan'
+                    li.li-lowongan
+                      if job.requirements
+                        | Requirements and Jobdesk:
+                        
+                        span.syarat 
+                        +formatText(job.requirements)
+                      else
+                        | Requirements and Jobdesk: 
+                        small.syarat-mute Tidak disebutkan
+                    li.li-lowongan
+                      if job.benefits
+                        | Benefit: 
+                        
+                        small.benefits-lowongan
+                        +formatText(job.benefits)
+                      else
+                        | Benefit: 
+                        small.benefits-lowongan-mute Tidak disebutkan
 
+
+                  div.container-status
+                    if job.status === 'expired'
+                      span.status-expired Status: Expired
+                    else
+                      span.status-active Status: Active
+                    
+                    div.container-detail
+                      if job.status === 'active'
+                        button.btn-lamar-lowongan 
+                          a.link-lamar(href=`/jobseeker/jobsApply/${job.jobId}`) Lamar Sekarang
+                      else
+                        span.text-null Tidak Tersedia
+                      button.btn-detail-perusahaan
+                          a.link-detail(href=`/jobseeker/company/${job.companyId}/${job.jobId}`) Detail Lowongan
+        
+            
+        div.pagination-container
+          nav.pagination-nav(aria-label="Job listings pagination")
+            ul.pagination-list
+              if hasPrevPage
+                li.pagination-item
+                  a.pagination-link(href=`/jobseeker/jobs?page=${prevPage}` aria-label="Previous page") 
+                    span ‹ Previous
+
+              //- Display page numbers
+              - var startPage = Math.max(1, currentPage - 2)
+              - var endPage = Math.min(totalPages, currentPage + 2)
+              
+              if startPage > 1
+                li.pagination-item
+                  a.pagination-link(href="/jobseeker/jobs?page=1") 1
+                if startPage > 2
+                  li.pagination-item.pagination-ellipsis ...
+
+              - for (var i = startPage; i <= endPage; i++)
+                li.pagination-item
+                  if i === currentPage
+                    span.pagination-link.current= i
+                  else
+                    a.pagination-link(href=`/jobseeker/jobs?page=${i}`)= i
+
+              if endPage < totalPages
+                if endPage < totalPages - 1
+                  li.pagination-item.pagination-ellipsis ...
+                li.pagination-item
+                  a.pagination-link(href=`/jobseeker/jobs?page=${totalPages}`)= totalPages
+
+              if hasNextPage
+                li.pagination-item
+                  a.pagination-link(href=`/jobseeker/jobs?page=${nextPage}` aria-label="Next page")
+                    span Next ›
+                    
       if page > 1
         a(href=`/job/search/${page - 1}/${searchTerm}`) Previous
       if page < 99
         a(href=`/job/search/${page + 1}/${searchTerm}`) Next
     else
-      p No results found.
+      p(style="color: #4CAF50; text-align: center; margin-top: 10px;") No results found.
+
 
     script.
       function submitForm() {
