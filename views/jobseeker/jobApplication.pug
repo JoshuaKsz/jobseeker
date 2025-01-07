@@ -22,8 +22,8 @@ block content
           input#File.input-file(type='file' name='files' multiple onchange="addFiles(event)" hidden)
           button.btn-upload(type='button' onclick="document.getElementById('File').click()") Unggah File
         ul.file-list
-        div.apply-container
-          button.btn-submit(type='submit') Kirim
+        //- div.apply-container
+        //-   button.btn-submit(type='submit') Kirim
 
       div.apply-container
         button.btn-submit(type='button' onclick="submitForm()") Kirim
@@ -41,13 +41,13 @@ block content
       renderFileList();
     }
     function renderFileList() {
-      const fileInput = document.getElementById('File');
+      //- const fileInput = document.getElementById('File');
       const fileListElement = document.querySelector('.file-list');
 
       fileListElement.innerHTML = '';
 
       // Loop through selected files and display their names
-      Array.from(fileInput.files).forEach((file, index) => {
+      filesArray.forEach((file, index) => {
         const li = document.createElement('li');
         li.textContent = `${file.name}`;
 
