@@ -37,12 +37,12 @@ block content
                     li.li-lowongan
                       | Salary: 
                       span.text-gaji= job.salary ? `Rp ${job.salary}` : 'Tidak disebutkan'
-                    //- li.li-lowongan
-                    //-   | Tanggal Dibuka: 
-                    //-   span.text-dibuka= job.dateOpened || 'Tidak disebutkan'
-                    //- li.li-lowongan
-                    //-   | Tanggal Berakhir: 
-                    //-   span.text-ditutup= job.dateExpired || 'Tidak disebutkan'
+                    li.li-lowongan
+                      | Tanggal Dibuka: 
+                      span.text-dibuka= job.dateOpened || 'Tidak disebutkan'
+                    li.li-lowongan
+                      | Tanggal Berakhir: 
+                      span.text-ditutup= job.dateExpired || 'Tidak disebutkan'
                     li.li-lowongan
                       if job.requirements
                         | Requirements and Jobdesk:
@@ -68,7 +68,6 @@ block content
                       span.status-expired Status: Expired
                     else
                       span.status-active Status: Active
-                    
                     div.container-detail
                       if job.status === 'active'
                         button.btn-lamar-lowongan 

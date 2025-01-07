@@ -213,9 +213,72 @@ getJobsPage: async (req, res) => {
 },
 
 getSearchJob: async (req, res) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  console.log("getSearchJob");
-  res.render("job/search", { items: [], page: 1, totalPages: 0, searchTerm: '' });
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 9; // 9 jobs per page
+    const offset = (page - 1) * limit;
+
+    const currentDate = new Date();
+
+    // Get total count and jobs with pagination
+    const { count, rows: jobs } = await Job.findAndCountAll({
+      limit: limit,
+      offset: offset,
+      where: {
+        [Op.or]: [
+          { dateExpired: { [Op.gte]: currentDate } }, // Belum expired
+          { dateExpired: null }, // Tidak memiliki tanggal expired
+        ],
+      },
+      include: {
+        model: Company,
+        attributes: ['companyId', 'companyName', 'city', 'country'],
+      },
+    });
+
+    const jobsWithStatus = jobs.map(job => ({
+      ...job.dataValues,
+      status: 'active',
+      companyId: job.Company.companyId,
+      companyName: job.Company.companyName,
+      city: job.Company.city,
+      country: job.Company.country,
+    }));
+
+    // Calculate pagination data
+    const totalPages = Math.ceil(count / limit);
+
+    res.render("job/search", { items: jobsWithStatus, page: 1, totalPages: 0, searchTerm: '' });
+
+    // res.render('jobseeker/jobs', {
+    //   jobs: jobsWithStatus,
+    //   currentPage: page,
+    //   totalPages,
+    //   hasNextPage: page < totalPages,
+    //   hasPrevPage: page > 1,
+    //   nextPage: page + 1,
+    //   prevPage: page - 1,
+    //   lastPage: totalPages,
+    // });
+
+  } catch (err) {
+    console.error(err);
+    res.render('jobseeker/jobs', {
+      items: [],
+      currentPage: 1,
+      totalPages: 0,
+      hasNextPage: false,
+      hasPrevPage: false,
+      nextPage: 1,
+      prevPage: 1,
+      lastPage: 0,
+      error: 'Terjadi kesalahan saat memuat data lowongan. Silakan coba lagi nanti.',
+    });
+  }
+  // console.log("dasads", items);
+  // console.log(`Incoming request: ${req.method} ${req.url}`);
+  // console.log("getSearchJob");
+  // res.render("job/search", { items: jobsWithStatus, page: 1, totalPages: 0, searchTerm: '' });
 },
 
 getSearchJobString: async (req, res) => {
