@@ -3,25 +3,20 @@ extends ../layout.pug
 block content
   div.container-account
     each user in users
-      div.card-account
+      div.card-user
         div.card-header
-          h4 Your Account
+          h4.card-title Your Account
         div.card-content
-          p.mb-2
+          p.card-email
             strong Email: 
-            span= user.email
-          //- p.mb-2
-          //-   strong Role: 
-          //-   span= user.role
-      
-          p.mb-2
-            strong
-            span 
-                button.btn-edit-account(onclick=`openEditPopup('${user.userId}', '${user.email}', '${user.role}')`)  Change Password? 
-          div.card-actions
-          form(id=`deleteForm-${user.userId}` action=`/admin/account/delete/${user.userId}`, method="POST", class="d-inline")
-            input(type="hidden" name="_method" value="DELETE")
-            button.btn-delete-account(type="button" onclick=`confirmDelete('${user.userId}')`) Delete Account?
+            span.email-value= user.email
+          .con-btn-account
+            a.link-edit(onclick=`openEditPopup('${user.userId}', '${user.email}', '${user.role}')`) Change Password?
+            form#deleteForm(class=`delete-form-${user.userId}` action=`/admin/account/delete/${user.userId}` method="POST")
+              input(type="hidden" name="_method" value="DELETE" hidden)
+              button.btn-delete(type="button" onclick=`confirmDelete('${user.userId}')`) Delete Account?
+
+
   div.account-popup-container-account.hidden-account
     div.account-popup-overlay-account(onclick="closePopup()")
     div.account-popups-account
@@ -40,6 +35,8 @@ block content
           input#password-account.input-field-account(type='password' name='retype-password' autocomplete="off")
         div.mb-3-account
           button.btn-submit-account(type='submit') Submit New Password
+          
+  include ../footer.pug
 
   script.
     function handleClick(userId, email, password, role) {
@@ -56,12 +53,19 @@ block content
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonColor: '#ff4c4c', 
+        cancelButtonColor: '#29293d', 
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+        customClass: {
+            popup: 'swal2-popup',
+            title: 'swal2-title',
+            htmlContainer: 'swal2-html-container',
+            confirmButton: 'swal2-confirm',
+            cancelButton: 'swal2-cancel'
+        }
       }).then((result) => {
         if (result.isConfirmed) {
-          // Jika user mengkonfirmasi, submit form delete
           const form = document.getElementById(`deleteForm-${userId}`);
           form.submit();
         }

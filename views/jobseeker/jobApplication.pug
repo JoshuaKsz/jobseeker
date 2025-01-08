@@ -21,12 +21,14 @@ block content
         div.upload-area(ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)")
           input#File.input-file(type='file' name='files' multiple onchange="addFiles(event)" hidden)
           button.btn-upload(type='button' onclick="document.getElementById('File').click()") Unggah File
-        ul.file-list
-        div.apply-container
-          button.btn-submit(type='submit') Kirim
+          ul.file-list
+        //- div.apply-container
+        //-   button.btn-submit(type='submit') Kirim
 
       div.apply-container
         button.btn-submit(type='button' onclick="submitForm()") Kirim
+
+  include ../footer.pug
 
   script.
     let filesArray = [];
@@ -41,23 +43,24 @@ block content
       renderFileList();
     }
     function renderFileList() {
-      const fileInput = document.getElementById('File');
       const fileListElement = document.querySelector('.file-list');
+      fileListElement.innerHTML = ''; 
 
-      fileListElement.innerHTML = '';
-
-      // Loop through selected files and display their names
-      Array.from(fileInput.files).forEach((file, index) => {
+      filesArray.forEach((file, index) => {
         const li = document.createElement('li');
-        li.textContent = `${file.name}`;
+        li.textContent = file.name; 
 
         const removeButton = document.createElement('button');
         removeButton.textContent = 'X';
         removeButton.className = 'remove-button';
 
-        removeButton.onclick = () => removeFile(index);
-        li.appendChild(removeButton);
-        fileListElement.appendChild(li);
+        removeButton.onclick = () => {
+          filesArray.splice(index, 1); 
+          renderFileList();
+        };
+
+        li.appendChild(removeButton); 
+        fileListElement.appendChild(li); 
       });
     }
 

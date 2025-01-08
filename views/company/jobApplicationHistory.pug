@@ -4,65 +4,65 @@ block content
   mixin formatText(text)
     - var formattedText = text ? text.replace(/\n/g, '<br>') : ''
     | !{formattedText}
-  div.container.mt-4
-    h2.tittle-lowongan Job Application History
+
+  div.container-compny-jobapp
+    h2.tittle2-company-jobapp Job Application History
     each job in jobs
-      h3.tittle-lowongan= job.jobTitle
-      div.table-responsive
-        table.table.table-striped.table-hover.table-bordered
-          thead.table-dark
-            tr
-              th(scope="col") No.
-              //- th(scope="col") Job Seeker ID
-              th(scope="col") Job Seeker Name
-              th(scope="col") City,Country
-              th(scope="col") Skills
-              th(scope="col") Experience
-              th(scope="col") Education
-              th(scope="col") Phone
-              th(scope="col") Social Media
-              th(scope="col") Email
-              th(scope="col") Application Status
-              th(scope="col") Apply Date
-              th(scope="col") Files
-              th(scope="col") Actions
-          tbody
+      h3.tittle3-company-jobapp= job.jobTitle
+      div.container-company-table-jobapp
+        table.table-company-jobapp
+          thead.thead-company-jobapp
+            tr.tr-company-jobapp
+              th.th-company-jobapp(scope="col") No.
+              th.th-company-jobapp(scope="col") Job Seeker Name
+              th.th-company-jobapp(scope="col") City, Country
+              th.th-company-jobapp(scope="col") Skills
+              th.th-company-jobapp(scope="col") Experience
+              th.th-company-jobapp(scope="col") Education
+              th.th-company-jobapp(scope="col") Phone
+              th.th-company-jobapp(scope="col") Social Media
+              th.th-company-jobapp(scope="col") Email
+              th.th-company-jobapp(scope="col") Application Status
+              th.th-company-jobapp(scope="col") Apply Date
+              th.th-company-jobapp(scope="col") Files
+              th.th-company-jobapp(scope="col") Actions
+          tbody.tbody-company-jobapp
             if job.JobApplications.length > 0
               each application, index in job.JobApplications
-                tr
-                  td= index + 1
-                  //- td= application.JobSeeker.jobSeekerId
-                  td= application.JobSeeker.jobSeekerName
-                  td= application.JobSeeker.city+", "+application.JobSeeker.country
-                  td 
+                tr.tr2-company-jobapp
+                  td.td-company-jobapp= index + 1
+                  td.td-company-jobapp= application.JobSeeker.jobSeekerName
+                  td.td-company-jobapp= application.JobSeeker.city + ", " + application.JobSeeker.country
+                  td.td-company-jobapp
                     +formatText(application.JobSeeker.about_skill)
-                  td 
+                  td.td-company-jobapp 
                     +formatText(application.JobSeeker.experience)
-                  td 
+                  td.td-company-jobapp
                     +formatText(application.JobSeeker.education)
-                  td= application.JobSeeker.phone
-                  td= application.JobSeeker.socialMedia 
-                  td
-                    a(href=`mailto:${application.JobSeeker.Account.email}`) #{application.JobSeeker.Account.email}
-
-                  td 
+                  td.td-company-jobapp= application.JobSeeker.phone
+                  td.td-company-jobapp= application.JobSeeker.socialMedia
+                  td.td-company-jobapp
+                    a.link-pindah-company-jobapp(href=`mailto:${application.JobSeeker.Account.email}`) #{application.JobSeeker.Account.email}
+                  td.td-company-jobapp 
                     +formatText(application.applicationStatus)
-                  td= application.applyDate ? application.applyDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : ''
-                  td
+                  td.td-company-jobapp= application.applyDate ? application.applyDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : ''
+                  td.td-company-jobapp
                     if application.File
-                      ul.list-unstyled
+                      ul.ul-company-jobapp
                         each file in application.File.split(',')
-                          li
-                            a(href=`/download/${file.trim()}` target="_blank")= file.trim()
+                          li.li-company-jobapp
+                            a.link-download-company-jobapp(href=`/download/${file.trim()}` target="_blank")= file.trim()
                     else
                       | No files uploaded
-                  td
-                    form(action=`/company/approve/${application.applicationId}`, method="POST")
-                      input(type="hidden" name="applicationId" value=application.applicationId)
-                      button.btn.btn-success(type="submit") Approve
-                    form(action=`/company/reject/${application.applicationId}`, method="POST")
-                      input(type="hidden" name="applicationId" value=application.applicationId)
-                      button.btn.btn-danger(type="submit") Reject
+                  td.td-company-jobapp
+                    form.form-approve-company-jobapp(action=`/company/approve/${application.applicationId}`, method="POST")
+                      input.input-hidden-company-jobapp(type="hidden" name="applicationId" value=application.applicationId hidden)
+                      button.btn-approve-company-jobapp(type="submit") Approve
+                    form.form-reject-company-jobapp(action=`/company/reject/${application.applicationId}`, method="POST")
+                      input.input-hidden-company-jobapp(type="hidden" name="applicationId" value=application.applicationId hidden)
+                      button.btn-reject-company-jobapp(type="submit") Reject
             else
-              tr
-                td(colspan="8") No applications found for this job.
+              tr.tr2-company-jobapp
+                td.td-company-jobapp(colspan="13") No applications found for this job.
+
+  include ../footer.pug

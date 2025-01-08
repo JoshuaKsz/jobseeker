@@ -1,0 +1,274 @@
+.container-account {
+  padding: 30px;
+  background-color: #252526;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  margin: 100px 550px 300px 550px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 3px solid #ffc107;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.card-header h4 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e8e8e8;
+  text-align: center;
+}
+
+.card-user {
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #303030;
+  border: 1px solid #424242;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-email {
+  display: flex;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.card-email strong {
+  font-weight: bold;
+  font-size: 14px;
+  color: #ffffff;
+  margin-right: 10px;
+}
+
+.card-email span {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+form.delete-form {
+  margin-top: 15px;
+  padding: 20px;
+  background-color: #303030;
+  border-radius: 12px;
+  border: 1px solid #424242;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.input-jobseeker,
+.textarea-jobseeker {
+  width: 100%;
+  font-size: 14px;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #555555;
+  background-color: #252526;
+  color: #f5f5f5;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.input-jobseeker:focus,
+.textarea-jobseeker:focus {
+  outline: none;
+  border-color: #ffc107;
+  box-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+}
+
+.con-btn-account {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.link-edit {
+  color: #ffd700;
+  text-decoration: none;
+  padding: 10px 15px;
+  border: 2px solid #ffd700;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: transparent;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
+}
+
+.link-edit:hover {
+  background-color: #ffd700;
+  color: #0d0d0d;
+  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+}
+
+.btn-delete {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #ff4c4c;
+  color: #ffffff;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-delete:hover {
+  background-color: #e53935;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.account-popup-container-account {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+.account-popup-overlay-account {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.account-popups-account {
+  position: relative;
+  width: 400px;
+  padding: 30px;
+  background-color: #1e1e2f;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+.account-popup-close-account {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.account-popup-close-account:hover {
+  color: #ffc107;
+}
+
+.input-field-account {
+  width: 100%;
+  font-size: 14px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ffffff;
+  background-color: #29293d;
+  color: #ffffff;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.input-field-account:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.form-label-account {
+  display: block;
+  font-size: 14px;
+  color: #ffffff !important;
+  margin-bottom: 5px;
+}
+
+.btn-submit-account {
+  width: 100%;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 15px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #ffd700;
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.btn-submit-account:hover {
+  background-color: #e6b800;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.swal2-popup {
+  background-color: #1e1e2f;
+  border-radius: 12px;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border: 1px solid #44475a;
+}
+
+.swal2-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.swal2-html-container {
+  font-size: 16px;
+  color: #cccccc;
+}
+
+.swal2-icon {
+  border-color: #ffc107;
+  color: #ffc107;
+}
+
+.swal2-actions .swal2-confirm {
+  background-color: #ff4c4c;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.swal2-actions .swal2-confirm:hover {
+  background-color: #e53935;
+}
+
+.swal2-actions .swal2-cancel {
+  background-color: #ffd700 !important;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.swal2-actions .swal2-cancel:hover {
+  background-color: #e6b800;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}

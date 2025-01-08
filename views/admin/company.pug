@@ -68,6 +68,9 @@ block content
         div.wrap-bnt-jobseeker
           button.btn-jobseeker(type='submit') Create/Update Company
 
+
+  include ../footer.pug
+  
   script.
     function handleEditClick(companyId, userId, companyName, industry, phone, city, country, email) {
       document.getElementById('companyId').value = companyId;

@@ -7,6 +7,7 @@ head
   script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
   link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet")
   link(rel='stylesheet', href='/css/style.css') 
+  link(rel="stylesheet", href="/css/account-pug.css")
 body 
   nav.navbar.navbar-expand-lg.custom-navbar
     //- span.debug-role Debug Role: #{role}
@@ -24,29 +25,24 @@ body
             li.nav-item.custom-nav-item
               a.nav-link.custom-nav-link(href='/jobseeker/jobs') Job Vacancies
             li.nav-item.custom-nav-item 
-              a.nav-link.custom-nav-link(href='/jobseeker/jobApplication/history') History Application Jobs
+              a.nav-link.custom-nav-link(href='/jobseeker/jobApplication/history') History
             li.nav-item.custom-nav-item 
               
               a.nav-link.custom-nav-link(href='/admin/jobseeker') Profile
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/admin/account') Account
-            li.nav-item.custom-nav-item 
-              a.nav-link.custom-nav-link(href='/jobseeker/jobApplication/history') jobApplication history
           else if role === "Company"
-            //- li.nav-item.custom-nav-item 
-            //-   a.nav-link.custom-nav-link(href='/dashboard') Beranda
             li.nav-item.custom-nav-item
               a.nav-link.custom-nav-link(href='/dashboard') Dashboard
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/admin/job') Membuat Lowongan
             li.nav-item.custom-nav-item 
-              a.nav-link.custom-nav-link(href='/company/jobApplication/history') jobApplication history
+              a.nav-link.custom-nav-link(href='/company/jobApplication/history') History
             li.nav-item.custom-nav-item     
               a.nav-link.custom-nav-link(href='/admin/company') Profile
             li.nav-item.custom-nav-item 
               a.nav-link.custom-nav-link(href='/admin/account') Account
-            li.nav-item.custom-nav-item 
-              a.nav-link.custom-nav-link(href='/company/jobApplication/history') jobApplication history
+
             
           else 
             li.nav-item.custom-nav-item 

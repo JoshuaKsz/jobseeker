@@ -28,29 +28,23 @@ block content
                     | Salary: 
                     span.text-gaji= job.salary ? `Rp ${job.salary}` : 'Tidak disebutkan'
                   //- li.li-lowongan
-                  //-   | Tanggal Dibuka: 
-                  //-   span.text-dibuka= job.dateOpened || 'Tidak disebutkan'
+                  //-   if job.requirements
+                  //-     | Requirements and Jobdesk:
+                      
+                  //-     span.syarat 
+                  //-     +formatText(job.requirements)
+                  //-   else
+                  //-     | Requirements and Jobdesk: 
+                  //-     small.syarat-mute Tidak disebutkan
                   //- li.li-lowongan
-                  //-   | Tanggal Berakhir: 
-                  //-   span.text-ditutup= job.dateExpired || 'Tidak disebutkan'
-                  li.li-lowongan
-                    if job.requirements
-                      | Requirements and Jobdesk:
+                  //-   if job.benefits
+                  //-     | Benefit: 
                       
-                      span.syarat 
-                      +formatText(job.requirements)
-                    else
-                      | Requirements and Jobdesk: 
-                      small.syarat-mute Tidak disebutkan
-                  li.li-lowongan
-                    if job.benefits
-                      | Benefit: 
-                      
-                      small.benefits-lowongan
-                      +formatText(job.benefits)
-                    else
-                      | Benefit: 
-                      small.benefits-lowongan-mute Tidak disebutkan
+                  //-     small.benefits-lowongan
+                  //-     +formatText(job.benefits)
+                  //-   else
+                  //-     | Benefit: 
+                  //-     small.benefits-lowongan-mute Tidak disebutkan
 
 
                 div.container-status
@@ -59,15 +53,15 @@ block content
                   else
                     span.status-active Status: Active
                   
-                  div.container-detail
-                    if job.status === 'active'
-                      button.btn-lamar-lowongan 
-                        a.link-lamar(href=`/jobseeker/jobsApply/${job.jobId}`) Lamar Sekarang
-                    else
-                      span.text-null Tidak Tersedia
-                    button.btn-detail-perusahaan
-                        a.link-detail(href=`/jobseeker/company/${job.companyId}/${job.jobId}`) Detail Lowongan
-      
+                div.container-detail
+                  if job.status === 'active'
+                    button.btn-lamar-lowongan 
+                      a.link-lamar(href=`/jobseeker/jobsApply/${job.jobId}`) Lamar Sekarang
+                  else
+                    span.text-null Tidak Tersedia
+                  button.btn-detail-perusahaan
+                      a.link-detail(href=`/jobseeker/company/${job.companyId}/${job.jobId}`) Detail Lowongan
+    
     div.pagination-container
       nav.pagination-nav(aria-label="Job listings pagination")
         ul.pagination-list
@@ -103,3 +97,5 @@ block content
             li.pagination-item
               a.pagination-link(href=`/jobseeker/jobs?page=${nextPage}` aria-label="Next page")
                 span Next ›
+
+  include ../footer.pug

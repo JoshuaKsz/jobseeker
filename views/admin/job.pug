@@ -21,13 +21,13 @@ block content
             div.td-create-low
               span.label-create-low Job Title:
               span.value-create-low= job.jobTitle
-            div.td-create-low
+            div.td-create-low.req-format
               span.label-create-low Requirements and Jobdesk:
-              span.value-create-low 
+              span.value-create-low.req-velue-low 
               +formatText(job.requirements)
-            div.td-create-low
+            div.td-create-low.req-format
               span.label-create-low Benefits:
-              span.value-create-low 
+              span.value-create-low.req-velue-low 
               +formatText(job.benefits)
             div.td-create-low
               span.label-create-low Salary:
@@ -45,8 +45,9 @@ block content
               form.form-btn-low(action=`/admin/job/delete/${job.jobId}`, method="POST")
                 button.btn-delete-low(type="submit") Delete
               button.btn-edit-low(onclick=`handleClick(${job.jobId}, '${job.companyId}', '${job.jobTitle}', '${job.requirements}', '${job.benefits}', ${job.salary}, '${job.dateOpened}', '${job.dateExpired}', '${job.industry}')`) Edit
-    
-    div.container-edit-create-low
+
+
+    div.container-edit-create-low#formEditLow
       form.form-edit-low(method='post' action='/admin/job' id='create')
         div.m-0
           label.label-hidden-low(for='jobId' hidden) jobId (Leave blank to create a new entry)
@@ -77,32 +78,44 @@ block content
           input#industry.input-create-low(type='text' name='industry' value="" autocomplete="off")
         div.mb-3.wrap-btn-low
           button.btn-create-low(type='submit') Submit
-      
-      
-    script.
-      function handleClick(jobId, companyId, jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry) {
-        document.getElementById('jobId').value = jobId;
-        document.getElementById('companyId').value = companyId;
-        document.getElementById('jobTitle').value = jobTitle;
-        document.getElementById('requirements').value = requirements;
-        document.getElementById('benefits').value = benefits;
-        document.getElementById('salary').value = salary;
-        document.getElementById('dateOpened').value = dateOpened.split('T')[0]; // Format date for input
-        document.getElementById('dateExpired').value = dateExpired.split('T')[0]; // Format date for input
-        document.getElementById('industry').value = industry;
-      }
 
-      function toggleJobTable() {
-        const tableContainer = document.getElementById("tableContainerLow");
-        const toggleIcon = document.getElementById("toggleIconLow");
+  include ../footer.pug   
+      
+  script.
+    function handleClick(jobId, companyId, jobTitle, requirements, benefits, salary, dateOpened, dateExpired, industry) {
+      document.getElementById('jobId').value = jobId;
+      document.getElementById('companyId').value = companyId;
+      document.getElementById('jobTitle').value = jobTitle;
+      document.getElementById('requirements').value = requirements;
+      document.getElementById('benefits').value = benefits;
+      document.getElementById('salary').value = salary;
+      document.getElementById('dateOpened').value = dateOpened.split('T')[0]; 
+      document.getElementById('dateExpired').value = dateExpired.split('T')[0]; 
+      document.getElementById('industry').value = industry;
 
-        if (tableContainer.classList.contains("show")) {
-          tableContainer.classList.remove("show"); 
-          toggleIcon.classList.remove("active"); 
-          toggleIcon.style.marginBottom = "2px";
-        } else {
-          tableContainer.classList.add("show"); 
-          toggleIcon.classList.add("active"); 
-          toggleIcon.style.marginBottom = "30px";
-        }
+      // Tampilkan form edit
+      const formEditContainer = document.getElementById("formEditLow");
+      formEditContainer.style.display = "block"; 
+
+      // Scroll ke form edit
+      formEditContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleJobTable() {
+      const tableContainer = document.getElementById("tableContainerLow");
+      const toggleIcon = document.getElementById("toggleIconLow");
+
+      if (tableContainer.classList.contains("show")) {
+        tableContainer.classList.remove("show"); 
+        toggleIcon.classList.remove("active"); 
+        toggleIcon.style.marginBottom = "2px";
+      } else {
+        tableContainer.classList.add("show"); 
+        toggleIcon.classList.add("active"); 
+        toggleIcon.style.marginBottom = "30px";
       }
+    }
+
+
+
+
