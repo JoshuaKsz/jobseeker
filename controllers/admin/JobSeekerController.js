@@ -106,13 +106,14 @@ module.exports = {
 
   profileViewer: async (req, res) => {
     const { id } = req.params;
-
+    const userId = req.session.userId;
+    
     try {
       const jobSeeker = await JobSeeker.findOne({ where: { jobSeekerId: id } });
       if (!jobSeeker) {
         return res.status(404).send('Job seeker not found');
       }
-      res.render("jobseeker/jobSeekerProfile", { jobSeeker: jobSeeker })
+      res.render("jobseeker/jobSeekerProfile", { jobSeeker: jobSeeker, userId: userId})
       
     } catch (err) {
       console.error(err);

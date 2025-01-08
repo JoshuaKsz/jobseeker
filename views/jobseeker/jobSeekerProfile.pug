@@ -1,27 +1,82 @@
 extends ../layout.pug
 
 block content
-  h2 Job Seeker List
-  table(style="border: 1px solid black; border-collapse: collapse;")
-    tr
-      th(style="border: 1px solid black;") jobSeekerId
-      th(style="border: 1px solid black;") userId
-      th(style="border: 1px solid black;") Name
-      th(style="border: 1px solid black;") Phone
-      th(style="border: 1px solid black;") City
-      th(style="border: 1px solid black;") Country
-      th(style="border: 1px solid black;") About/Skills
-      th(style="border: 1px solid black;") Education
-      th(style="border: 1px solid black;") Experience
-      th(style="border: 1px solid black;") Social Media
-      tr(id=`row-${jobSeeker.jobSeekerId}`)
-        td(style="border: 1px solid black;")= jobSeeker.jobSeekerId
-        td(style="border: 1px solid black;")= jobSeeker.userId
-        td(style="border: 1px solid black;")= jobSeeker.jobSeekerName
-        td(style="border: 1px solid black;")= jobSeeker.phone
-        td(style="border: 1px solid black;")= jobSeeker.city
-        td(style="border: 1px solid black;")= jobSeeker.country
-        td(style="border: 1px solid black;")= jobSeeker.about_skill
-        td(style="border: 1px solid black;")= jobSeeker.education
-        td(style="border: 1px solid black;")= jobSeeker.experience
-        td(style="border: 1px solid black;")= jobSeeker.socialMedia
+
+  div.container-utama-job
+    div.container-table-job
+      div.jobseeker-tittle
+        h2 JobSeeker Profile
+
+      div.table-container-jobb
+        div.tr-job(id=`jobSeekerRow-${index}`)
+          div.td-job
+            span.label-job Job Seeker ID :
+            span.value-job= jobSeeker.jobSeekerId
+          div.td-job
+            span.label-job User ID :
+            span.value-job= jobSeeker.userId
+          div.td-job
+            span.label-job Name :
+            span.value-job= jobSeeker.jobSeekerName ? jobSeeker.jobSeekerName: ""
+          div.td-job
+            span.label-job Phone :
+            span.value-job= jobSeeker.phone ? jobSeeker.phone : ""
+          div.td-job
+            span.label-job City,Province :
+            span.value-job= jobSeeker.city ? jobSeeker.city : ""
+          div.td-job
+            span.label-job Country :
+            span.value-job= jobSeeker.country ? jobSeeker.country : ""
+          div.td-job
+            span.label-job About/Skills :
+            span.value-job
+              jobSeeker.about_skill
+          div.td-job
+            span.label-job Education :
+            span.value-job
+              jobSeeker.education
+          div.td-job
+            span.label-job Experience :
+            span.value-job
+              jobSeeker.experience
+          div.td-job
+            span.label-job Social Media :
+            span.value-job= jobSeeker.socialMedia ? jobSeeker.socialMedia : ""
+          
+
+    div#formContainer.container-form-jobb(style="display: none;")
+      div.wrap-tittle-comp(style="margin-top: 30px;")
+        h2.tittle-comp Edit Job Seeker Profile
+      form.form-jobseeker(method='post' action='/admin/jobseeker' id='editForm')
+        div.wrap-jobseeker
+          label.label-jobseeker-hidden(for='jobSeekerId' hidden) jobSeekerId
+          input#jobSeekerId.input-jobseeker-hidden(type='text' name='jobSeekerId' value="" hidden autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker-hidden(for='userId' hidden) userId
+          input#userId.input-jobseeker-hidden(type='text' name='userId' value=userId hidden autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='jobSeekerName') Name
+          input#jobSeekerName.input-jobseeker(type='text' name='jobSeekerName' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='phone') Phone
+          input#phone.input-jobseeker(type='text' name='phone' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='city') City, Province
+          input#city.input-jobseeker(type='text' name='city' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='country') Country
+          input#country.input-jobseeker(type='text' name='country' value="" autocomplete="off")
+        div.wrap-jobseeker
+          label.label-jobseeker(for='about_skill') About Me and My Skills
+          textarea#about_skill.textarea-jobseeker(name='about_skill')
+        div.wrap-jobseeker
+          label.label-jobseeker(for='education') Education
+          textarea#education.textarea-jobseeker(name='education')
+        div.wrap-jobseeker
+          label.label-jobseeker(for='experience') Experience
+          textarea#experience.textarea-jobseeker(name='experience')
+        div.wrap-jobseeker
+          label.label-jobseeker(for='socialMedia') Social Media
+          input#socialMedia.input-jobseeker(type='text' name='socialMedia' value="" autocomplete="off")
+        div.wrap-bnt-jobseeker
+          button.btn-jobseeker(type='submit') Update Profile

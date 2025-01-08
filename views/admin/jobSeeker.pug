@@ -46,24 +46,25 @@ block content
             div.td-job
               span.label-job Social Media :
               span.value-job= jobSeeker.socialMedia ? jobSeeker.socialMedia : ""
-            div.btn-td-job
-              form.form-btn-job(action=`/admin/jobseeker/delete/${jobSeeker.jobSeekerId}`, method="POST")
-                button.btn-delete-job(type="submit") Delete
-              button.btn-edit-job(
-                onclick=`handleEditClick(
-                  ${jobSeeker.jobSeekerId},
-                  "${encodeURIComponent(jobSeeker.userId || '')}",
-                  "${encodeURIComponent(jobSeeker.jobSeekerName || '')}",
-                  "${encodeURIComponent(jobSeeker.phone || '')}",
-                  "${encodeURIComponent(jobSeeker.city || '')}",
-                  "${encodeURIComponent(jobSeeker.country || '')}",
-                  "${encodeURIComponent(jobSeeker.about_skill || '')}",
-                  "${encodeURIComponent(jobSeeker.education || '')}",
-                  "${encodeURIComponent(jobSeeker.experience || '')}",
-                  "${encodeURIComponent(jobSeeker.socialMedia || '')}",
-                  ${index}
-                )`
-              ) Edit
+            if jobSeeker.userId == userId
+              div.btn-td-job
+                form.form-btn-job(action=`/admin/jobseeker/delete/${jobSeeker.jobSeekerId}`, method="POST")
+                  button.btn-delete-job(type="submit") Delete
+                button.btn-edit-job(
+                  onclick=`handleEditClick(
+                    ${jobSeeker.jobSeekerId},
+                    "${encodeURIComponent(jobSeeker.userId || '')}",
+                    "${encodeURIComponent(jobSeeker.jobSeekerName || '')}",
+                    "${encodeURIComponent(jobSeeker.phone || '')}",
+                    "${encodeURIComponent(jobSeeker.city || '')}",
+                    "${encodeURIComponent(jobSeeker.country || '')}",
+                    "${encodeURIComponent(jobSeeker.about_skill || '')}",
+                    "${encodeURIComponent(jobSeeker.education || '')}",
+                    "${encodeURIComponent(jobSeeker.experience || '')}",
+                    "${encodeURIComponent(jobSeeker.socialMedia || '')}",
+                    ${index}
+                  )`
+                ) Edit
 
     div#formContainer.container-form-jobb(style="display: none;")
       div.wrap-tittle-comp(style="margin-top: 30px;")
