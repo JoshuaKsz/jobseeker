@@ -101,7 +101,7 @@ module.exports = {
       const companyId = req.params.companyId;
       const jobId = req.params.jobId;
       const userId = req.session.userId;
-      // Find company details
+
       const company = await Company.findByPk(companyId);
       
       if (!company) {
@@ -109,7 +109,7 @@ module.exports = {
       }
       
       const selectedJob= await Job.findOne({where: {jobId:jobId}})
-      // Find active jobs for this company
+
       const currentDate = new Date();
       const jobs = await Job.findAll({
           where: {
@@ -135,13 +135,40 @@ module.exports = {
 
   comapnyProfileView: async (req, res) => {
     try {
-      const { companyId } = req.params;
+      // const { companyId } = req.params;
   
-      const company = await Company.findOne({ where: { companyId: companyId } });
+      // const company = await Company.findOne({ where: { companyId: companyId } });
+      // if (!company) {
+      //   return res.status(404).send('Company not found');
+      // }
+      // res.render('company/companyViewer', { company: company})
+
+      const { companyId } = req.params;
+      const userId = req.session.userId;
+      
+      const company = await Company.findByPk(companyId);
+      
       if (!company) {
-        return res.status(404).send('Company not found');
+          return res.status(404).send('Company not found');
       }
-      res.render('company/companyViewer', { company: company})
+
+      const currentDate = new Date();
+      const jobs = await Job.findAll({
+          where: {
+              companyId: companyId,
+              dateExpired: {
+                  [Op.gt]: currentDate
+              }
+          }
+      });
+
+      res.render('company/companyViewer', { 
+          company, 
+          jobs,
+          checkUser: req.session.email,
+          userId,
+      });
+
     } catch (err) {
       console.error(err);
       res.status(500).send('error');
