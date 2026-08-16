@@ -3,10 +3,11 @@ node.js Project
 
 # jobseeker
 <details>
-  <summary>Kelompok Jobseeker: </summary>
+  <summary>Kelompok tim Jobseeker: </summary>
   <br>
-  2272011 - Vico Rafelino<br>
-  2272034 - Joni Hendrawan<br>
-  2272045 - Jonathan Immanuel<br>
-  2272049 - Joshua Jonathan<br>
+  Vico Rafelino<br>
+  Joni Hendrawan<br>
+  Jonathan Immanuel<br>
+  Joshua Jonathan<br>
 </details>
+Kami membuat proyek web untuk mencari pekerjaan, melamar pekerjaan, serta membantu perusahaan merekrut dan menawarkan pekerjaan kepada kandidat.
